@@ -19,3 +19,10 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+*.iml
+.idea/
+.flutter-plugins
+.flutter-plugins-dependencies
+coverage/
+.DS_Store

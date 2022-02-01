@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>145718116024-etgavpj28rnfhmlm6n1t6f8dfuenhqja.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.145718116024-etgavpj28rnfhmlm6n1t6f8dfuenhqja</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAbL0T6js_G2zqt-cLsUM5nIhj6bnQH8Vg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>145718116024</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.itu.spejderApp</string>
+	<key>PROJECT_ID</key>
+	<string>spejderapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>spejderapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:145718116024:ios:9abcea1756cca702cb3e4d</string>
+</dict>
+</plist>
