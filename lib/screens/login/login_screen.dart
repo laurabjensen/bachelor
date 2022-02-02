@@ -16,6 +16,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          ClipRRect(
+            child: Image.asset('assets/logo_m_skrift.png'),
+          ),
           LoginTextFormField(
             labelText: 'Brugernavn',
             value: '',
