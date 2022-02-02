@@ -17,10 +17,12 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           LoginTextFormField(
             labelText: 'Brugernavn',
+            value: '',
+            obscureText: false,
+            onChanged: (_) => null,
           ),
           LoginTextFormField(
-            labelText: 'Kodeord',
-          ),
+              labelText: 'Kodeord', value: '', obscureText: true, onChanged: (_) => null),
           ElevatedButton(onPressed: () => null, child: Text('Login')),
           TextButton(
               onPressed: () => Navigator.pushNamed(context, AppRoutes.signupScreen),

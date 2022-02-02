@@ -23,6 +23,12 @@ class NameChanged extends SignupEvent {
   const NameChanged(this.name);
 }
 
+class UsernameChanged extends SignupEvent {
+  final String name;
+
+  const UsernameChanged(this.name);
+}
+
 class PasswordChanged extends SignupEvent {
   final String password;
 
@@ -30,13 +36,13 @@ class PasswordChanged extends SignupEvent {
 }
 
 class GroupChanged extends SignupEvent {
-  final String group;
+  final String? group;
 
   const GroupChanged(this.group);
 }
 
 class RankChanged extends SignupEvent {
-  final String rank;
+  final Rank? rank;
 
   const RankChanged(this.rank);
 }

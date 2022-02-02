@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:spejder_app/model/group.dart';
 
 class GroupDropDown extends StatelessWidget {
-  final List<String>
-      groups; // TODO: Måske skal dette være et objekt senere så medlemmer kan tilføjes til gruppen
+  final List<Group> groups;
+  final Group selectedGroup;
+  final Function(String?) onChanged;
 
-  const GroupDropDown({Key? key, required this.groups}) : super(key: key);
+  const GroupDropDown(
+      {Key? key, required this.groups, required this.selectedGroup, required this.onChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +20,11 @@ class GroupDropDown extends StatelessWidget {
       showSearchBox: true,
       showSelectedItems: true,
       //list of dropdown items
-      items: groups,
-      onChanged: print,
-      dropdownSearchDecoration: InputDecoration(labelText: 'Gruppe'),
+      items: groups.map((e) => e.name).toList(),
+      onChanged: onChanged,
+      dropdownSearchDecoration: InputDecoration(labelText: 'Gruppe', border: OutlineInputBorder()),
       //show selected item
-      selectedItem: "gruppe 1",
+      selectedItem: selectedGroup.name,
     );
   }
 }

@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:spejder_app/app.dart';
 import 'package:equatable/equatable.dart';
+import 'package:spejder_app/screens/bloc_utils/app_bloc_observer.dart';
 import 'di.dart';
 import 'logger.dart';
-import 'screens/bloc_utils/app_bloc_observer.dart';
 
 /* 
   Her starter appen og åbner app class. 
