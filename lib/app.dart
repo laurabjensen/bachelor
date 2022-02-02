@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spejder_app/app_theme.dart';
+import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:spejder_app/screens/main.dart';
+import 'package:spejder_app/screens/signup/signup_screen.dart';
 
 /* 
   Root for app. 
@@ -16,10 +20,11 @@ class App extends StatelessWidget {
       create: (context) => _authenticationBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        // * TODO: routes: ,
+        theme: AppTheme.theme,
+        routes: {AppRoutes.signupScreen: (context) => SignupScreen()},
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, AuthenticationState state) {
-            return MainScreen();
+            return LoginScreen();
           },
         ),
       ),
