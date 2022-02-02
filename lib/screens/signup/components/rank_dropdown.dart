@@ -47,7 +47,7 @@ class RankDropdown extends StatelessWidget {
         prefixIcon: Padding(
           padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
           child: Text(
-            'Rank',
+            'Rang',
             //style: theme.primaryTextTheme.bodyText1,
           ),
         ),

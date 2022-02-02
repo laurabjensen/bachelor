@@ -35,6 +35,12 @@ class PasswordChanged extends SignupEvent {
   const PasswordChanged(this.password);
 }
 
+class ConfirmPasswordChanged extends SignupEvent {
+  final String password;
+
+  const ConfirmPasswordChanged(this.password);
+}
+
 class GroupChanged extends SignupEvent {
   final String? group;
 

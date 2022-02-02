@@ -21,6 +21,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<NameChanged>((event, emit) => _nameChanged(event.name, emit));
     on<UsernameChanged>((event, emit) => _usernameChanged(event.name, emit));
     on<PasswordChanged>((event, emit) => _passwordChanged(event.password, emit));
+    on<ConfirmPasswordChanged>((event, emit) => _confirmPasswordChanged(event.password, emit));
     on<GroupChanged>((event, emit) => _groupChanged(event.group, emit));
     on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
 
@@ -43,6 +44,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _passwordChanged(String password, Emitter<SignupState> emit) async {
     emit(state.copyWith(password: password));
+  }
+
+  Future<void> _confirmPasswordChanged(String password, Emitter<SignupState> emit) async {
+    emit(state.copyWith(passwordConfirm: password));
   }
 
   Future<void> _groupChanged(String? name, Emitter<SignupState> emit) async {

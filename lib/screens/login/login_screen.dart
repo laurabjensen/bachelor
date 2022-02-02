@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
+import 'package:spejder_app/screens/signup/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,9 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
             value: '',
             obscureText: false,
             onChanged: (_) => null,
+            validator: Validators.validateNotNull,
           ),
           LoginTextFormField(
-              labelText: 'Kodeord', value: '', obscureText: true, onChanged: (_) => null),
+            labelText: 'Kodeord',
+            value: '',
+            obscureText: true,
+            onChanged: (_) => null,
+            validator: Validators.validateNotNull,
+          ),
           ElevatedButton(onPressed: () => null, child: Text('Login')),
           TextButton(
               onPressed: () => Navigator.pushNamed(context, AppRoutes.signupScreen),
