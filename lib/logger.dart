@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 
+// printer apps state når programmet kører
 final logger = Logger(
   printer: PrefixPrinter(
     PrettyPrinter(

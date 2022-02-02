@@ -3,11 +3,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:spejder_app/screen.dart';
+import 'package:spejder_app/app.dart';
 import 'package:equatable/equatable.dart';
-
+import 'di.dart';
+import 'logger.dart';
 import 'screens/bloc_utils/app_bloc_observer.dart';
 
+/* 
+  Her starter appen og åbner app class. 
+  Initialiserer firebase, GetIt og logger
+*/
 Future<void> main() async {
   await BlocOverrides.runZoned(
     () async {
@@ -17,12 +22,12 @@ Future<void> main() async {
 
       await Firebase.initializeApp();
 
-      //setupDi();
+      setupDi();
       Logger.level = Level.verbose;
       runZonedGuarded(() {
-        runApp(const MyApp());
+        runApp(App());
       }, (error, stackTrace) {
-        //logger.e('runZonedGuarded: Caught error in my root zone: ', error);
+        logger.e('runZonedGuarded: Caught error in my root zone: ', error);
         //FirebaseCrashlytics.instance.recordError(error, stackTrace);
       });
     },
