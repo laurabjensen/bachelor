@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/custom_exception.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
+import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/login_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
@@ -16,7 +17,8 @@ part 'signup_state.dart';
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final GroupRepository groupRepository = GetIt.instance.get<GroupRepository>();
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
-  final LoginRepository loginRepository = GetIt.instance.get<LoginRepository>();
+  final AuthenticationRepository authenticationRepository =
+      GetIt.instance.get<AuthenticationRepository>();
 
   SignupBloc() : super(SignupState()) {
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
@@ -74,7 +76,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   Future<void> _signupPressed(Emitter<SignupState> emit) async {
     emit(state.copyWith(signupStatus: SignupStateStatus.loading));
     try {
-      await loginRepository.createUserFromSignupState(state);
+      final user = await authenticationRepository.createUserFromSignupState(state);
+      await authenticationRepository.addUserToFirebaseFromSignupState(user, state);
       emit(state.copyWith(signupStatus: SignupStateStatus.success));
     } on CustomException catch (e) {
       add(SignupFailure(e.message));
