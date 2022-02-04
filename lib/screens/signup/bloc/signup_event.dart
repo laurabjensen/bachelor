@@ -23,10 +23,10 @@ class NameChanged extends SignupEvent {
   const NameChanged(this.name);
 }
 
-class UsernameChanged extends SignupEvent {
-  final String name;
+class EmailChanged extends SignupEvent {
+  final String email;
 
-  const UsernameChanged(this.name);
+  const EmailChanged(this.email);
 }
 
 class PasswordChanged extends SignupEvent {
@@ -51,4 +51,10 @@ class RankChanged extends SignupEvent {
   final Rank? rank;
 
   const RankChanged(this.rank);
+}
+
+class SignupFailure extends SignupEvent {
+  final String failureMessage;
+
+  const SignupFailure(this.failureMessage);
 }

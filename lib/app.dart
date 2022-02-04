@@ -5,7 +5,7 @@ import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
-import 'package:spejder_app/screens/main.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
 
 /* 
@@ -22,6 +22,7 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
         routes: {AppRoutes.signupScreen: (context) => SignupScreen()},
+        builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, AuthenticationState state) {
             return LoginScreen();

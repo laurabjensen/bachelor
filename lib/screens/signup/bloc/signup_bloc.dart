@@ -4,26 +4,30 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/custom_exception.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
+import 'package:spejder_app/repositories/login_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
-
 part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final GroupRepository groupRepository = GetIt.instance.get<GroupRepository>();
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
+  final LoginRepository loginRepository = GetIt.instance.get<LoginRepository>();
 
   SignupBloc() : super(SignupState()) {
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
     on<NameChanged>((event, emit) => _nameChanged(event.name, emit));
-    on<UsernameChanged>((event, emit) => _usernameChanged(event.name, emit));
+    on<EmailChanged>((event, emit) => _emailChanged(event.email, emit));
     on<PasswordChanged>((event, emit) => _passwordChanged(event.password, emit));
     on<ConfirmPasswordChanged>((event, emit) => _confirmPasswordChanged(event.password, emit));
     on<GroupChanged>((event, emit) => _groupChanged(event.group, emit));
     on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
+    on<SignupPressed>((event, emit) => _signupPressed(emit));
+    on<SignupFailure>((event, emit) => _signupFailure(event.failureMessage, emit));
 
     add(LoadFromFirebase());
   }
@@ -38,8 +42,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     emit(state.copyWith(name: name));
   }
 
-  Future<void> _usernameChanged(String name, Emitter<SignupState> emit) async {
-    emit(state.copyWith(username: name));
+  Future<void> _emailChanged(String email, Emitter<SignupState> emit) async {
+    emit(state.copyWith(email: email));
   }
 
   Future<void> _passwordChanged(String password, Emitter<SignupState> emit) async {
@@ -65,5 +69,20 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     } else {
       emit(state.copyWith(rank: rank));
     }
+  }
+
+  Future<void> _signupPressed(Emitter<SignupState> emit) async {
+    emit(state.copyWith(signupStatus: SignupStateStatus.loading));
+    try {
+      await loginRepository.createUserFromSignupState(state);
+      emit(state.copyWith(signupStatus: SignupStateStatus.success));
+    } on CustomException catch (e) {
+      add(SignupFailure(e.message));
+    }
+  }
+
+  Future<void> _signupFailure(String failureMessage, Emitter<SignupState> emit) async {
+    emit(state.copyWith(signupStatus: SignupStateStatus.failure, failureMessage: failureMessage));
+    emit(state.copyWith(signupStatus: SignupStateStatus.initial, failureMessage: ''));
   }
 }
