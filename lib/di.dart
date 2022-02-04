@@ -9,7 +9,7 @@ import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 void setupDi() {
   final getIt = GetIt.instance;
 
-  getIt.registerLazySingleton(() => AuthenticationBloc());
+  getIt.registerLazySingleton(() => AuthenticationBloc(getIt.get()));
   getIt.registerLazySingleton(() => AuthenticationRepository());
   getIt.registerLazySingleton(() => LoginRepository());
   getIt.registerLazySingleton(() => GroupRepository());

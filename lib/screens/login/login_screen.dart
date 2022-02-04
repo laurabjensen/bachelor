@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/screens/app_routes.dart';
+import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
 import 'package:spejder_app/screens/signup/validators.dart';
@@ -28,10 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
           bloc: loginBloc,
           listener: (context, LoginState state) {
             if (state.loginStateStatus == LoginStateStatus.loading) {
-              EasyLoading.show();
+              //EasyLoading.show();
             } else if (state.loginStateStatus == LoginStateStatus.success) {
               Navigator.pushNamed(context, AppRoutes.homeScreen);
-              EasyLoading.showSuccess('');
+              BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
             } else if (state.loginStateStatus == LoginStateStatus.failure) {
               EasyLoading.showError(state.failureMessage);
             }

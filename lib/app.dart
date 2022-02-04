@@ -29,7 +29,13 @@ class App extends StatelessWidget {
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, AuthenticationState state) {
-            return LoginScreen();
+            switch (state.status) {
+              case AuthenticationStateStatus.authenticated:
+                return HomeScreen();
+              case AuthenticationStateStatus.unauthenticated:
+              default:
+                return LoginScreen();
+            }
           },
         ),
       ),

@@ -1,10 +1,17 @@
 part of 'authentication_bloc.dart';
 
-abstract class AuthenticationState extends Equatable {
-  const AuthenticationState();
-  
-  @override
-  List<Object> get props => [];
-}
+enum AuthenticationStateStatus { uninitialized, unauthenticated, authenticated }
 
-class AuthenticationInitial extends AuthenticationState {}
+class AuthenticationState extends Equatable {
+  final AuthenticationStateStatus status;
+  final User? user;
+
+  const AuthenticationState({this.status = AuthenticationStateStatus.uninitialized, this.user});
+
+  AuthenticationState copyWith({AuthenticationStateStatus? status, User? user}) {
+    return AuthenticationState(status: status ?? this.status, user: user ?? this.user);
+  }
+
+  @override
+  List<Object> get props => [status];
+}

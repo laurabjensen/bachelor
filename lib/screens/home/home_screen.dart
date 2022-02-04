@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(
         child: ElevatedButton(
           child: Text('Log ud'),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut()),
         ),
       )),
     );

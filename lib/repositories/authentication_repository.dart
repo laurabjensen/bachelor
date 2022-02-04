@@ -39,4 +39,19 @@ class AuthenticationRepository {
         seniority: 0);
     await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userProfile.toJson());
   }
+
+  Future<bool> isSignedIn() async {
+    final user = FirebaseAuth.instance.currentUser;
+    return user != null;
+  }
+
+  User? getUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  Future<void> signOut() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return FirebaseAuth.instance.signOut();
+    }
+  }
 }
