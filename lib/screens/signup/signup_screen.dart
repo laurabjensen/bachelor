@@ -19,7 +19,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     signupBloc = SignupBloc();
   }
 

@@ -39,6 +39,7 @@ dependencies:
   logger: ^1.0.0
   dropdown_search: ^2.0.1
   flutter_easyloading: ^3.0.3
+  google_fonts: ^2.2.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -54,4 +55,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - google_fonts/
   
