@@ -4,6 +4,7 @@ import 'package:spejder_app/app_theme.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/screens/home/home_screen.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
@@ -21,7 +22,10 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
-        routes: {AppRoutes.signupScreen: (context) => SignupScreen()},
+        routes: {
+          AppRoutes.signupScreen: (context) => SignupScreen(),
+          AppRoutes.homeScreen: (context) => HomeScreen()
+        },
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, AuthenticationState state) {
