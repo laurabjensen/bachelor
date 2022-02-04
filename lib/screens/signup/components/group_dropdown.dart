@@ -13,18 +13,25 @@ class GroupDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownSearch<String>(
-      //mode of dropdown
-      mode: Mode.MENU,
-      //to show search box
-      showSearchBox: true,
-      showSelectedItems: true,
-      //list of dropdown items
-      items: groups.map((e) => e.name).toList(),
-      onChanged: onChanged,
-      dropdownSearchDecoration: InputDecoration(labelText: 'Gruppe', border: OutlineInputBorder()),
-      //show selected item
-      selectedItem: selectedGroup.name,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      child: DropdownSearch<String>(
+        //mode of dropdown
+        mode: Mode.MENU,
+        //to show search box
+        showSearchBox: true,
+        showSelectedItems: true,
+        //list of dropdown items
+        items: groups.map((e) => e.name).toList(),
+        onChanged: onChanged,
+        dropdownSearchDecoration: InputDecoration(
+          labelText: 'Gruppe',
+          fillColor: Colors.white,
+          filled: true,
+        ),
+        //show selected item
+        selectedItem: selectedGroup.name,
+      ),
     );
   }
 }

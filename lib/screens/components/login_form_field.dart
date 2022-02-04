@@ -6,6 +6,7 @@ class LoginTextFormField extends StatelessWidget {
   final bool obscureText;
   final String? Function(String?, String?) validator;
   final String? optionalValue;
+  final TextInputType keyboardType;
   final Function(String?) onChanged;
 
   LoginTextFormField(
@@ -15,6 +16,7 @@ class LoginTextFormField extends StatelessWidget {
       this.optionalValue,
       required this.obscureText,
       required this.validator,
+      required this.keyboardType,
       required this.onChanged})
       : super(key: key);
 
@@ -38,7 +40,7 @@ class LoginTextFormField extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                     labelText: labelText,
                   ),
-
+                  keyboardType: keyboardType,
                   onChanged: onChanged,
                   initialValue: value,
                   obscureText: obscureText,

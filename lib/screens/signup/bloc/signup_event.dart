@@ -23,6 +23,12 @@ class NameChanged extends SignupEvent {
   const NameChanged(this.name);
 }
 
+class AgeChanged extends SignupEvent {
+  final int age;
+
+  const AgeChanged(this.age);
+}
+
 class EmailChanged extends SignupEvent {
   final String email;
 

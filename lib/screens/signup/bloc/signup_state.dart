@@ -6,6 +6,7 @@ enum SignupStateStatus { initial, loading, success, failure }
 class SignupState extends Equatable {
   final SignupStateStatus signupStatus;
   final String name;
+  final int age;
   final String email;
   final String password;
   final String passwordConfirm;
@@ -18,6 +19,7 @@ class SignupState extends Equatable {
   const SignupState(
       {this.signupStatus = SignupStateStatus.initial,
       this.name = '',
+      this.age = 0,
       this.email = '',
       this.password = '',
       this.passwordConfirm = '',
@@ -31,6 +33,7 @@ class SignupState extends Equatable {
       {SignupStateStatus? signupStatus,
       String? name,
       String? email,
+      int? age,
       String? password,
       String? passwordConfirm,
       Group? group,
@@ -41,6 +44,7 @@ class SignupState extends Equatable {
     return SignupState(
         signupStatus: signupStatus ?? this.signupStatus,
         name: name ?? this.name,
+        age: age ?? this.age,
         email: email ?? this.email,
         password: password ?? this.password,
         passwordConfirm: passwordConfirm ?? this.passwordConfirm,
@@ -52,6 +56,16 @@ class SignupState extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [signupStatus, group.name, rank.title, name, email, groups, ranks, password, passwordConfirm];
+  List<Object> get props => [
+        signupStatus,
+        group.name,
+        rank.title,
+        name,
+        age,
+        email,
+        groups,
+        ranks,
+        password,
+        passwordConfirm
+      ];
 }

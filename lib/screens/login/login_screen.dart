@@ -74,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 obscureText: false,
                                 onChanged: (email) => loginBloc.add(EmailChanged(email!)),
                                 validator: Validators.validateNotNull,
+                                keyboardType: TextInputType.emailAddress,
                               ),
                               LoginTextFormField(
                                 labelText: 'Kodeord',
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 obscureText: true,
                                 onChanged: (password) => loginBloc.add(PasswordChanged(password!)),
                                 validator: Validators.validateNotNull,
+                                keyboardType: TextInputType.text,
                               ),
                               Padding(
                                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
