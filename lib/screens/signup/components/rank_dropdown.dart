@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:spejder_app/model/rank.dart';
 
 class RankDropdown extends StatelessWidget {
@@ -18,7 +17,7 @@ class RankDropdown extends StatelessWidget {
         icon: Container(),
         hint: Text(
           rank.title.isEmpty ? 'Vælg' : rank.title,
-          style: GoogleFonts.barlow(color: Colors.black),
+          style: TextStyle(color: Colors.black),
         ),
         //dropdownColor: theme.scaffoldBackgroundColor,
         onChanged: onChanged,
@@ -28,7 +27,7 @@ class RankDropdown extends StatelessWidget {
               value: rank,
               child: Text(
                 rank.title,
-                //style: theme.primaryTextTheme.bodyText1,
+                //style: theme.primaryTextStyle.bodyText1,
               ));
         }).toList(),
       );
@@ -50,7 +49,7 @@ class RankDropdown extends StatelessWidget {
                   obscuringCharacter: ' ',
                   readOnly: true,
                   textAlign: TextAlign.right,
-                  //style: theme.textTheme.bodyText1,
+                  //style: theme.TextStyle.bodyText1,
                   decoration: InputDecoration(
                     //fillColor: Color(0xff292a3e),
                     errorStyle: TextStyle(height: 0, fontSize: 16),
@@ -58,7 +57,7 @@ class RankDropdown extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
                       child: Text(
                         'Rang',
-                        //style: theme.primaryTextTheme.bodyText1,
+                        //style: theme.primaryTextStyle.bodyText1,
                       ),
                     ),
                     prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),

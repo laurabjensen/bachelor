@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
@@ -95,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ElevatedButton.styleFrom(primary: Color(0xff377E62)),
                                           child: Text(
                                             'Log ind',
-                                            style: GoogleFonts.barlow(
+                                            style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w400,
                                             ),
@@ -104,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onPressed: () => null,
                                   child: Text(
                                     'Glemt kodeord?',
-                                    style: GoogleFonts.barlow(
+                                    style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
@@ -115,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onPressed: () =>
                                       Navigator.pushNamed(context, AppRoutes.signupScreen),
                                   child: Text('Bliv en del af fællesskabet',
-                                      style: GoogleFonts.barlow(
+                                      style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black,

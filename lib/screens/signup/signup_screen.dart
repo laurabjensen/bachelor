@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
 import 'package:spejder_app/screens/signup/validators.dart';
@@ -132,7 +131,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       primary: Color(0xff377E62)),
                                                   child: Text(
                                                     'Opret bruger',
-                                                    style: GoogleFonts.barlow(
+                                                    style: TextStyle(
                                                       fontSize: 20,
                                                       fontWeight: FontWeight.w400,
                                                     ),
@@ -141,8 +140,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           onPressed: () => Navigator.pop(context),
                                           child: Text(
                                             'Tilbage',
-                                            style: GoogleFonts.barlow(
-                                                fontSize: 20, color: Colors.black),
+                                            style: TextStyle(fontSize: 20, color: Colors.black),
                                           ))
                                     ],
                                   ),

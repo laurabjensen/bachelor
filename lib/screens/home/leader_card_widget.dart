@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeCardWidget extends StatelessWidget {
+class LeaderCardWidget extends StatelessWidget {
   final Color color;
   final String text;
   final Function() onPressed;
   final String imgPath;
-  final bool isLeader;
 
-  const HomeCardWidget(
-      {required this.color,
-      required this.text,
-      required this.onPressed,
-      required this.imgPath,
-      required this.isLeader});
+  const LeaderCardWidget({
+    required this.color,
+    required this.text,
+    required this.onPressed,
+    required this.imgPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +21,14 @@ class HomeCardWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: onPressed,
           child: Container(
-            height: isLeader ? 265 : 340,
-            width: 157,
+            width: 336,
+            height: 111,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
               color: color,
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(imgPath),

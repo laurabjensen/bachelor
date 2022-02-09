@@ -27,7 +27,7 @@ class App extends StatelessWidget {
       create: (context) => _authenticationBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.theme,
+        //theme: AppTheme.theme,
         routes: {
           AppRoutes.signupScreen: (context) => SignupScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
