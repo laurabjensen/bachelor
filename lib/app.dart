@@ -4,10 +4,16 @@ import 'package:spejder_app/app_theme.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/screens/badges/badges_screen.dart';
+import 'package:spejder_app/screens/group/group_screen.dart';
 import 'package:spejder_app/screens/home/home_screen.dart';
+import 'package:spejder_app/screens/leader/leader_screen.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:spejder_app/screens/profile/profile_screen.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
+import 'package:spejder_app/screens/friends/friends_screen.dart';
+import 'package:spejder_app/screens/edit_profile/edit_profile_screen.dart';
 
 /* 
   Root for app. 
@@ -24,7 +30,13 @@ class App extends StatelessWidget {
         theme: AppTheme.theme,
         routes: {
           AppRoutes.signupScreen: (context) => SignupScreen(),
-          AppRoutes.homeScreen: (context) => HomeScreen()
+          AppRoutes.homeScreen: (context) => HomeScreen(),
+          AppRoutes.badgesScreen: (context) => BadgesScreen(),
+          AppRoutes.profileScreen: (context) => ProfileScreen(),
+          AppRoutes.groupScreen: (context) => GroupScreen(),
+          AppRoutes.leaderScreen: (context) => LeaderScreen(),
+          AppRoutes.friendsScreen: (context) => FriendsScreen(),
+          AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
         },
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
