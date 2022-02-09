@@ -47,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeCardWidget(
                   color: Color(0xffDC3E41),
                   text: 'Min Profil',
-                  onPressed: () => Navigator.pushNamed(context, AppRoutes.profileScreen),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, AppRoutes.profileScreen, arguments: userProfile),
                   imgPath: 'assets/profil_ikon.svg',
                   isLeader: isLeader,
                 ),

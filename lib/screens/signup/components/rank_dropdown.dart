@@ -15,10 +15,11 @@ class RankDropdown extends StatelessWidget {
         //value: value!.isEmpty ? null : value,
         underline: Container(),
         icon: Container(),
-        hint: Text(
-          rank.title.isEmpty ? 'Vælg' : rank.title,
-          style: TextStyle(color: Colors.black),
+        hint: Icon(
+          Icons.keyboard_arrow_down,
+          color: Color(0xff377E62),
         ),
+
         //dropdownColor: theme.scaffoldBackgroundColor,
         onChanged: onChanged,
         alignment: Alignment.centerRight,
@@ -43,32 +44,22 @@ class RankDropdown extends StatelessWidget {
             child: Container(
                 height: 51,
                 child: TextFormField(
-                  //validator: validator,
-                  //controller: controller,
                   obscureText: true,
                   obscuringCharacter: ' ',
                   readOnly: true,
                   textAlign: TextAlign.right,
-                  //style: theme.TextStyle.bodyText1,
                   decoration: InputDecoration(
-                    //fillColor: Color(0xff292a3e),
                     errorStyle: TextStyle(height: 0, fontSize: 16),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-                      child: Text(
-                        'Rang',
-                        //style: theme.primaryTextStyle.bodyText1,
-                      ),
-                    ),
-                    prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                    labelText: rank.title.isEmpty ? 'Rang' : rank.title,
+                    labelStyle:
+                        TextStyle(color: rank.title.isEmpty ? Color(0xff747174) : Colors.black),
                     suffixIcon:
                         Padding(padding: EdgeInsets.fromLTRB(0, 0, 25, 0), child: getWidget()),
                     suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide.none),
+                        borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                   ),
                 ))));
   }

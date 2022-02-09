@@ -8,6 +8,15 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        backgroundColor: Color(0xff63A288),
+        body: SafeArea(
+            child: Column(children: [
+          Stack(
+            children: [
+              Text('Edit profile'),
+            ],
+          ),
+        ])));
   }
 }
