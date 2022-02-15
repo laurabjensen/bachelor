@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
-import 'package:spejder_app/screens/profile/components/profile_badge_widget.dart';
+import 'package:spejder_app/screens/components/popup_dialog.dart';
 import 'package:spejder_app/screens/profile/components/profile_badges_row_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_description_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_friends_row_widget.dart';
-import 'package:spejder_app/screens/profile/components/profile_img_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_info_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_navbar.dart';
 
@@ -23,9 +22,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
 
-    void logout() {
-      Navigator.pop(context);
-      BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+    void logout() async {
+      if (await simpleChoiceDialog(context, 'Er du sikker på at du ønsker at logge ud?')) {
+        Navigator.pop(context);
+        BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+      }
     }
 
     return Scaffold(
