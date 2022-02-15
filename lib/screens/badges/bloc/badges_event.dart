@@ -6,3 +6,7 @@ abstract class BadgesEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadBadges extends BadgesEvent {
+  const LoadBadges();
+}

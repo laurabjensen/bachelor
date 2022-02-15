@@ -1,10 +1,18 @@
 part of 'badges_bloc.dart';
 
-abstract class BadgesState extends Equatable {
-  const BadgesState();
-  
-  @override
-  List<Object> get props => [];
-}
+enum BadgesStateStatus { loading, loaded }
 
-class BadgesInitial extends BadgesState {}
+class BadgesState extends Equatable {
+  final BadgesStateStatus badgesStatus;
+  final List<Badge> allBadges;
+
+  const BadgesState({this.badgesStatus = BadgesStateStatus.loading, this.allBadges = const []});
+
+  BadgesState copyWith({BadgesStateStatus? badgesStatus, List<Badge>? allBadges}) {
+    return BadgesState(
+        badgesStatus: badgesStatus ?? this.badgesStatus, allBadges: allBadges ?? this.allBadges);
+  }
+
+  @override
+  List<Object> get props => [badgesStatus];
+}

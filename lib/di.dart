@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
+import 'package:spejder_app/repositories/badge_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/login_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
@@ -16,4 +17,5 @@ void setupDi() {
   getIt.registerLazySingleton(() => LoginRepository());
   getIt.registerLazySingleton(() => GroupRepository());
   getIt.registerLazySingleton(() => RankRepository());
+  getIt.registerLazySingleton(() => BadgeRepository());
 }
