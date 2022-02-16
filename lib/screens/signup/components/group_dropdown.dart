@@ -20,7 +20,7 @@ class GroupDropDown extends StatelessWidget {
           elevation: 10.0,
           shadowColor: Color.fromRGBO(0, 0, 0, 25),
           borderRadius: BorderRadius.circular(15),
-          child: Container(
+          child: SizedBox(
             height: 51,
             child: DropdownSearch<String>(
               //mode of dropdown

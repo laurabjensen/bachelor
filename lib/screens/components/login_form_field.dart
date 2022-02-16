@@ -9,7 +9,7 @@ class LoginTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final Function(String?) onChanged;
 
-  LoginTextFormField(
+  const LoginTextFormField(
       {Key? key,
       required this.labelText,
       required this.value,
@@ -29,7 +29,7 @@ class LoginTextFormField extends StatelessWidget {
             elevation: 10.0,
             shadowColor: Color.fromRGBO(0, 0, 0, 25),
             borderRadius: BorderRadius.circular(15),
-            child: Container(
+            child: SizedBox(
                 height: 51,
                 child: TextFormField(
                   //controller: TextEditingController(text: value),

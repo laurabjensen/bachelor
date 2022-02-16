@@ -10,7 +10,7 @@ class ProfileDescriptionWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: Column(
-          children: [
+          children: const [
             Text(
               'Om mig...',
             )

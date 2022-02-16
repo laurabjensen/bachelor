@@ -7,7 +7,7 @@ class BadgeWidget extends StatelessWidget {
   const BadgeWidget({Key? key, required this.badge}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: 150,
         width: 150,
         child: Card(

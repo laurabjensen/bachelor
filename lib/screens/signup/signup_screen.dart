@@ -19,6 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void initState() {
+    super.initState();
     signupBloc = SignupBloc();
   }
 
@@ -116,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       onChanged: (rank) => signupBloc.add(RankChanged(rank))),
                                   Padding(
                                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                      child: Container(
+                                      child: SizedBox(
                                           width: 169,
                                           height: 51,
                                           child: ElevatedButton(

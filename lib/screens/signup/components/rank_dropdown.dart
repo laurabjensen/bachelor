@@ -6,7 +6,7 @@ class RankDropdown extends StatelessWidget {
   final Rank rank;
   final Function(Rank?) onChanged;
 
-  RankDropdown({required this.ranks, required this.rank, required this.onChanged});
+  const RankDropdown({required this.ranks, required this.rank, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class RankDropdown extends StatelessWidget {
             elevation: 10.0,
             shadowColor: Color.fromRGBO(0, 0, 0, 25),
             borderRadius: BorderRadius.circular(15),
-            child: Container(
+            child: SizedBox(
                 height: 51,
                 child: TextFormField(
                   obscureText: true,

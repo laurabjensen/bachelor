@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
 
 part 'badges_event.dart';
@@ -18,7 +19,16 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   }
 
   Future<void> _loadBadges(Emitter<BadgesState> emit) async {
-    final badges = await badgeRepository.getAllBadges();
-    emit(state.copyWith(badgesStatus: BadgesStateStatus.loaded, allBadges: badges));
+    final userId = GetIt.instance.get<AuthenticationRepository>().getUser()!.uid;
+    final allChallengeBadges = await badgeRepository.getAllChallengeBadges();
+    final allEngagementBadges = await badgeRepository.getAllEngagementBadges();
+    final userChallengeBadges = await badgeRepository.getUserChallengeBadges(userId);
+    final userEngagementBadges = await badgeRepository.getUserEngagementBadges(userId);
+    emit(state.copyWith(
+        badgesStatus: BadgesStateStatus.loaded,
+        allChallengeBadges: allChallengeBadges,
+        allEngagementBadges: allEngagementBadges,
+        userChallengeBadges: userChallengeBadges,
+        userEngagementBadges: userEngagementBadges));
   }
 }

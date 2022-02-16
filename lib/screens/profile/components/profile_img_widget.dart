@@ -6,7 +6,7 @@ class ProfileImageWidget extends StatelessWidget {
     return Center(
         child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
+      child: SizedBox(
         height: 200,
         width: 200,
         child: Stack(

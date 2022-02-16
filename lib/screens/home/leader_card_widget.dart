@@ -20,7 +20,7 @@ class LeaderCardWidget extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: GestureDetector(
           onTap: onPressed,
-          child: Container(
+          child: SizedBox(
             width: 336,
             height: 111,
             child: Card(

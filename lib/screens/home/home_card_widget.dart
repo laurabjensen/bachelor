@@ -21,7 +21,7 @@ class HomeCardWidget extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: GestureDetector(
           onTap: onPressed,
-          child: Container(
+          child: SizedBox(
             height: isLeader ? 265 : 340,
             width: 157,
             child: Card(

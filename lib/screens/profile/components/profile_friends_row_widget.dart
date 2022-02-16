@@ -25,7 +25,7 @@ class ProfileFriendsRow extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
+            SizedBox(
                 height: 100,
                 child: ListView.builder(
                     shrinkWrap: true,

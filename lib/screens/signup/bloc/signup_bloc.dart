@@ -9,7 +9,6 @@ import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
-import 'package:spejder_app/repositories/login_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 part 'signup_event.dart';
 part 'signup_state.dart';

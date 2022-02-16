@@ -13,7 +13,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: SafeArea(
             child: Column(children: [
           Stack(
-            children: [
+            children: const [
               Text('Edit profile'),
             ],
           ),

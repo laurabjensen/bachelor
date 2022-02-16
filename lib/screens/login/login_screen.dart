@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Padding(
                               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: Container(
+                              child: SizedBox(
                                   width: 118,
                                   height: 51,
                                   child: ElevatedButton(
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               )),
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                            child: Container(
+                            child: SizedBox(
                               width: 260,
                               height: 45,
                               child: ElevatedButton(

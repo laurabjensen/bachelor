@@ -25,7 +25,7 @@ class ProfileBadgesRow extends StatelessWidget {
                     child: Text('Se alle', style: TextStyle(fontSize: 15, color: Colors.white))),
               ],
             ),
-            Container(
+            SizedBox(
                 height: 100,
                 child: ListView.builder(
                     shrinkWrap: true,

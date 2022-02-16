@@ -31,7 +31,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             backgroundColor: Color(0xff63A288),
             appBar: AppBar(
               foregroundColor: Colors.black,
-              backgroundColor: Colors.white,
+              backgroundColor: Color(0xffEEF2F3),
               bottom: const TabBar(
                 indicatorColor: Colors.black,
                 indicatorWeight: 3,
@@ -40,14 +40,21 @@ class _BadgesScreenState extends State<BadgesScreen> {
                   Tab(child: Text('Mine mærker', style: TextStyle(color: Colors.black))),
                 ],
               ),
-              title: const Text('Mærker'),
+              title: const Text(
+                'Mærker',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
             body: TabBarView(
               children: [
-                AllBadgesTab(
-                  badges: state.allBadges,
-                ),
-                MyBadgesTab(),
+                BadgesTab(
+                    challengeBadges: state.allChallengeBadges,
+                    engagementBadges: state.allEngagementBadges),
+                BadgesTab(
+                    challengeBadges: state.userChallengeBadges,
+                    engagementBadges: state.userEngagementBadges)
               ],
             ),
           ),
