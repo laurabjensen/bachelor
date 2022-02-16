@@ -47,4 +47,11 @@ class UserProfile {
       'seniority': seniority
     };
   }
+
+  String namePossessiveCase() {
+    if (name.endsWith('s') || name.endsWith('x') || name.endsWith('z')) {
+      return '$name\'';
+    }
+    return '${name}s';
+  }
 }

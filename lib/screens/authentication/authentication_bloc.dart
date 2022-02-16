@@ -29,7 +29,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       final signedIn = await authenticationRepository.isSignedIn();
       if (signedIn) {
         final user = authenticationRepository.getUser();
-        final userProfile = await userProfileRepository.getUserprofile(user!.uid);
+        final userProfile = await userProfileRepository.getUserprofileFromId(user!.uid);
         emit(state.copyWith(
             status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
       } else {
@@ -42,7 +42,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Future<void> _loggedIn(Emitter<AuthenticationState> emit) async {
     final user = authenticationRepository.getUser();
-    final userProfile = await userProfileRepository.getUserprofile(user!.uid);
+    final userProfile = await userProfileRepository.getUserprofileFromId(user!.uid);
     emit(state.copyWith(
         status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
   }

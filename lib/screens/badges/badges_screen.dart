@@ -37,25 +37,25 @@ class _BadgesScreenState extends State<BadgesScreen> {
             backgroundColor: Color(0xff63A288),
             appBar: AppBar(
               foregroundColor: Colors.black,
-              backgroundColor: Color(0xffEEF2F3),
+              backgroundColor: Color(0xff63A288),
               bottom: TabBar(
                 indicatorColor: Colors.black,
                 indicatorWeight: 3,
                 tabs: [
-                  Tab(child: Text('Alle mærker', style: TextStyle(color: Colors.black))),
+                  Tab(
+                      child:
+                          Text('Alle mærker', style: TextStyle(color: Colors.black, fontSize: 15))),
                   Tab(
                       child: Text(
                           userProfile.id == currentUser.id
                               ? 'Mine mærker'
                               : '${userProfile.name} mærker',
-                          style: TextStyle(color: Colors.black))),
+                          style: TextStyle(color: Colors.black, fontSize: 15))),
                 ],
               ),
               title: const Text(
-                'Mærker',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                'Mærke oversigt',
+                style: TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
             body: TabBarView(

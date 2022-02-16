@@ -46,6 +46,7 @@ class BadgeWidget extends StatelessWidget {
           Text(
             badge.name,
             style: TextStyle(fontSize: 15),
+            textAlign: TextAlign.center,
           )
         ],
       ),

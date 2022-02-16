@@ -55,7 +55,7 @@ class BadgesTab extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Padding(
-              padding: const EdgeInsets.all(.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Engagementsmærker',
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -80,7 +80,7 @@ class BadgesTab extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
           children: [getChallengeBadges(), getEngagementBadges()],
         ));

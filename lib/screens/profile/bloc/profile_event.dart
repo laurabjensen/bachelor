@@ -6,3 +6,7 @@ abstract class ProfileEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadObjects extends ProfileEvent {
+  const LoadObjects();
+}

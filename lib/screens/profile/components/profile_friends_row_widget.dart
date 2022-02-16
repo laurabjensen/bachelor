@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/profile/components/profile_friend_widget.dart';
 
 class ProfileFriendsRow extends StatelessWidget {
   final Function() onSeeAll;
+  final String text;
+  final List<Object> objects;
 
-  const ProfileFriendsRow({required this.onSeeAll});
+  const ProfileFriendsRow({required this.onSeeAll, required this.text, required this.objects});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class ProfileFriendsRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Mine venner',
+                  text,
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 GestureDetector(
@@ -26,15 +29,18 @@ class ProfileFriendsRow extends StatelessWidget {
               ],
             ),
             SizedBox(
-                height: 100,
-                child: ListView.builder(
+                height: 135,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) => Card(
-                            child: Center(
-                          child: ProfileFriendWidget(),
-                        )))),
+                    itemCount: objects.length,
+                    itemBuilder: (BuildContext context, int index) => ProfileFriendWidget(
+                      userProfile: objects[index] as UserProfile,
+                    ),
+                  ),
+                )),
           ],
         ));
   }
