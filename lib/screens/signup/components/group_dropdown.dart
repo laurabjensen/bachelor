@@ -13,6 +13,7 @@ class GroupDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Material(
@@ -23,15 +24,30 @@ class GroupDropDown extends StatelessWidget {
           child: SizedBox(
             height: 51,
             child: DropdownSearch<String>(
-              //mode of dropdown
               mode: Mode.MENU,
-              //to show search box
               showSearchBox: true,
               showSelectedItems: true,
-              //list of dropdown items
               items: groups.map((e) => e.name).toList(),
               onChanged: onChanged,
-
+              dropdownSearchBaseStyle: theme.primaryTextTheme.headline3,
+              searchFieldProps: TextFieldProps(style: theme.primaryTextTheme.headline3),
+              dropdownBuilder: (context, selectedItem) {
+                return Text(
+                  selectedItem!,
+                  style: theme.primaryTextTheme.headline3,
+                );
+              },
+              popupItemBuilder: (context, item, isSelected) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: DropdownMenuItem(
+                      child: Text(
+                    item,
+                    textAlign: TextAlign.start,
+                    style: theme.primaryTextTheme.headline3,
+                  )),
+                );
+              },
               dropdownButtonBuilder: (context) {
                 return Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
@@ -40,10 +56,13 @@ class GroupDropDown extends StatelessWidget {
                       color: Color(0xff377E62),
                     ));
               },
+
               dropdownSearchDecoration: InputDecoration(
-                prefix: Text(selectedGroup.name.isEmpty ? 'Gruppe' : ''),
+                prefix: Text(
+                  selectedGroup.name.isEmpty ? 'Gruppe' : '',
+                  style: theme.primaryTextTheme.headline3,
+                ),
                 isDense: true,
-                //suffixIcon: Icon(Icons.arrow_downward),
                 fillColor: Colors.white,
                 filled: true,
                 border: OutlineInputBorder(

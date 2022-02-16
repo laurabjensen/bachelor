@@ -10,6 +10,7 @@ class RankDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     Widget getWidget() {
       return DropdownButton<Rank>(
         //value: value!.isEmpty ? null : value,
@@ -28,7 +29,7 @@ class RankDropdown extends StatelessWidget {
               value: rank,
               child: Text(
                 rank.title,
-                //style: theme.primaryTextStyle.bodyText1,
+                style: theme.primaryTextTheme.headline3,
               ));
         }).toList(),
       );
@@ -50,9 +51,10 @@ class RankDropdown extends StatelessWidget {
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     errorStyle: TextStyle(height: 0, fontSize: 16),
-                    labelText: rank.title.isEmpty ? 'Rang' : rank.title,
-                    labelStyle:
-                        TextStyle(color: rank.title.isEmpty ? Color(0xff747174) : Colors.black),
+                    prefixIcon: Padding(
+                        padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+                        child: Text(rank.title.isEmpty ? 'Rang' : rank.title)),
+                    prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
                     suffixIcon:
                         Padding(padding: EdgeInsets.fromLTRB(0, 0, 25, 0), child: getWidget()),
                     suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),

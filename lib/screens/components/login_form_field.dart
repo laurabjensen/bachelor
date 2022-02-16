@@ -22,6 +22,7 @@ class LoginTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
         padding: EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Material(
@@ -34,12 +35,12 @@ class LoginTextFormField extends StatelessWidget {
                 child: TextFormField(
                   //controller: TextEditingController(text: value),
                   decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
-                    labelText: labelText,
-                  ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                      labelText: labelText,
+                      labelStyle: theme.primaryTextTheme.headline3),
                   keyboardType: keyboardType,
                   onChanged: onChanged,
                   initialValue: value,

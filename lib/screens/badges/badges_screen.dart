@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/all_badges_tab.dart';
 
@@ -20,7 +18,6 @@ class _BadgesScreenState extends State<BadgesScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     badgesBloc = BadgesBloc();
     currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
@@ -28,6 +25,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<BadgesBloc, BadgesState>(
       bloc: badgesBloc,
       builder: (context, state) {
@@ -42,20 +40,18 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 indicatorColor: Colors.black,
                 indicatorWeight: 3,
                 tabs: [
-                  Tab(
-                      child:
-                          Text('Alle mærker', style: TextStyle(color: Colors.black, fontSize: 15))),
+                  Tab(child: Text('Alle mærker', style: theme.primaryTextTheme.headline2)),
                   Tab(
                       child: Text(
                           userProfile.id == currentUser.id
                               ? 'Mine mærker'
                               : '${userProfile.name} mærker',
-                          style: TextStyle(color: Colors.black, fontSize: 15))),
+                          style: theme.primaryTextTheme.headline2)),
                 ],
               ),
-              title: const Text(
+              title: Text(
                 'Mærke oversigt',
-                style: TextStyle(color: Colors.black, fontSize: 20),
+                style: theme.primaryTextTheme.headline1,
               ),
             ),
             body: TabBarView(

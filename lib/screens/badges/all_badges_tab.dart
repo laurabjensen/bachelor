@@ -17,6 +17,7 @@ class BadgesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     Widget getChallengeBadges() {
       if (challengeBadges.isNotEmpty) {
         return ListView(
@@ -27,7 +28,7 @@ class BadgesTab extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Udfordringsmærker',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: theme.primaryTextTheme.headline1,
               ),
             ),
             GridView.count(
@@ -58,7 +59,7 @@ class BadgesTab extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Engagementsmærker',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: theme.primaryTextTheme.headline1,
               ),
             ),
             GridView.count(

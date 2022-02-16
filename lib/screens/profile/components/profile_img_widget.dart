@@ -8,6 +8,7 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
         child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -50,7 +51,10 @@ class ProfileImageWidget extends StatelessWidget {
                     size: 70,
                     color: Color(0xffc0c0c0),
                   ),
-                  Text(userProfile.seniority.toString())
+                  Text(
+                    userProfile.seniority.toString(),
+                    style: theme.primaryTextTheme.headline3,
+                  )
                 ],
               ),
             ),

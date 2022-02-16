@@ -10,6 +10,8 @@ class ProfileBadgeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     DecorationImage? getImage() {
       return DecorationImage(
         image: Image.network(
@@ -48,6 +50,7 @@ class ProfileBadgeWidget extends StatelessWidget {
               Text(
                 badge.name,
                 textAlign: TextAlign.center,
+                style: theme.primaryTextTheme.headline3,
               )
             ],
           ),

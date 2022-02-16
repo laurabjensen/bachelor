@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
-import 'package:spejder_app/repositories/image_repository.dart';
 
 class BadgeRepository {
   Future<List<Badge>> getAllBadges() async {

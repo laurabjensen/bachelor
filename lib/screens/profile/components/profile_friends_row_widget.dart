@@ -11,6 +11,8 @@ class ProfileFriendsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
         padding: EdgeInsets.all(8),
         child: Column(
@@ -20,11 +22,11 @@ class ProfileFriendsRow extends StatelessWidget {
               children: [
                 Text(
                   text,
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: theme.primaryTextTheme.headline1,
                 ),
                 GestureDetector(
                   onTap: onSeeAll,
-                  child: Text('Se alle', style: TextStyle(fontSize: 15, color: Colors.white)),
+                  child: Text('Se alle', style: theme.primaryTextTheme.headline2),
                 ),
               ],
             ),

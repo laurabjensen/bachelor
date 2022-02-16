@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late ThemeData theme;
   late LoginBloc loginBloc;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    theme = Theme.of(context);
     return Scaffold(
         backgroundColor: Color(0xff63A288),
         body: BlocListener(
@@ -88,22 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
                                       child: Text(
                                         'Log ind',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        style: theme.primaryTextTheme.headline1,
                                       )))),
                           TextButton(
                               onPressed: () => null,
-                              child: Text(
-                                'Glemt kodeord?',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              )),
+                              child: Text('Glemt kodeord?',
+                                  style: theme.primaryTextTheme.headline3!
+                                      .copyWith(fontStyle: FontStyle.italic))),
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                             child: SizedBox(
@@ -113,14 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () =>
                                     Navigator.pushNamed(context, AppRoutes.signupScreen),
                                 style: ElevatedButton.styleFrom(primary: Color(0xffACC6B1)),
-                                child: Text(
-                                  'Bliv en del af fællesskabet',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
+                                child: Text('Bliv en del af fællesskabet',
+                                    style:
+                                        theme.primaryTextTheme.headline3!.copyWith(fontSize: 18)),
                               ),
                             ),
                           ),

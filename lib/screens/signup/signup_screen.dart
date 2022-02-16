@@ -14,6 +14,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  late ThemeData theme;
   late SignupBloc signupBloc;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -32,6 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    theme = Theme.of(context);
     return Scaffold(
       backgroundColor: Color(0xff63A288),
       body: BlocListener(
@@ -52,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 return Center(
                     child: Container(
                         margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        height: 723,
+                        height: 700,
                         decoration: BoxDecoration(
                             color: Color(0xffEEF2F3), borderRadius: BorderRadius.circular(15)),
                         child: Form(
@@ -116,26 +118,23 @@ class _SignupScreenState extends State<SignupScreen> {
                                       rank: state.rank,
                                       onChanged: (rank) => signupBloc.add(RankChanged(rank))),
                                   Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 15),
                                       child: SizedBox(
                                           width: 169,
                                           height: 51,
                                           child: ElevatedButton(
-                                              onPressed: () => onButtonPress(),
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Color(0xff377E62)),
-                                              child: Text(
-                                                'Opret bruger',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )))),
+                                            onPressed: () => onButtonPress(),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Color(0xff377E62)),
+                                            child: Text('Opret bruger',
+                                                style: theme.primaryTextTheme.headline1),
+                                          ))),
                                   TextButton(
                                       onPressed: () => Navigator.pop(context),
                                       child: Text(
                                         'Tilbage',
-                                        style: TextStyle(fontSize: 20, color: Colors.black),
+                                        style: theme.primaryTextTheme.headline1!
+                                            .copyWith(color: Colors.black),
                                       ))
                                 ],
                               ),

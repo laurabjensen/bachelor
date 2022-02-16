@@ -11,6 +11,7 @@ class ProfileDescriptionWidget extends StatelessWidget {
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: const [
+            // TODO: USE THEME ON TEXT
             Text(
               'Om mig...',
             )

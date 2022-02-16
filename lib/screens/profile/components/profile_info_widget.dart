@@ -11,6 +11,7 @@ class ProfileInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         ProfileImageWidget(
@@ -18,30 +19,17 @@ class ProfileInfoWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(userProfile.name,
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              )),
+          child: Text(userProfile.name, style: theme.primaryTextTheme.headline1),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '${userProfile.group.name} Gruppe',
-            style: TextStyle(
-              fontSize: 17,
-              color: Colors.white,
-            ),
-          ),
+          child: Text('${userProfile.group.name} Gruppe', style: theme.primaryTextTheme.headline2),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             userProfile.rank.title,
-            style: TextStyle(
-              fontSize: 17,
-              color: Colors.white,
-            ),
+            style: theme.primaryTextTheme.headline2,
           ),
         ),
       ],

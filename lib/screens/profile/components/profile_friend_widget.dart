@@ -8,6 +8,7 @@ class ProfileFriendWidget extends StatelessWidget {
   const ProfileFriendWidget({Key? key, required this.userProfile}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, AppRoutes.profileScreen, arguments: userProfile),
       child: Card(
@@ -29,6 +30,7 @@ class ProfileFriendWidget extends StatelessWidget {
               Text(
                 userProfile.name,
                 textAlign: TextAlign.center,
+                style: theme.primaryTextTheme.headline3,
               )
             ],
           ),

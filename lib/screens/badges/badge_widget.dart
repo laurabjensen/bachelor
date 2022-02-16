@@ -11,6 +11,7 @@ class BadgeWidget extends StatelessWidget {
   const BadgeWidget({Key? key, required this.badge, required this.userProfile}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     DecorationImage? getImage() {
       switch (userProfile.rank.title) {
         case 'Spire':
@@ -45,7 +46,7 @@ class BadgeWidget extends StatelessWidget {
           ),
           Text(
             badge.name,
-            style: TextStyle(fontSize: 15),
+            style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black),
             textAlign: TextAlign.center,
           )
         ],

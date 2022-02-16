@@ -28,8 +28,7 @@ class ImageRepository {
             file = null;
           }
         });
-      } on FirebaseException catch (e) {
-        print(e.message);
+      } on FirebaseException {
         file = null;
       }
     }
