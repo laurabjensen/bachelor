@@ -13,7 +13,9 @@ class ProfileInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ProfileImageWidget(),
+        ProfileImageWidget(
+          userProfile: userProfile,
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(userProfile.name,

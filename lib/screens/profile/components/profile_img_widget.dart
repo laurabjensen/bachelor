@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/model/user_profile.dart';
 
 class ProfileImageWidget extends StatelessWidget {
+  final UserProfile userProfile;
+
+  const ProfileImageWidget({Key? key, required this.userProfile}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -30,18 +35,23 @@ class ProfileImageWidget extends StatelessWidget {
                 height: 65,
                 width: 65,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(90),
-                  color: Colors.pink,
-                ),
+                    image: DecorationImage(image: Image.network(userProfile.rank.imageUrl).image)),
               ),
             ),
             // Star
             Positioned(
               top: 100,
               left: 135,
-              child: Icon(
-                Icons.star,
-                size: 70,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    Icons.star,
+                    size: 70,
+                    color: Color(0xffc0c0c0),
+                  ),
+                  Text(userProfile.seniority.toString())
+                ],
               ),
             ),
           ],

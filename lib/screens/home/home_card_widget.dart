@@ -17,6 +17,7 @@ class HomeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
         padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: GestureDetector(
@@ -36,14 +37,7 @@ class HomeCardWidget extends StatelessWidget {
                   SvgPicture.asset(imgPath),
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: Text(text, style: theme.primaryTextTheme.headline1),
                   ),
                 ],
               ),
