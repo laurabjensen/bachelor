@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/badges/badge_widget.dart';
 
 class BadgesTab extends StatelessWidget {
   final List<Badge> challengeBadges;
   final List<Badge> engagementBadges;
+  final UserProfile userProfile;
 
-  const BadgesTab({Key? key, required this.challengeBadges, required this.engagementBadges})
+  const BadgesTab(
+      {Key? key,
+      required this.challengeBadges,
+      required this.engagementBadges,
+      required this.userProfile})
       : super(key: key);
 
   @override
@@ -27,11 +33,14 @@ class BadgesTab extends StatelessWidget {
             GridView.count(
                 physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(challengeBadges.length, (index) {
-                  return BadgeWidget(badge: challengeBadges[index]);
+                  return BadgeWidget(
+                    badge: challengeBadges[index],
+                    userProfile: userProfile,
+                  );
                 }))
           ],
         );
@@ -46,7 +55,7 @@ class BadgesTab extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(.0),
               child: Text(
                 'Engagementsmærker',
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -55,11 +64,14 @@ class BadgesTab extends StatelessWidget {
             GridView.count(
                 physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(engagementBadges.length, (index) {
-                  return BadgeWidget(badge: engagementBadges[index]);
+                  return BadgeWidget(
+                    badge: engagementBadges[index],
+                    userProfile: userProfile,
+                  );
                 }))
           ],
         );
@@ -68,7 +80,7 @@ class BadgesTab extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [getChallengeBadges(), getEngagementBadges()],
         ));

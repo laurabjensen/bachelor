@@ -55,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeCardWidget(
                   color: Color(0xffE9993E),
                   text: 'Mærker',
-                  onPressed: () => Navigator.pushNamed(context, AppRoutes.badgesScreen),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, AppRoutes.badgesScreen, arguments: userProfile),
                   imgPath: 'assets/mærke_ikon.svg',
                   isLeader: isLeader,
                 )

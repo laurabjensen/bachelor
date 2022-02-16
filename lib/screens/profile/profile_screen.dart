@@ -54,7 +54,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ProfileDescriptionWidget(),
             ProfileBadgesRow(
               //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-              onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen),
+              onSeeAll: () =>
+                  Navigator.pushNamed(context, AppRoutes.badgesScreen, arguments: userProfile),
             ),
             ProfileFriendsRow(
               onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),
