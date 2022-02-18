@@ -38,7 +38,8 @@ class LoginTextFormField extends StatelessWidget {
                       fillColor: Colors.white,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none),
                       labelText: labelText,
                       labelStyle: theme.primaryTextTheme.headline3),
                   keyboardType: keyboardType,

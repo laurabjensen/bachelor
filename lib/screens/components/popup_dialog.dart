@@ -7,7 +7,8 @@ Future<bool> simpleChoiceDialog(BuildContext context, String question) async {
       builder: (BuildContext context) {
         return SimpleDialog(
           title: Text(question,
-              style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black)),
+              style: theme.primaryTextTheme.headline1!
+                  .copyWith(color: Colors.black)),
           children: <Widget>[
             SimpleDialogOption(
               child: Text(

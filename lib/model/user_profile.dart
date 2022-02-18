@@ -4,6 +4,7 @@ import 'package:spejder_app/model/rank.dart';
 
 class UserProfile {
   final String id;
+  final int age;
   final String email;
   final String name;
   final Group group;
@@ -12,6 +13,7 @@ class UserProfile {
 
   const UserProfile(
       {required this.id,
+      required this.age,
       required this.email,
       required this.name,
       required this.group,
@@ -19,9 +21,16 @@ class UserProfile {
       required this.seniority});
 
   UserProfile copyWith(
-      {String? id, String? email, String? name, Group? group, Rank? rank, int? seniority}) {
+      {String? id,
+      int? age,
+      String? email,
+      String? name,
+      Group? group,
+      Rank? rank,
+      int? seniority}) {
     return UserProfile(
         id: id ?? this.id,
+        age: age ?? this.age,
         email: email ?? this.email,
         name: name ?? this.name,
         group: group ?? this.group,
@@ -32,6 +41,7 @@ class UserProfile {
   UserProfile.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
             id: json.id,
+            age: json['age'] as int,
             email: json['email'].toString(),
             name: json['name'].toString(),
             group: Group.empty,
@@ -41,6 +51,7 @@ class UserProfile {
   Map<String, Object?> toJson() {
     return {
       'email': email,
+      'age': age,
       'name': name,
       'group': group.id,
       'rank': rank.id,

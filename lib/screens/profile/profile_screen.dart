@@ -19,18 +19,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
+  late UserProfile userProfile =
+      ModalRoute.of(context)!.settings.arguments as UserProfile;
   late ProfileBloc profileBloc = ProfileBloc(userProfile: userProfile);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   void logout() async {
-    if (await simpleChoiceDialog(context, 'Er du sikker på at du ønsker at logge ud?')) {
+    if (await simpleChoiceDialog(
+        context, 'Er du sikker på, at du ønsker at logge ud?')) {
       Navigator.pop(context);
       BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
     }
@@ -38,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: Color(0xff63A288),
       body: SafeArea(
@@ -52,7 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       ProfileNavbar(
                         onBack: () => Navigator.pop(context),
-                        onEditUser: () => Navigator.pushNamed(context, AppRoutes.editProfileScreen),
+                        onEditUser: () => Navigator.pushNamed(
+                            context, AppRoutes.editProfileScreen,
+                            arguments: userProfile),
                         onLogout: logout,
                         isMyPage: userProfile.id == currentUser.id,
                       ),
@@ -65,10 +71,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Color(0xff178C6D),
                     thickness: 5,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Om mig",
+                        style: theme.primaryTextTheme.headline1,
+                      ),
+                    ),
+                  ),
                   ProfileDescriptionWidget(),
                   ProfileBadgesRow(
                     //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-                    onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
+                    onSeeAll: () => Navigator.pushNamed(
+                        context, AppRoutes.badgesScreen,
                         arguments: userProfile),
                     objects: state.badges,
                     text: userProfile.id == currentUser.id
@@ -76,7 +93,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         : '${userProfile.namePossessiveCase()} mærker',
                   ),
                   ProfileFriendsRow(
-                    onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),
+                    onSeeAll: () =>
+                        Navigator.pushNamed(context, AppRoutes.friendsScreen),
                     objects: state.friends,
                     text: userProfile.id == currentUser.id
                         ? 'Mine venner'

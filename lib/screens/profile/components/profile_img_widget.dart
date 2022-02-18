@@ -4,7 +4,8 @@ import 'package:spejder_app/model/user_profile.dart';
 class ProfileImageWidget extends StatelessWidget {
   final UserProfile userProfile;
 
-  const ProfileImageWidget({Key? key, required this.userProfile}) : super(key: key);
+  const ProfileImageWidget({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,8 @@ class ProfileImageWidget extends StatelessWidget {
                 height: 65,
                 width: 65,
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: Image.network(userProfile.rank.imageUrl).image)),
+                    image: DecorationImage(
+                        image: Image.network(userProfile.rank.imageUrl).image)),
               ),
             ),
             // Star
@@ -49,7 +51,7 @@ class ProfileImageWidget extends StatelessWidget {
                   Icon(
                     Icons.star,
                     size: 70,
-                    color: Color(0xffc0c0c0),
+                    color: Color(0xff8d99a3),
                   ),
                   Text(
                     userProfile.seniority.toString(),

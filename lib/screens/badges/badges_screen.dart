@@ -13,14 +13,16 @@ class BadgesScreen extends StatefulWidget {
 
 class _BadgesScreenState extends State<BadgesScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
+  late UserProfile userProfile =
+      ModalRoute.of(context)!.settings.arguments as UserProfile;
   late BadgesBloc badgesBloc;
 
   @override
   void initState() {
     super.initState();
     badgesBloc = BadgesBloc();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   @override
@@ -40,18 +42,23 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 indicatorColor: Colors.black,
                 indicatorWeight: 3,
                 tabs: [
-                  Tab(child: Text('Alle mærker', style: theme.primaryTextTheme.headline2)),
+                  Tab(
+                      child: Text('Alle mærker',
+                          style: theme.primaryTextTheme.headline2!
+                              .copyWith(color: Colors.black))),
                   Tab(
                       child: Text(
                           userProfile.id == currentUser.id
                               ? 'Mine mærker'
                               : '${userProfile.name} mærker',
-                          style: theme.primaryTextTheme.headline2)),
+                          style: theme.primaryTextTheme.headline2!
+                              .copyWith(color: Colors.black))),
                 ],
               ),
               title: Text(
                 'Mærke oversigt',
-                style: theme.primaryTextTheme.headline1,
+                style: theme.primaryTextTheme.headline1!
+                    .copyWith(color: Colors.black),
               ),
             ),
             body: TabBarView(
