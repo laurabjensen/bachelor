@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/repositories/login_repository.dart';
+import 'package:spejder_app/screens/login/login_screen.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -12,9 +13,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc() : super(LoginState()) {
     on<EmailChanged>((event, emit) => _nameChanged(event.email, emit));
-    on<PasswordChanged>((event, emit) => _passwordChanged(event.password, emit));
+    on<PasswordChanged>(
+        (event, emit) => _passwordChanged(event.password, emit));
     on<LoginPressed>((event, emit) => _loginPressed(emit));
-    on<LoginFailure>((event, emit) => _loginFailure(event.failureMessage, emit));
+    on<LoginFailure>(
+        (event, emit) => _loginFailure(event.failureMessage, emit));
   }
 
   _nameChanged(String email, Emitter<LoginState> emit) async {
@@ -32,8 +35,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   _loginFailure(String failureMessage, Emitter<LoginState> emit) async {
-    emit(
-        state.copyWith(loginStateStatus: LoginStateStatus.failure, failureMessage: failureMessage));
-    emit(state.copyWith(loginStateStatus: LoginStateStatus.initial, failureMessage: ''));
+    emit(state.copyWith(
+        loginStateStatus: LoginStateStatus.failure,
+        failureMessage: failureMessage));
+    emit(state.copyWith(
+        loginStateStatus: LoginStateStatus.initial, failureMessage: ''));
   }
 }

@@ -53,9 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 return Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    height: 400,
+                    height: 450,
                     decoration: BoxDecoration(
-                        color: Color(0xffEEF2F3), borderRadius: BorderRadius.circular(15)),
+                        color: Color(0xffEEF2F3),
+                        borderRadius: BorderRadius.circular(15)),
                     child: Form(
                       key: formKey,
                       child: Column(
@@ -68,7 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'E-mail',
                             value: '',
                             obscureText: false,
-                            onChanged: (email) => loginBloc.add(EmailChanged(email!)),
+                            onChanged: (email) =>
+                                loginBloc.add(EmailChanged(email!)),
                             validator: Validators.validateNotNull,
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -76,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'Kodeord',
                             value: '',
                             obscureText: true,
-                            onChanged: (password) => loginBloc.add(PasswordChanged(password!)),
+                            onChanged: (password) =>
+                                loginBloc.add(PasswordChanged(password!)),
                             validator: Validators.validateNotNull,
                             keyboardType: TextInputType.text,
                           ),
@@ -87,13 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 51,
                                   child: ElevatedButton(
                                       onPressed: () => onLoginPressed(),
-                                      style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Color(0xff377E62)),
                                       child: Text(
                                         'Log ind',
                                         style: theme.primaryTextTheme.headline1,
                                       )))),
                           TextButton(
-                              onPressed: () => null,
+                              onPressed: () => Navigator.pushNamed(
+                                  context, AppRoutes.resetScreen),
                               child: Text('Glemt kodeord?',
                                   style: theme.primaryTextTheme.headline3!
                                       .copyWith(fontStyle: FontStyle.italic))),
@@ -103,12 +108,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 260,
                               height: 45,
                               child: ElevatedButton(
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, AppRoutes.signupScreen),
-                                style: ElevatedButton.styleFrom(primary: Color(0xffACC6B1)),
+                                onPressed: () => Navigator.pushNamed(
+                                    context, AppRoutes.signupScreen),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffACC6B1)),
                                 child: Text('Bliv en del af fællesskabet',
-                                    style:
-                                        theme.primaryTextTheme.headline3!.copyWith(fontSize: 18)),
+                                    style: theme.primaryTextTheme.headline3!
+                                        .copyWith(fontSize: 18)),
                               ),
                             ),
                           ),

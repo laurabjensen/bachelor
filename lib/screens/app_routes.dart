@@ -1,3 +1,5 @@
+import 'package:spejder_app/screens/reset/reset_screen.dart';
+
 class AppRoutes {
   static const signupScreen = 'signup';
   static const homeScreen = 'home';
@@ -7,4 +9,5 @@ class AppRoutes {
   static const leaderScreen = 'leader';
   static const friendsScreen = 'friends';
   static const editProfileScreen = 'editprofile';
+  static const resetScreen = 'reset';
 }

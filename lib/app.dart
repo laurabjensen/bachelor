@@ -11,6 +11,7 @@ import 'package:spejder_app/screens/leader/leader_screen.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/screens/profile/profile_screen.dart';
+import 'package:spejder_app/screens/reset/reset_screen.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/edit_profile/edit_profile_screen.dart';
@@ -37,6 +38,7 @@ class App extends StatelessWidget {
           AppRoutes.leaderScreen: (context) => LeaderScreen(),
           AppRoutes.friendsScreen: (context) => FriendsScreen(),
           AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
+          AppRoutes.resetScreen: (context) => ResetScreen(),
         },
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
