@@ -8,7 +8,10 @@ class GroupDropDown extends StatelessWidget {
   final Function(String?) onChanged;
 
   const GroupDropDown(
-      {Key? key, required this.groups, required this.selectedGroup, required this.onChanged})
+      {Key? key,
+      required this.groups,
+      required this.selectedGroup,
+      required this.onChanged})
       : super(key: key);
 
   @override
@@ -30,7 +33,9 @@ class GroupDropDown extends StatelessWidget {
               items: groups.map((e) => e.name).toList(),
               onChanged: onChanged,
               dropdownSearchBaseStyle: theme.primaryTextTheme.headline3,
-              searchFieldProps: TextFieldProps(style: theme.primaryTextTheme.headline3),
+              searchFieldProps:
+                  TextFieldProps(style: theme.primaryTextTheme.headline3),
+
               dropdownBuilder: (context, selectedItem) {
                 return Text(
                   selectedItem!,
@@ -66,7 +71,8 @@ class GroupDropDown extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true,
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none),
               ),
               //show selected item
               selectedItem: selectedGroup.name,

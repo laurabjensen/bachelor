@@ -6,7 +6,8 @@ class RankDropdown extends StatelessWidget {
   final Rank rank;
   final Function(Rank?) onChanged;
 
-  const RankDropdown({required this.ranks, required this.rank, required this.onChanged});
+  const RankDropdown(
+      {required this.ranks, required this.rank, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +51,24 @@ class RankDropdown extends StatelessWidget {
                   readOnly: true,
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(height: 0, fontSize: 16),
-                    prefixIcon: Padding(
-                        padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
-                        child: Text(rank.title.isEmpty ? 'Rang' : rank.title)),
-                    prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                    suffixIcon:
-                        Padding(padding: EdgeInsets.fromLTRB(0, 0, 25, 0), child: getWidget()),
-                    suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
-                  ),
+                      errorStyle: TextStyle(height: 0, fontSize: 16),
+                      prefixIcon: Padding(
+                          padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+                          child:
+                              Text(rank.title.isEmpty ? 'Rang' : rank.title)),
+                      prefixIconConstraints:
+                          const BoxConstraints(minWidth: 0, minHeight: 0),
+                      suffixIcon: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
+                          child: getWidget()),
+                      suffixIconConstraints:
+                          BoxConstraints(minWidth: 0, minHeight: 0),
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none),
+                      floatingLabelBehavior: FloatingLabelBehavior.always),
                 ))));
   }
 }

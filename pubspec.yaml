@@ -30,19 +30,21 @@ dependencies:
   cloud_firestore: ^3.1.7
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
-  firebase_auth: ^1.0.1
+  firebase_auth: ^3.3.7
   firebase_core: ^1.7.0
   firebase_storage: ^10.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
-  get_it: ^6.1.1
+  get_it: ^7.2.0
   logger: ^1.0.0
   dropdown_search: ^2.0.1
   flutter_easyloading: ^3.0.3
   flutter_svg: ^1.0.3
   path_provider: ^2.0.1
   google_fonts: ^2.1.0
+  image_picker: ^0.8.4
+  image_cropper: ^1.4.1
 
 dev_dependencies:
   flutter_lints: ^1.0.0

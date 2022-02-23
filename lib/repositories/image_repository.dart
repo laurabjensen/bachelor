@@ -6,31 +6,33 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ImageRepository {
-  /*Future<String> addFileToStorage(File file, String id) async {
+  Future<String> addFileToStorage(File file, String id) async {
     var filename = basename(file.path);
-    var ref = FirebaseStorage.instance.ref().child('profile_images/$id/$filename');
+    var ref =
+        FirebaseStorage.instance.ref().child('profile_images/$id/$filename');
     var url = '';
     await ref.putFile(file).whenComplete(() async {
       url = await ref.getDownloadURL();
     });
     return url;
-  }*/
+  }
 
   Future<File?> getFileFromStorage(String imageUrl) async {
     File? file;
-    if (imageUrl.isNotEmpty) {
-      try {
-        await FirebaseStorage.instance.refFromURL(imageUrl).getDownloadURL().then((url) async {
-          var result = await _downloadFile(url);
-          if (result.isNotEmpty) {
-            file = File(result);
-          } else {
-            file = null;
-          }
-        });
-      } on FirebaseException {
-        file = null;
-      }
+    try {
+      await FirebaseStorage.instance
+          .refFromURL(imageUrl)
+          .getDownloadURL()
+          .then((url) async {
+        var result = await _downloadFile(url);
+        if (result.isNotEmpty) {
+          file = File(result);
+        } else {
+          file = null;
+        }
+      });
+    } on FirebaseException {
+      file = null;
     }
     return file;
   }

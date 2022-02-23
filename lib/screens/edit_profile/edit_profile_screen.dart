@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,7 +12,14 @@ import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
 import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
 import 'package:spejder_app/screens/signup/validators.dart';
 
+import '../components/image_picker.dart';
+
 class EditProfileScreen extends StatefulWidget {
+  final UserProfile userprofile;
+
+  const EditProfileScreen({Key? key, required this.userprofile})
+      : super(key: key);
+
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -19,20 +28,29 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late ThemeData theme;
   late EditprofileBloc editprofileBloc;
-  late UserProfile userProfile =
-      ModalRoute.of(context)!.settings.arguments as UserProfile;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late TextEditingController nameController;
+  late TextEditingController ageController;
+  late TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
-    editprofileBloc = EditprofileBloc();
+    editprofileBloc = EditprofileBloc(widget.userprofile);
+    nameController = TextEditingController(text: widget.userprofile.name);
+    ageController =
+        TextEditingController(text: widget.userprofile.age.toString());
+    descriptionController =
+        TextEditingController(text: widget.userprofile.description);
   }
 
   void onUpdateButtonPress() {
     final currentFormState = formKey.currentState;
     if (currentFormState!.validate()) {
-      editprofileBloc.add(UpdatePressed());
+      editprofileBloc.add(UpdatePressed(widget.userprofile.copyWith(
+          name: nameController.text,
+          age: int.parse(ageController.text),
+          description: descriptionController.text)));
     }
   }
 
@@ -40,6 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: true, //TODO: FIX
       backgroundColor: Color(0xff63A288),
       body: BlocListener(
           bloc: editprofileBloc,
@@ -47,92 +66,115 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             if (state.editprofileStatus == EditprofileStateStatus.loading) {
               EasyLoading.show();
             } else if (state.editprofileStatus ==
-                EditprofileStateStatus.failure) {
-              EasyLoading.showError(state.failureMessage);
-            } else if (state.editprofileStatus ==
                 EditprofileStateStatus.success) {
               EasyLoading.showSuccess('Bruger opdateret');
-              Navigator.pop(context);
+              Navigator.pop(context, state.userprofile);
             }
           },
           child: BlocBuilder(
               bloc: editprofileBloc,
               builder: (context, EditprofileState state) {
                 return Center(
-                    child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        height: 700,
-                        decoration: BoxDecoration(
-                            color: Color(0xffEEF2F3),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Form(
+                  child: SingleChildScrollView(
+                      child: Stack(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
+                          height: 700,
+                          decoration: BoxDecoration(
+                              color: Color(0xffEEF2F3),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Form(
                             key: formKey,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  UserImageWidget(
-                                      image: null,
-                                      onPressed: () => null,
-                                      name: state.name),
-                                  LoginTextFormField(
-                                      labelText: 'Navn',
-                                      value: userProfile.name,
-                                      obscureText: false,
-                                      validator: Validators.validateNotNull,
-                                      onChanged: (name) =>
-                                          userProfile.copyWith(name: name),
-                                      keyboardType: TextInputType.name),
-                                  //TODO: FIKS HER SÅ DET BLIVER VÆLG FØDSELSDAG
-                                  LoginTextFormField(
-                                    labelText: 'Alder',
-                                    value: userProfile.age.toString(),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 140,
+                                ),
+                                LoginTextFormField(
+                                    controller: nameController,
+                                    labelText: 'Navn',
+                                    value: null,
                                     obscureText: false,
                                     validator: Validators.validateNotNull,
-                                    onChanged: (age) => userProfile.copyWith(
-                                        age: int.parse(age!)),
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                  AboutMeWidget(
-                                    onChanged: (description) => null,
-                                    validator: Validators.validateNotNull,
-                                    value: '',
-                                  ),
-                                  GroupDropDown(
-                                    groups: state.groups,
-                                    selectedGroup: state.group,
-                                    onChanged: (group) => editprofileBloc
-                                        .add(GroupChanged(group)),
-                                  ),
-                                  RankDropdown(
-                                      ranks: state.ranks,
-                                      rank: state.rank,
-                                      onChanged: (rank) => editprofileBloc
-                                          .add(RankChanged(rank))),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(0, 10, 0, 15),
-                                      child: SizedBox(
-                                          width: 169,
-                                          height: 51,
-                                          child: ElevatedButton(
-                                            onPressed: () =>
-                                                onUpdateButtonPress(),
-                                            style: ElevatedButton.styleFrom(
-                                                primary: Color(0xff377E62)),
-                                            child: Text('Opdater bruger',
-                                                style: theme.primaryTextTheme
-                                                    .headline1),
-                                          ))),
-                                  TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text(
-                                        'Fortryd',
-                                        style: theme.primaryTextTheme.headline1!
-                                            .copyWith(color: Colors.black),
-                                      ))
-                                ],
-                              ),
-                            ))));
+                                    onChanged: (name) => null,
+                                    /*onChanged: (name) => widget.userprofile
+                                                .copyWith(name: name),*/
+                                    keyboardType: TextInputType.name),
+                                //TODO: FIKS HER SÅ DET BLIVER VÆLG FØDSELSDAG
+                                LoginTextFormField(
+                                  controller: ageController,
+                                  labelText: 'Alder',
+                                  value: null,
+                                  obscureText: false,
+                                  validator: Validators.validateNotNull,
+                                  onChanged: (age) => null,
+                                  /*onChanged: (age) => widget.userprofile
+                                              .copyWith(age: int.parse(age!)),*/
+                                  keyboardType: TextInputType.number,
+                                ),
+                                AboutMeWidget(
+                                  controller: descriptionController,
+                                  onChanged: (description) => null,
+                                  validator: Validators.validateNotNull,
+                                ),
+                                GroupDropDown(
+                                  groups: state.groups,
+                                  selectedGroup:
+                                      state.group ?? widget.userprofile.group,
+                                  onChanged: (group) =>
+                                      editprofileBloc.add(GroupChanged(group)),
+                                ),
+                                RankDropdown(
+                                    ranks: state.ranks,
+                                    rank: state.rank ?? widget.userprofile.rank,
+                                    onChanged: (rank) =>
+                                        editprofileBloc.add(RankChanged(rank))),
+                                Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 30, 0, 15),
+                                    child: SizedBox(
+                                        width: 169,
+                                        height: 51,
+                                        child: ElevatedButton(
+                                          onPressed: () =>
+                                              onUpdateButtonPress(),
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Color(0xff377E62)),
+                                          child: Text('Gem ændringer',
+                                              style: theme
+                                                  .primaryTextTheme.headline1),
+                                        ))),
+                                TextButton(
+                                    onPressed: () => Navigator.pop(
+                                        context, state.userprofile),
+                                    child: Text(
+                                      'Fortryd',
+                                      style: theme.primaryTextTheme.headline1!
+                                          .copyWith(color: Colors.black),
+                                    ))
+                              ],
+                            ),
+                          )),
+                      Positioned(
+                        top: 0,
+                        left:
+                            (MediaQuery.of(context).size.width / 2) - (170 / 2),
+                        child: UserImageWidget(
+                            imageFile: state.imageFile,
+                            imageUrl: widget.userprofile.imageUrl,
+                            onPressed: () => imagePickerModal<File>(
+                                        context: context,
+                                        imageSelected:
+                                            state.imageFile != null ||
+                                                widget.userprofile.imageUrl
+                                                    .isNotEmpty)
+                                    .then((value) {
+                                  editprofileBloc.add(NewImageFile(value));
+                                })),
+                      ),
+                    ],
+                  )),
+                );
               })),
     );
   }

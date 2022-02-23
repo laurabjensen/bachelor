@@ -16,6 +16,8 @@ import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/edit_profile/edit_profile_screen.dart';
 
+import 'model/user_profile.dart';
+
 /* 
   Root for app. 
   Ved opstart navigere den til den rigtige skærm baseret på om brugeren er logget ind eller skal logge ind.
@@ -37,7 +39,10 @@ class App extends StatelessWidget {
           AppRoutes.groupScreen: (context) => GroupScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(),
           AppRoutes.friendsScreen: (context) => FriendsScreen(),
-          AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
+          AppRoutes.editProfileScreen: (context) => EditProfileScreen(
+                userprofile:
+                    ModalRoute.of(context)!.settings.arguments as UserProfile,
+              ),
           AppRoutes.resetScreen: (context) => ResetScreen(),
         },
         builder: EasyLoading.init(),

@@ -57,8 +57,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileNavbar(
                         onBack: () => Navigator.pop(context),
                         onEditUser: () => Navigator.pushNamed(
-                            context, AppRoutes.editProfileScreen,
-                            arguments: userProfile),
+                                context, AppRoutes.editProfileScreen,
+                                arguments: userProfile)
+                            .then(
+                                (value) => userProfile = value as UserProfile),
                         onLogout: logout,
                         isMyPage: userProfile.id == currentUser.id,
                       ),

@@ -38,7 +38,11 @@ class AuthenticationRepository {
         name: state.name,
         group: state.group,
         rank: state.rank,
-        seniority: 0);
+        seniority: 0,
+        description: '',
+        imageUrl: '',
+        badges: [],
+        friends: []);
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)

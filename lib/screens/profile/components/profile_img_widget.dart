@@ -21,12 +21,13 @@ class ProfileImageWidget extends StatelessWidget {
             // Profile picture circle
             Positioned(
                 left: 15,
-                child: Container(
-                  height: 170,
-                  width: 170,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(90),
-                    color: Colors.white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    userProfile.imageUrl,
+                    width: 170,
+                    height: 170,
+                    fit: BoxFit.fitHeight,
                   ),
                 )),
             // Range circle

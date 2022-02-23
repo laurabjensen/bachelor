@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AboutMeWidget extends StatelessWidget {
-  final String value;
+  final TextEditingController controller;
   final String? Function(String?, String?) validator;
   final Function(String?) onChanged;
 
   const AboutMeWidget(
       {Key? key,
-      required this.value,
+      required this.controller,
       required this.validator,
       required this.onChanged})
       : super(key: key);
@@ -25,7 +25,7 @@ class AboutMeWidget extends StatelessWidget {
         child: SizedBox(
           height: 102,
           child: TextFormField(
-            //controller: TextEditingController(),
+            controller: controller,
             decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -33,10 +33,12 @@ class AboutMeWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide.none),
                 labelText: 'Om mig',
-                labelStyle: theme.primaryTextTheme.headline3),
+                hintText: 'Skriv om dig selv..',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                labelStyle:
+                    theme.primaryTextTheme.headline3!.copyWith(height: 0)),
             keyboardType: TextInputType.multiline,
             onChanged: onChanged,
-            initialValue: value,
             maxLines: 5,
             validator: (data) => validator(data, null),
           ),

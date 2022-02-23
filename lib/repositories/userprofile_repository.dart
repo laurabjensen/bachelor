@@ -58,12 +58,10 @@ class UserProfileRepository {
   }
 
 // TODO: FIKS HER
-  Future<UserProfile> updateUserprofile(UserProfile userprofile) async {
-    var updatedUserprofile = UserProfile.fromJson(await FirebaseFirestore
-        .instance
+  Future<void> updateUserprofile(UserProfile userprofile) async {
+    return await FirebaseFirestore.instance
         .collection('users')
         .doc(userprofile.id)
-        .get());
-    return getUserprofile(userprofile);
+        .update(userprofile.toJson());
   }
 }

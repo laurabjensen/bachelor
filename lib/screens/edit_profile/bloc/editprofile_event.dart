@@ -12,19 +12,8 @@ class LoadFromFirebase extends EditprofileEvent {
 }
 
 class UpdatePressed extends EditprofileEvent {
-  const UpdatePressed();
-}
-
-class NameChanged extends EditprofileEvent {
-  final String name;
-
-  const NameChanged(this.name);
-}
-
-class AgeChanged extends EditprofileEvent {
-  final int age;
-
-  const AgeChanged(this.age);
+  final UserProfile userprofile;
+  const UpdatePressed(this.userprofile);
 }
 
 class DescriptionChanged extends EditprofileEvent {}
@@ -45,4 +34,10 @@ class UpdateFailure extends EditprofileEvent {
   final String failureMessage;
 
   const UpdateFailure(this.failureMessage);
+}
+
+class NewImageFile extends EditprofileEvent {
+  final File? image;
+
+  const NewImageFile(this.image);
 }

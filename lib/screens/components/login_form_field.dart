@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LoginTextFormField extends StatelessWidget {
+  final TextEditingController? controller;
   final String labelText;
-  final String value;
+  final String? value;
   final bool obscureText;
   final String? Function(String?, String?) validator;
   final String? optionalValue;
@@ -11,6 +12,7 @@ class LoginTextFormField extends StatelessWidget {
 
   const LoginTextFormField(
       {Key? key,
+      this.controller,
       required this.labelText,
       required this.value,
       this.optionalValue,
@@ -33,7 +35,7 @@ class LoginTextFormField extends StatelessWidget {
             child: SizedBox(
                 height: 51,
                 child: TextFormField(
-                  //controller: TextEditingController(text: value),
+                  controller: controller,
                   decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,6 +14,9 @@ import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
+import '../../../model/user_profile.dart';
+import '../../../repositories/image_repository.dart';
+
 part 'editprofile_event.dart';
 part 'editprofile_state.dart';
 
@@ -21,15 +25,16 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
   final UserProfileRepository userProfileRepository =
       GetIt.instance.get<UserProfileRepository>();
+  final ImageRepository imageRepository = GetIt.instance.get<ImageRepository>();
+  bool deleteOldImage = false;
 
-  EditprofileBloc() : super(EditprofileState()) {
+  EditprofileBloc(UserProfile userProfile)
+      : super(EditprofileState(userprofile: userProfile)) {
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
-    on<NameChanged>((event, emit) => _nameChanged(event.name, emit));
     on<GroupChanged>((event, emit) => _groupChanged(event.group, emit));
     on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
-    on<UpdatePressed>((event, emit) => _updatePressed(emit));
-    on<UpdateFailure>(
-        (event, emit) => _updateFailure(event.failureMessage, emit));
+    on<UpdatePressed>((event, emit) => _updatePressed(event.userprofile, emit));
+    on<NewImageFile>(((event, emit) => _newImageFile(event.image, emit)));
 
     add(LoadFromFirebase());
   }
@@ -39,10 +44,6 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     final groups = await groupRepository.getGroups();
     final ranks = await rankRepository.getRanks();
     emit(state.copyWith(groups: groups, ranks: ranks));
-  }
-
-  Future<void> _nameChanged(String name, Emitter<EditprofileState> emit) async {
-    emit(state.copyWith(name: name));
   }
 
   Future<void> _groupChanged(
@@ -63,34 +64,32 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     }
   }
 
-  Future<void> _updatePressed(Emitter<EditprofileState> emit) async {
-    /*emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
-    try {
-      final user =
-          await authenticationRepository.createUserFromEditprofileState(state);
-      await authenticationRepository.addUserToFirebaseFromSignupState(
-          user, state);
-      emit(state.copyWith(editprofileStatus: EditprofileStateStatus.success));
-    } on CustomException catch (e) {
-      add(UpdateFailure(e.message));
+  Future<void> _updatePressed(
+      UserProfile userprofile, Emitter<EditprofileState> emit) async {
+    emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
+    var path;
+    if (state.imageFile != null) {
+      path = await imageRepository.addFileToStorage(
+          state.imageFile!, userprofile.id);
+      print(path);
+    }
+    final updatedUserprofile = userprofile.copyWith(
+        group: state.group, rank: state.rank, imageUrl: path);
+    await userProfileRepository.updateUserprofile(updatedUserprofile);
+    emit(state.copyWith(
+        editprofileStatus: EditprofileStateStatus.success,
+        userprofile: updatedUserprofile));
+  }
+
+  Future<void> _newImageFile(
+      File? image, Emitter<EditprofileState> emit) async {
+    if (image != null && image.path.isNotEmpty) {
+      return emit(state.copyWith(imageFile: image));
+    } /*else if (image == null && state.imageFile != null) {
+      return emit(state.copyWith(imageFile: null));
+    } else if (image == null && state.imageFile == null) {
+      deleteOldImage = true;
+      return emit(state.copyWith(imageFile: null));
     }*/
   }
-
-  Future<void> _updateFailure(
-      String failureMessage, Emitter<EditprofileState> emit) async {
-    emit(state.copyWith(
-        editprofileStatus: EditprofileStateStatus.failure,
-        failureMessage: failureMessage));
-    emit(state.copyWith(
-        editprofileStatus: EditprofileStateStatus.initial, failureMessage: ''));
-  }
 }
-
-/*
-  @override
-  Stream<EditprofileState> mapEventToState(
-    EditprofileEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-  }
-*/

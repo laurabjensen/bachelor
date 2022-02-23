@@ -5,52 +5,45 @@ enum EditprofileStateStatus { initial, loading, success, failure }
 @immutable
 class EditprofileState extends Equatable {
   final EditprofileStateStatus editprofileStatus;
-  final String name;
-  final int age;
-  final Group group;
-  final Rank rank;
+  final Group? group;
+  final Rank? rank;
   final List<Group> groups;
   final List<Rank> ranks;
-  final String failureMessage;
+  final File? imageFile;
+  final UserProfile userprofile;
 
   const EditprofileState(
       {this.editprofileStatus = EditprofileStateStatus.initial,
-      this.name = '',
-      this.age = 0,
-      this.group = Group.empty,
-      this.rank = Rank.empty,
+      this.group,
+      this.rank,
       this.groups = const <Group>[],
       this.ranks = const <Rank>[],
-      this.failureMessage = ''});
+      this.imageFile,
+      required this.userprofile});
 
   EditprofileState copyWith(
       {EditprofileStateStatus? editprofileStatus,
-      String? name,
-      int? age,
       Group? group,
       Rank? rank,
       List<Group>? groups,
       List<Rank>? ranks,
-      String? failureMessage}) {
+      File? imageFile,
+      UserProfile? userprofile}) {
     return EditprofileState(
         editprofileStatus: editprofileStatus ?? this.editprofileStatus,
-        name: name ?? this.name,
-        age: age ?? this.age,
         group: group ?? this.group,
         rank: rank ?? this.rank,
         groups: groups ?? this.groups,
         ranks: ranks ?? this.ranks,
-        failureMessage: failureMessage ?? this.failureMessage);
+        imageFile: imageFile ?? this.imageFile,
+        userprofile: userprofile ?? this.userprofile);
   }
 
   @override
   List<Object> get props => [
         editprofileStatus,
-        group.name,
-        rank.title,
-        name,
-        age,
-        groups,
-        ranks,
+        rank?.title ?? '',
+        group?.name ?? '',
+        imageFile?.path ?? '',
       ];
 }
