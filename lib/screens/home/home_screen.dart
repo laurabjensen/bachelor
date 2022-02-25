@@ -12,16 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UserProfile userProfile;
-  late bool isLeader;
-  @override
-  void initState() {
-    super.initState();
-    userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    isLeader = userProfile.rank.title == 'Leder';
-  }
-
-  Widget showLeaderCard() {
+  Widget showLeaderCard(bool isLeader) {
     if (isLeader) {
       return LeaderCardWidget(
         color: Color(0xffC4C4C4),
@@ -36,56 +27,68 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xff63A288),
-        body: SafeArea(
-            child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                HomeCardWidget(
-                  color: Color(0xffDC3E41),
-                  text: 'Min Profil',
-                  onPressed: () =>
-                      Navigator.pushNamed(context, AppRoutes.profileScreen, arguments: userProfile),
-                  imgPath: 'assets/profil_ikon.svg',
-                  isLeader: isLeader,
-                ),
-                HomeCardWidget(
-                  color: Color(0xffE9993E),
-                  text: 'Mærker',
-                  onPressed: () =>
-                      Navigator.pushNamed(context, AppRoutes.badgesScreen, arguments: userProfile),
-                  imgPath: 'assets/mærke_ikon.svg',
-                  isLeader: isLeader,
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                HomeCardWidget(
-                  color: Color(0xffA82277),
-                  text: 'Gruppe',
-                  onPressed: () => Navigator.pushNamed(context, AppRoutes.groupScreen),
-                  imgPath: 'assets/gruppe_ikon.svg',
-                  isLeader: isLeader,
-                ),
-                HomeCardWidget(
-                  color: Color(0xff211F4A),
-                  text: 'Venner',
-                  onPressed: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),
-                  imgPath: 'assets/venner_ikon.svg',
-                  isLeader: isLeader,
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: showLeaderCard(),
-            )
-          ],
-        )));
+    return BlocBuilder(
+        bloc: BlocProvider.of<AuthenticationBloc>(context),
+        builder: (context, AuthenticationState state) {
+          if (state.userProfile != null) {
+            final isLeader = state.userProfile!.rank.title == 'Leder';
+            return Scaffold(
+                backgroundColor: Color(0xff63A288),
+                body: SafeArea(
+                    child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        HomeCardWidget(
+                          color: Color(0xffDC3E41),
+                          text: 'Min Profil',
+                          onPressed: () => Navigator.pushNamed(
+                              context, AppRoutes.profileScreen,
+                              arguments: state.userProfile),
+                          imgPath: 'assets/profil_ikon.svg',
+                          isLeader: isLeader,
+                        ),
+                        HomeCardWidget(
+                          color: Color(0xffE9993E),
+                          text: 'Mærker',
+                          onPressed: () => Navigator.pushNamed(
+                              context, AppRoutes.badgesScreen,
+                              arguments: state.userProfile),
+                          imgPath: 'assets/mærke_ikon.svg',
+                          isLeader: isLeader,
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        HomeCardWidget(
+                          color: Color(0xffA82277),
+                          text: 'Gruppe',
+                          onPressed: () => Navigator.pushNamed(
+                              context, AppRoutes.groupScreen),
+                          imgPath: 'assets/gruppe_ikon.svg',
+                          isLeader: isLeader,
+                        ),
+                        HomeCardWidget(
+                          color: Color(0xff211F4A),
+                          text: 'Venner',
+                          onPressed: () => Navigator.pushNamed(
+                              context, AppRoutes.friendsScreen),
+                          imgPath: 'assets/venner_ikon.svg',
+                          isLeader: isLeader,
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: showLeaderCard(isLeader),
+                    )
+                  ],
+                )));
+          }
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }

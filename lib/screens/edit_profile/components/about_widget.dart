@@ -25,6 +25,7 @@ class AboutMeWidget extends StatelessWidget {
         child: SizedBox(
           height: 102,
           child: TextFormField(
+            style: theme.primaryTextTheme.headline4,
             controller: controller,
             decoration: InputDecoration(
                 fillColor: Colors.white,

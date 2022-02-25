@@ -39,10 +39,10 @@ class App extends StatelessWidget {
           AppRoutes.groupScreen: (context) => GroupScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(),
           AppRoutes.friendsScreen: (context) => FriendsScreen(),
-          AppRoutes.editProfileScreen: (context) => EditProfileScreen(
+          /*AppRoutes.editProfileScreen: (context) => EditProfileScreen(
                 userprofile:
                     ModalRoute.of(context)!.settings.arguments as UserProfile,
-              ),
+              ),*/
           AppRoutes.resetScreen: (context) => ResetScreen(),
         },
         builder: EasyLoading.init(),

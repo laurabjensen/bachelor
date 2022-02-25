@@ -63,9 +63,10 @@ class GroupDropDown extends StatelessWidget {
               },
 
               dropdownSearchDecoration: InputDecoration(
+                labelStyle: theme.primaryTextTheme.headline4,
                 prefix: Text(
                   selectedGroup.name.isEmpty ? 'Gruppe' : '',
-                  style: theme.primaryTextTheme.headline3,
+                  style: theme.primaryTextTheme.headline4,
                 ),
                 isDense: true,
                 fillColor: Colors.white,

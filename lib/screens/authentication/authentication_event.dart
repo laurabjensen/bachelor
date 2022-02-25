@@ -22,3 +22,9 @@ class LoggedOut extends AuthenticationEvent {
 class UpdateState extends AuthenticationEvent {
   const UpdateState();
 }
+
+class UserUpdatedAuthentication extends AuthenticationEvent {
+  final UserProfile userProfile;
+
+  const UserUpdatedAuthentication(this.userProfile);
+}

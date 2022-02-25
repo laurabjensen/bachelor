@@ -17,6 +17,7 @@ class UserImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double size = 170;
+    final theme = Theme.of(context);
 
     return Container(
       padding: const EdgeInsets.all(8.0),
@@ -53,7 +54,13 @@ class UserImageWidget extends StatelessWidget {
                       child: const Icon(Icons.camera_alt,
                           color: Color(0xff292a3e))),
         ),
-        TextButton(onPressed: onPressed, child: Text('Tilføj profilbillede'))
+        TextButton(
+            onPressed: onPressed,
+            child: Text(
+              'Tilføj profilbillede',
+              style: theme.primaryTextTheme.headline4!
+                  .copyWith(color: Color(0xff007a54)),
+            ))
       ]),
     );
   }

@@ -1,21 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:spejder_app/custom_exception.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
-
-import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
 import '../../../model/user_profile.dart';
 import '../../../repositories/image_repository.dart';
+import '../../authentication/authentication_bloc.dart';
+import '../../profile/bloc/profile_bloc.dart';
 
 part 'editprofile_event.dart';
 part 'editprofile_state.dart';
@@ -27,8 +26,11 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
       GetIt.instance.get<UserProfileRepository>();
   final ImageRepository imageRepository = GetIt.instance.get<ImageRepository>();
   bool deleteOldImage = false;
+  final AuthenticationBloc authenticationBloc;
+  final ProfileBloc profileBloc;
 
-  EditprofileBloc(UserProfile userProfile)
+  EditprofileBloc(UserProfile userProfile,
+      {required this.authenticationBloc, required this.profileBloc})
       : super(EditprofileState(userprofile: userProfile)) {
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
     on<GroupChanged>((event, emit) => _groupChanged(event.group, emit));
@@ -76,6 +78,8 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     final updatedUserprofile = userprofile.copyWith(
         group: state.group, rank: state.rank, imageUrl: path);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
+    authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
+    profileBloc.add(UserUpdatedProfile(updatedUserprofile));
     emit(state.copyWith(
         editprofileStatus: EditprofileStateStatus.success,
         userprofile: updatedUserprofile));

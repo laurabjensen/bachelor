@@ -10,7 +10,8 @@ import 'package:spejder_app/repositories/userprofile_repository.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository authenticationRepository;
   final UserProfileRepository userProfileRepository;
 
@@ -20,6 +21,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<LoggedIn>((event, emit) => _loggedIn(emit));
     on<LoggedOut>((event, emit) => _loggedOut(emit));
     on<UpdateState>((event, emit) => _appStarted(emit));
+    on<UserUpdatedAuthentication>(
+        ((event, emit) => _userUpdated(event.userProfile, emit)));
 
     add(AppStarted());
   }
@@ -29,9 +32,12 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       final signedIn = await authenticationRepository.isSignedIn();
       if (signedIn) {
         final user = authenticationRepository.getUser();
-        final userProfile = await userProfileRepository.getUserprofileFromId(user!.uid);
+        final userProfile =
+            await userProfileRepository.getUserprofileFromId(user!.uid);
         emit(state.copyWith(
-            status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
+            status: AuthenticationStateStatus.authenticated,
+            user: user,
+            userProfile: userProfile));
       } else {
         emit(AuthenticationState());
       }
@@ -42,13 +48,21 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Future<void> _loggedIn(Emitter<AuthenticationState> emit) async {
     final user = authenticationRepository.getUser();
-    final userProfile = await userProfileRepository.getUserprofileFromId(user!.uid);
+    final userProfile =
+        await userProfileRepository.getUserprofileFromId(user!.uid);
     emit(state.copyWith(
-        status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
+        status: AuthenticationStateStatus.authenticated,
+        user: user,
+        userProfile: userProfile));
   }
 
   Future<void> _loggedOut(Emitter<AuthenticationState> emit) async {
     emit(AuthenticationState());
     authenticationRepository.signOut();
+  }
+
+  Future<void> _userUpdated(
+      UserProfile userProfile, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(userProfile: userProfile));
   }
 }

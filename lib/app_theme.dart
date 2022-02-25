@@ -15,6 +15,8 @@ class AppTheme {
             fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
         headline4: GoogleFonts.barlow(
             fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+        bodyText1: GoogleFonts.barlow(
+            fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400),
       ),
     );
   }

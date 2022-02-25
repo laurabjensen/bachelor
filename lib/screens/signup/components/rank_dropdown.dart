@@ -12,29 +12,7 @@ class RankDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Widget getWidget() {
-      return DropdownButton<Rank>(
-        //value: value!.isEmpty ? null : value,
-        underline: Container(),
-        icon: Container(),
-        hint: Icon(
-          Icons.keyboard_arrow_down,
-          color: Color(0xff377E62),
-        ),
-
-        //dropdownColor: theme.scaffoldBackgroundColor,
-        onChanged: onChanged,
-        alignment: Alignment.centerRight,
-        items: ranks.map<DropdownMenuItem<Rank>>((rank) {
-          return DropdownMenuItem<Rank>(
-              value: rank,
-              child: Text(
-                rank.title,
-                style: theme.primaryTextTheme.headline3,
-              ));
-        }).toList(),
-      );
-    }
+    Rank initialValue = ranks.firstWhere(((element) => element.id == rank.id));
 
     return Padding(
         padding: EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -45,30 +23,41 @@ class RankDropdown extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: SizedBox(
                 height: 51,
-                child: TextFormField(
-                  obscureText: true,
-                  obscuringCharacter: ' ',
-                  readOnly: true,
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                      errorStyle: TextStyle(height: 0, fontSize: 16),
-                      prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
-                          child:
-                              Text(rank.title.isEmpty ? 'Rang' : rank.title)),
-                      prefixIconConstraints:
-                          const BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
-                          child: getWidget()),
-                      suffixIconConstraints:
-                          BoxConstraints(minWidth: 0, minHeight: 0),
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none),
-                      floatingLabelBehavior: FloatingLabelBehavior.always),
+                child: ButtonTheme(
+                  alignedDropdown: true,
+                  child: DropdownButtonFormField(
+                    value: initialValue,
+                    decoration: InputDecoration(
+                        labelStyle: theme.primaryTextTheme.headline4,
+                        contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        errorStyle: TextStyle(height: 0, fontSize: 16),
+                        suffixIconConstraints:
+                            BoxConstraints(minWidth: 0, minHeight: 0),
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIconConstraints:
+                            BoxConstraints(minWidth: 0, minHeight: 0),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide.none),
+                        floatingLabelBehavior: FloatingLabelBehavior.always),
+                    items: ranks.map<DropdownMenuItem<Rank>>((rank) {
+                      return DropdownMenuItem<Rank>(
+                          value: rank,
+                          child: Text(
+                            rank.title,
+                            style: theme.primaryTextTheme.headline3,
+                          ));
+                    }).toList(),
+                    onChanged: onChanged,
+                    icon: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                      child: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(0xff377E62),
+                      ),
+                    ),
+                  ),
                 ))));
   }
 }

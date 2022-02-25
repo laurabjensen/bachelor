@@ -35,6 +35,7 @@ class LoginTextFormField extends StatelessWidget {
             child: SizedBox(
                 height: 51,
                 child: TextFormField(
+                  style: theme.primaryTextTheme.headline4,
                   controller: controller,
                   decoration: InputDecoration(
                       fillColor: Colors.white,

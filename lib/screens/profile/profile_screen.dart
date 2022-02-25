@@ -12,6 +12,9 @@ import 'package:spejder_app/screens/profile/components/profile_friends_row_widge
 import 'package:spejder_app/screens/profile/components/profile_info_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_navbar.dart';
 
+import '../edit_profile/bloc/editprofile_bloc.dart';
+import '../edit_profile/edit_profile_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -19,13 +22,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile =
-      ModalRoute.of(context)!.settings.arguments as UserProfile;
-  late ProfileBloc profileBloc = ProfileBloc(userProfile: userProfile);
+  late ProfileBloc profileBloc = ProfileBloc(
+      userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentUser =
         BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
@@ -56,16 +57,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       ProfileNavbar(
                         onBack: () => Navigator.pop(context),
-                        onEditUser: () => Navigator.pushNamed(
-                                context, AppRoutes.editProfileScreen,
-                                arguments: userProfile)
-                            .then(
-                                (value) => userProfile = value as UserProfile),
+                        onEditUser: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                EditProfileScreen(
+                                    userprofile: state.userProfile,
+                                    editprofileBloc: EditprofileBloc(
+                                        state.userProfile,
+                                        authenticationBloc:
+                                            BlocProvider.of<AuthenticationBloc>(
+                                                context),
+                                        profileBloc: profileBloc)),
+                          ),
+                        ),
                         onLogout: logout,
-                        isMyPage: userProfile.id == currentUser.id,
+                        isMyPage: state.userProfile.id == currentUser.id,
                       ),
                       ProfileInfoWidget(
-                        userProfile: userProfile,
+                        userProfile: state.userProfile,
                       ),
                     ],
                   ),
@@ -88,19 +98,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
                     onSeeAll: () => Navigator.pushNamed(
                         context, AppRoutes.badgesScreen,
-                        arguments: userProfile),
+                        arguments: state.userProfile),
                     objects: state.badges,
-                    text: userProfile.id == currentUser.id
+                    text: state.userProfile.id == currentUser.id
                         ? 'Mine mærker'
-                        : '${userProfile.namePossessiveCase()} mærker',
+                        : '${state.userProfile.namePossessiveCase()} mærker',
                   ),
                   ProfileFriendsRow(
                     onSeeAll: () =>
                         Navigator.pushNamed(context, AppRoutes.friendsScreen),
                     objects: state.friends,
-                    text: userProfile.id == currentUser.id
+                    text: state.userProfile.id == currentUser.id
                         ? 'Mine venner'
-                        : '${userProfile.namePossessiveCase()} venner',
+                        : '${state.userProfile.namePossessiveCase()} venner',
                   ),
                 ],
               ));

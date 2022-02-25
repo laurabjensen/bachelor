@@ -10,3 +10,9 @@ abstract class ProfileEvent extends Equatable {
 class LoadObjects extends ProfileEvent {
   const LoadObjects();
 }
+
+class UserUpdatedProfile extends ProfileEvent {
+  final UserProfile userProfile;
+
+  const UserUpdatedProfile(this.userProfile);
+}
