@@ -100,17 +100,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         context, AppRoutes.badgesScreen,
                         arguments: state.userProfile),
                     objects: state.badges,
-                    text: state.userProfile.id == currentUser.id
+                    headlineText: state.userProfile.id == currentUser.id
                         ? 'Mine mærker'
                         : '${state.userProfile.namePossessiveCase()} mærker',
+                    noObjectsText: state.userProfile.id == currentUser.id
+                        ? 'Du har endnu ikke registreret nogen mærker'
+                        : '${state.userProfile.name} har endnu ikke registreret nogen mærker',
                   ),
                   ProfileFriendsRow(
                     onSeeAll: () =>
                         Navigator.pushNamed(context, AppRoutes.friendsScreen),
                     objects: state.friends,
-                    text: state.userProfile.id == currentUser.id
+                    headlineText: state.userProfile.id == currentUser.id
                         ? 'Mine venner'
                         : '${state.userProfile.namePossessiveCase()} venner',
+                    noObjectsText: state.userProfile.id == currentUser.id
+                        ? 'Du har endnu ikke registreret nogen venner'
+                        : '${state.userProfile.name} har endnu ikke registreret nogen venner',
                   ),
                 ],
               ));

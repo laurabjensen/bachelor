@@ -30,7 +30,7 @@ class ProfileImageWidget extends StatelessWidget {
                     fit: BoxFit.fitHeight,
                   ),
                 )),
-            // Range circle
+            // Range picture
             Positioned(
               top: 120,
               left: 10,
@@ -44,16 +44,24 @@ class ProfileImageWidget extends StatelessWidget {
             ),
             // Star
             Positioned(
-              top: 100,
-              left: 135,
+              top: 110,
+              left: 130,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
+                  // Outline border around star
                   Icon(
                     Icons.star,
                     size: 70,
+                    color: Color.fromARGB(255, 56, 57, 58),
+                  ),
+                  // Silver star
+                  Icon(
+                    Icons.star,
+                    size: 65,
                     color: Color(0xff8d99a3),
                   ),
+                  // Number of years
                   Text(
                     userProfile.seniority.toString(),
                     style: theme.primaryTextTheme.headline3,

@@ -17,6 +17,8 @@ class AppTheme {
             fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
         bodyText1: GoogleFonts.barlow(
             fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400),
+        bodyText2: GoogleFonts.barlow(
+            fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),
       ),
     );
   }

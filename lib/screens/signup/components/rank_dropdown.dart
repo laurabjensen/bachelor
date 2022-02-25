@@ -12,7 +12,9 @@ class RankDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Rank initialValue = ranks.firstWhere(((element) => element.id == rank.id));
+    Rank? initialValue = rank.id.isNotEmpty
+        ? ranks.firstWhere(((element) => element.id == rank.id))
+        : null;
 
     return Padding(
         padding: EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -28,6 +30,9 @@ class RankDropdown extends StatelessWidget {
                   child: DropdownButtonFormField(
                     value: initialValue,
                     decoration: InputDecoration(
+                        hintText: 'Rang',
+                        //floatingLabelStyle: , //TODO: FIX HER
+                        //hintStyle: theme.primaryTextTheme.headline4,
                         labelStyle: theme.primaryTextTheme.headline4,
                         contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                         errorStyle: TextStyle(height: 0, fontSize: 16),

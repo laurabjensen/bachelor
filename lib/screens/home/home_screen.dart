@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Color(0xff63A288),
                 body: SafeArea(
                     child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

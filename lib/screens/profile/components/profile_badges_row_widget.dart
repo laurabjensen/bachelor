@@ -4,10 +4,15 @@ import 'package:spejder_app/screens/profile/components/profile_badge_widget.dart
 
 class ProfileBadgesRow extends StatelessWidget {
   final Function() onSeeAll;
-  final String text;
+  final String headlineText;
+  final String noObjectsText;
   final List<Object> objects;
 
-  const ProfileBadgesRow({required this.onSeeAll, required this.objects, required this.text});
+  const ProfileBadgesRow(
+      {required this.onSeeAll,
+      required this.objects,
+      required this.headlineText,
+      required this.noObjectsText});
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +26,36 @@ class ProfileBadgesRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  text,
+                  headlineText,
                   style: theme.primaryTextTheme.headline1,
                 ),
                 GestureDetector(
                     onTap: onSeeAll,
-                    child: Text('Se alle', style: theme.primaryTextTheme.headline2)),
+                    child: Text('Se alle',
+                        style: theme.primaryTextTheme.headline2)),
               ],
             ),
-            SizedBox(
-                height: 135,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: objects.length,
-                    itemBuilder: (BuildContext context, int index) => ProfileBadgeWidget(
-                      badge: objects[index] as Badge,
-                    ),
-                  ),
-                )),
+            objects.isNotEmpty
+                ? SizedBox(
+                    height: 135,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: objects.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            ProfileBadgeWidget(
+                          badge: objects[index] as Badge,
+                        ),
+                      ),
+                    ))
+                : SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text(noObjectsText,
+                          style: theme.primaryTextTheme.bodyText2),
+                    ))
           ],
         ));
   }
