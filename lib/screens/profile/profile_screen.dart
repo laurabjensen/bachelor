@@ -102,6 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     noObjectsText: state.userProfile.id == currentUser.id
                         ? 'Du har endnu ikke registreret nogen mærker'
                         : '${state.userProfile.name} har endnu ikke registreret nogen mærker',
+                    userProfile: state.userProfile,
                   ),
                   ProfileFriendsRow(
                     onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),

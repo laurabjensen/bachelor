@@ -10,4 +10,6 @@ class AppRoutes {
   static const friendsScreen = 'friends';
   static const editProfileScreen = 'editprofile';
   static const resetScreen = 'reset';
+  static const specificBadgeScreen = 'specificBadge';
+  static const registerBadgeScreen = 'registerBadge';
 }

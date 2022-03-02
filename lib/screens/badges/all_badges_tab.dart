@@ -38,7 +38,7 @@ class BadgesTab extends StatelessWidget {
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(challengeBadges.length, (index) {
-                  return BadgeWidget(
+                  return ProfileBadgeWidget(
                     badge: challengeBadges[index],
                     userProfile: userProfile,
                   );
@@ -69,7 +69,7 @@ class BadgesTab extends StatelessWidget {
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(engagementBadges.length, (index) {
-                  return BadgeWidget(
+                  return ProfileBadgeWidget(
                     badge: engagementBadges[index],
                     userProfile: userProfile,
                   );

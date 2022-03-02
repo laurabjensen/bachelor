@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/profile/components/profile_badge_widget.dart';
 
 class ProfileBadgesRow extends StatelessWidget {
@@ -7,12 +8,14 @@ class ProfileBadgesRow extends StatelessWidget {
   final String headlineText;
   final String noObjectsText;
   final List<Object> objects;
+  final UserProfile userProfile;
 
   const ProfileBadgesRow(
       {required this.onSeeAll,
       required this.objects,
       required this.headlineText,
-      required this.noObjectsText});
+      required this.noObjectsText,
+      required this.userProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +34,7 @@ class ProfileBadgesRow extends StatelessWidget {
                 ),
                 GestureDetector(
                     onTap: onSeeAll,
-                    child: Text('Se alle',
-                        style: theme.primaryTextTheme.headline2)),
+                    child: Text('Se alle', style: theme.primaryTextTheme.headline2)),
               ],
             ),
             objects.isNotEmpty
@@ -44,17 +46,14 @@ class ProfileBadgesRow extends StatelessWidget {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemCount: objects.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ProfileBadgeWidget(
-                          badge: objects[index] as Badge,
-                        ),
+                        itemBuilder: (BuildContext context, int index) => ProfileBadgeWidget(
+                            badge: objects[index] as Badge, rank: userProfile.rank),
                       ),
                     ))
                 : SizedBox(
                     height: 100,
                     child: Center(
-                      child: Text(noObjectsText,
-                          style: theme.primaryTextTheme.bodyText2),
+                      child: Text(noObjectsText, style: theme.primaryTextTheme.bodyText2),
                     ))
           ],
         ));

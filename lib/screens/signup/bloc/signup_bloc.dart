@@ -34,8 +34,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Future<void> _loadFromFirebase(Emitter<SignupState> emit) async {
-    final groups = await groupRepository.getGroups();
-    final ranks = await rankRepository.getRanks();
+    final groups = GetIt.instance.get<List<Group>>();
+    final ranks = GetIt.instance.get<List<Rank>>();
     emit(state.copyWith(groups: groups, ranks: ranks));
   }
 

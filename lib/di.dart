@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
@@ -12,8 +13,7 @@ import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 void setupDi() {
   final getIt = GetIt.instance;
 
-  getIt.registerLazySingleton(
-      () => AuthenticationBloc(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(() => AuthenticationBloc(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => AuthenticationRepository());
   getIt.registerLazySingleton(() => UserProfileRepository());
   getIt.registerLazySingleton(() => LoginRepository());
@@ -21,4 +21,7 @@ void setupDi() {
   getIt.registerLazySingleton(() => RankRepository());
   getIt.registerLazySingleton(() => BadgeRepository());
   getIt.registerLazySingleton(() => ImageRepository());
+  /*getIt.registerSingleton<Future<List<Badge>>>(
+    getIt.get<BadgeRepository>().getAllBadges(),
+  );*/
 }

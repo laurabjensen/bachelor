@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/app_theme.dart';
+import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
+import 'package:spejder_app/screens/badges/register_badge_screen.dart';
+import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
 import 'package:spejder_app/screens/group/group_screen.dart';
 import 'package:spejder_app/screens/home/home_screen.dart';
 import 'package:spejder_app/screens/leader/leader_screen.dart';
@@ -39,10 +42,13 @@ class App extends StatelessWidget {
           AppRoutes.groupScreen: (context) => GroupScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(),
           AppRoutes.friendsScreen: (context) => FriendsScreen(),
+          AppRoutes.specificBadgeScreen: (context) =>
+              SpecificBadgeScreen(badge: ModalRoute.of(context)!.settings.arguments as Badge),
           /*AppRoutes.editProfileScreen: (context) => EditProfileScreen(
                 userprofile:
                     ModalRoute.of(context)!.settings.arguments as UserProfile,
               ),*/
+          AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(),
           AppRoutes.resetScreen: (context) => ResetScreen(),
         },
         builder: EasyLoading.init(),

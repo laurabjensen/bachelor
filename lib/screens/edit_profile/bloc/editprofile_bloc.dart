@@ -22,8 +22,7 @@ part 'editprofile_state.dart';
 class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
   final GroupRepository groupRepository = GetIt.instance.get<GroupRepository>();
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
-  final UserProfileRepository userProfileRepository =
-      GetIt.instance.get<UserProfileRepository>();
+  final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
   final ImageRepository imageRepository = GetIt.instance.get<ImageRepository>();
   bool deleteOldImage = false;
   final AuthenticationBloc authenticationBloc;
@@ -43,13 +42,12 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
 
   //Henter userprofile for brugeren der er logget ind
   Future<void> _loadFromFirebase(Emitter<EditprofileState> emit) async {
-    final groups = await groupRepository.getGroups();
-    final ranks = await rankRepository.getRanks();
+    final groups = GetIt.instance.get<List<Group>>();
+    final ranks = GetIt.instance.get<List<Rank>>();
     emit(state.copyWith(groups: groups, ranks: ranks));
   }
 
-  Future<void> _groupChanged(
-      String? name, Emitter<EditprofileState> emit) async {
+  Future<void> _groupChanged(String? name, Emitter<EditprofileState> emit) async {
     if (name == null || name.isEmpty) {
       emit(state.copyWith(group: Group.empty));
     } else {
@@ -66,27 +64,23 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     }
   }
 
-  Future<void> _updatePressed(
-      UserProfile userprofile, Emitter<EditprofileState> emit) async {
+  Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
     emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
     var path;
     if (state.imageFile != null) {
-      path = await imageRepository.addFileToStorage(
-          state.imageFile!, userprofile.id);
+      path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
       print(path);
     }
-    final updatedUserprofile = userprofile.copyWith(
-        group: state.group, rank: state.rank, imageUrl: path);
+    final updatedUserprofile =
+        userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
     authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
     profileBloc.add(UserUpdatedProfile(updatedUserprofile));
     emit(state.copyWith(
-        editprofileStatus: EditprofileStateStatus.success,
-        userprofile: updatedUserprofile));
+        editprofileStatus: EditprofileStateStatus.success, userprofile: updatedUserprofile));
   }
 
-  Future<void> _newImageFile(
-      File? image, Emitter<EditprofileState> emit) async {
+  Future<void> _newImageFile(File? image, Emitter<EditprofileState> emit) async {
     if (image != null && image.path.isNotEmpty) {
       return emit(state.copyWith(imageFile: image));
     } /*else if (image == null && state.imageFile != null) {

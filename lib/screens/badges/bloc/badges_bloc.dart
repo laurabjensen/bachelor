@@ -20,8 +20,9 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
 
   Future<void> _loadBadges(Emitter<BadgesState> emit) async {
     final userId = GetIt.instance.get<AuthenticationRepository>().getUser()!.uid;
-    final allChallengeBadges = await badgeRepository.getAllChallengeBadges();
-    final allEngagementBadges = await badgeRepository.getAllEngagementBadges();
+    final allBadges = GetIt.instance.get<List<Badge>>();
+    final allChallengeBadges = await badgeRepository.getAllChallengeBadges(allBadges);
+    final allEngagementBadges = await badgeRepository.getAllEngagementBadges(allBadges);
     final userChallengeBadges = await badgeRepository.getUserChallengeBadges(userId);
     final userEngagementBadges = await badgeRepository.getUserEngagementBadges(userId);
     emit(state.copyWith(

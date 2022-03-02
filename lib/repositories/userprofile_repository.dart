@@ -30,14 +30,14 @@ class UserProfileRepository {
     var groupId = (await FirebaseFirestore.instance.collection('users').doc(userId).get())
         .get('group')
         .toString();
-    return Group.fromJson(await FirebaseFirestore.instance.collection('groups').doc(groupId).get());
+    return GetIt.instance.get<List<Group>>().firstWhere((element) => element.id == groupId);
   }
 
   Future<Rank> getRankForUserprofile(String userId) async {
     var rankId = (await FirebaseFirestore.instance.collection('users').doc(userId).get())
         .get('rank')
         .toString();
-    return Rank.fromJson(await FirebaseFirestore.instance.collection('ranks').doc(rankId).get());
+    return GetIt.instance.get<List<Rank>>().firstWhere((element) => element.id == rankId);
   }
 
   Future<List<UserProfile>> getFriendsForUser(String userId) async {
