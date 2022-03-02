@@ -14,27 +14,20 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserProfile userProfile;
   final BadgeRepository badgeRepository = GetIt.instance.get<BadgeRepository>();
-  final UserProfileRepository userProfileRepository =
-      GetIt.instance.get<UserProfileRepository>();
+  final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
 
-  ProfileBloc({required this.userProfile})
-      : super(ProfileState(userProfile: userProfile)) {
+  ProfileBloc({required this.userProfile}) : super(ProfileState(userProfile: userProfile)) {
     on<LoadObjects>((event, emit) => _loadObjects(emit));
-    on<UserUpdatedProfile>(
-        ((event, emit) => _userUpdated(event.userProfile, emit)));
+    on<UserUpdatedProfile>(((event, emit) => _userUpdated(event.userProfile, emit)));
 
     add(LoadObjects());
   }
 
   Future<void> _loadObjects(Emitter<ProfileState> emit) async {
-    emit(state.copyWith(
-        badges: await badgeRepository.getBadgesForUser(userProfile.id),
-        friends:
-            await userProfileRepository.getFriendsForUser(userProfile.id)));
+    emit(state.copyWith(badges: userProfile.badges, friends: userProfile.friends));
   }
 
-  Future<void> _userUpdated(
-      UserProfile userProfile, Emitter<ProfileState> emit) async {
+  Future<void> _userUpdated(UserProfile userProfile, Emitter<ProfileState> emit) async {
     if (state.userProfile.id == userProfile.id) {
       emit(state.copyWith(userProfile: userProfile));
     }

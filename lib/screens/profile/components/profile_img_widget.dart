@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spejder_app/model/user_profile.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   final UserProfile userProfile;
 
-  const ProfileImageWidget({Key? key, required this.userProfile})
-      : super(key: key);
+  const ProfileImageWidget({Key? key, required this.userProfile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +21,28 @@ class ProfileImageWidget extends StatelessWidget {
             // Profile picture circle
             Positioned(
                 left: 15,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    userProfile.imageUrl,
-                    width: 170,
-                    height: 170,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )),
+                child: userProfile.imageUrl.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          userProfile.imageUrl,
+                          width: 170,
+                          height: 170,
+                          fit: BoxFit.fitHeight,
+                        ))
+                    : Stack(
+                        children: [
+                          Container(
+                              height: 170,
+                              width: 170,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Color(0xff037B55),
+                              )),
+                          Positioned(
+                              left: 25, top: 25, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
+                        ],
+                      )),
             // Range picture
             Positioned(
               top: 120,
@@ -38,8 +51,9 @@ class ProfileImageWidget extends StatelessWidget {
                 height: 65,
                 width: 65,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: Image.network(userProfile.rank.imageUrl).image)),
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    image: DecorationImage(image: Image.network(userProfile.rank.imageUrl).image)),
               ),
             ),
             // Star

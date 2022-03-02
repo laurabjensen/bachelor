@@ -80,8 +80,6 @@ class UserProfile {
       'seniority': seniority,
       'description': description,
       'imageUrl': imageUrl,
-      'badges': badges,
-      'friends': friends
     };
   }
 
