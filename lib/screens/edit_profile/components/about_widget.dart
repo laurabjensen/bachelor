@@ -4,12 +4,16 @@ class AboutMeWidget extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?, String?) validator;
   final Function(String?) onChanged;
+  final String labelText;
+  final String hintText;
 
   const AboutMeWidget(
       {Key? key,
       required this.controller,
       required this.validator,
-      required this.onChanged})
+      required this.onChanged,
+      required this.labelText,
+      required this.hintText})
       : super(key: key);
 
   @override
@@ -31,13 +35,11 @@ class AboutMeWidget extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true,
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none),
-                labelText: 'Om mig',
-                hintText: 'Skriv om dig selv..',
+                    borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                labelText: labelText,
+                hintText: hintText,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                labelStyle:
-                    theme.primaryTextTheme.headline3!.copyWith(height: 0)),
+                labelStyle: theme.primaryTextTheme.headline3!.copyWith(height: 0)),
             keyboardType: TextInputType.multiline,
             onChanged: onChanged,
             maxLines: 5,

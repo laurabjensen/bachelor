@@ -64,4 +64,8 @@ class BadgeSpecific {
           link: json['link'] ?? '',
           imageUrl: json['imageUrl'] ?? '',
         );
+
+  String getRank() {
+    return '${rank[0].toUpperCase()}${rank.substring(1).toLowerCase()}';
+  }
 }

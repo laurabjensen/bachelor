@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/badge_specific.dart';
 
 class BadgeWidget extends StatelessWidget {
   final Badge badge;
   final int index;
-  final Function() onTap;
+  final Function(BadgeSpecific) onTap;
 
   const BadgeWidget({Key? key, required this.badge, required this.index, required this.onTap})
       : super(key: key);
@@ -13,7 +14,7 @@ class BadgeWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(badge.levels[index]),
       child: Card(
         elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
