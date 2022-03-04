@@ -18,9 +18,6 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 import 'package:spejder_app/screens/reset/reset_screen.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/screens/friends/friends_screen.dart';
-import 'package:spejder_app/screens/edit_profile/edit_profile_screen.dart';
-
-import 'model/user_profile.dart';
 
 /* 
   Root for app. 

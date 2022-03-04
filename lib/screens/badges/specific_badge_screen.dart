@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
-import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
-import 'package:spejder_app/screens/badges/components/badge_panel_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
-import 'package:expandable/expandable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
@@ -109,8 +106,8 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                         onPressed: () => openUrl(),
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xffACC6B1),
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                         ),
                       ),

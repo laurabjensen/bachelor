@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge.dart';
 
 class BadgeSpecific {
-  //! TODO: Spire og seniorspejder skal bytte imageurl
   final Badge badge;
   final String rank;
   final String purpose;
@@ -27,7 +24,6 @@ class BadgeSpecific {
     required this.imageUrl,
   });
 
-  @override
   BadgeSpecific copyWith({
     Badge? badge,
     String? rank,

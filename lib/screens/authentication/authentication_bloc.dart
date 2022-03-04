@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get_it/get_it.dart';
-import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/repository.dart';

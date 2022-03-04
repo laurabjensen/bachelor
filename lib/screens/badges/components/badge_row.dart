@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
-import 'package:spejder_app/screens/badges/badge_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_widget.dart';
-import 'package:spejder_app/screens/profile/components/profile_badge_widget.dart';
 
 class BadgeRow extends StatelessWidget {
   final Badge badge;

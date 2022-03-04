@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
-import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 

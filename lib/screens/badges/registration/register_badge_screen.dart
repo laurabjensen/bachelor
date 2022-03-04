@@ -8,7 +8,6 @@ import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
 import 'package:spejder_app/screens/badges/registration/bloc/badge_registration_bloc.dart';
 import 'package:spejder_app/screens/badges/registration/components/leader_dropdown.dart';
 import 'package:spejder_app/screens/edit_profile/components/about_widget.dart';
-import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
 import 'package:spejder_app/screens/signup/validators.dart';
 
 class RegisterBadgeScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
     );
     if (d != null)
       setState(() {
-        _selectedDate = DateFormat.yMMMMd("en_US").format(d);
+        _selectedDate = DateFormat.yMMMMd('en_US').format(d);
       });
   }
 
@@ -179,8 +178,8 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xffACC6B1),
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(20.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
                               ),
                             ),
