@@ -16,6 +16,7 @@ import 'package:spejder_app/screens/leader/approve_badges_screen.dart';
 import 'package:spejder_app/screens/leader/leader_screen.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:spejder_app/screens/patrulje/create_patrulje_screen.dart';
 import 'package:spejder_app/screens/profile/profile_screen.dart';
 import 'package:spejder_app/screens/reset/reset_screen.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
@@ -47,19 +48,25 @@ class App extends StatelessWidget {
           AppRoutes.profileScreen: (context) => ProfileScreen(),
           AppRoutes.groupScreen: (context) => GroupScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(
-                userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile,
+                userProfile:
+                    ModalRoute.of(context)!.settings.arguments as UserProfile,
               ),
           AppRoutes.friendsScreen: (context) => FriendsScreen(),
-          AppRoutes.specificBadgeScreen: (context) =>
-              SpecificBadgeScreen(badge: ModalRoute.of(context)!.settings.arguments as Badge),
+          AppRoutes.specificBadgeScreen: (context) => SpecificBadgeScreen(
+              badge: ModalRoute.of(context)!.settings.arguments as Badge),
           /*AppRoutes.editProfileScreen: (context) => EditProfileScreen(
                 userprofile:
                     ModalRoute.of(context)!.settings.arguments as UserProfile,
               ),*/
           AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(
-              badgeSpecific: ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
+              badgeSpecific:
+                  ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
           AppRoutes.resetScreen: (context) => ResetScreen(),
           AppRoutes.approveBadgesScreen: (context) => ApproveBadgesScreen(),
+          AppRoutes.createPatruljeScreen: (context) => CreatePatruljeScreen(
+                userProfile:
+                    ModalRoute.of(context)!.settings.arguments as UserProfile,
+              ),
         },
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
