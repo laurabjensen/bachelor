@@ -13,18 +13,17 @@ class BadgesScreen extends StatefulWidget {
 
 class _BadgesScreenState extends State<BadgesScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile =
-      ModalRoute.of(context)!.settings.arguments as UserProfile;
+  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
   late BadgesBloc badgesBloc;
 
   @override
   void initState() {
     super.initState();
     badgesBloc = BadgesBloc();
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
+  // TODO! Find ud af hvad vi skal gøre med background svg her!!!
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -44,21 +43,18 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 tabs: [
                   Tab(
                       child: Text('Alle mærker',
-                          style: theme.primaryTextTheme.headline2!
-                              .copyWith(color: Colors.black))),
+                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                   Tab(
                       child: Text(
                           userProfile.id == currentUser.id
                               ? 'Mine mærker'
                               : '${userProfile.name} mærker',
-                          style: theme.primaryTextTheme.headline2!
-                              .copyWith(color: Colors.black))),
+                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                 ],
               ),
               title: Text(
                 'Mærke oversigt',
-                style: theme.primaryTextTheme.headline1!
-                    .copyWith(color: Colors.black),
+                style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
               ),
             ),
             body: TabBarView(

@@ -5,44 +5,28 @@ enum BadgeRegistrationStateStatus { initial, loading, success, failure }
 @immutable
 class BadgeRegistrationState extends Equatable {
   final BadgeRegistrationStateStatus badgeRegistrationStatus;
-
-//TODO: TILFØJ LEDER
-  final Group group;
-  final List<Group> groups;
+  final DateTime? date;
+  final UserProfile? leader;
   final String failureMessage;
 
   const BadgeRegistrationState(
       {this.badgeRegistrationStatus = BadgeRegistrationStateStatus.initial,
-      this.group = Group.empty,
-      this.groups = const <Group>[],
+      this.date,
+      this.leader,
       this.failureMessage = ''});
 
   BadgeRegistrationState copyWith(
       {BadgeRegistrationStateStatus? badgeRegistrationStatus,
-      Group? group,
-      List<Group>? groups,
+      DateTime? date,
+      UserProfile? leader,
       String? failureMessage}) {
     return BadgeRegistrationState(
         badgeRegistrationStatus: badgeRegistrationStatus ?? this.badgeRegistrationStatus,
-        group: group ?? this.group,
-        groups: groups ?? this.groups,
+        date: date ?? this.date,
+        leader: leader ?? this.leader,
         failureMessage: failureMessage ?? this.failureMessage);
   }
 
   @override
-  List<Object> get props => [
-        badgeRegistrationStatus,
-        group.name,
-        groups,
-      ];
+  List<Object> get props => [badgeRegistrationStatus, date.toString(), leader?.id ?? ''];
 }
-
-/*abstract class BadgeRegistrationState extends Equatable {
-  const BadgeRegistrationState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class BadgeRegistrationInitial extends BadgeRegistrationState {}
-*/

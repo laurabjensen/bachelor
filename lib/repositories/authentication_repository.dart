@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/user_profile.dart';
+import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/screens/signup/bloc/signup_bloc.dart';
 
 import '../custom_exception.dart';
@@ -8,8 +10,8 @@ import '../custom_exception.dart';
 class AuthenticationRepository {
   Future<User> createUserFromSignupState(SignupState state) async {
     try {
-      final user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: state.email, password: state.password))
+      final user = (await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: state.email, password: state.password))
           .user;
       if (user != null) {
         return user;
@@ -30,7 +32,7 @@ class AuthenticationRepository {
   }
 
   //TODO: age ikke lavet rigtigt
-  addUserToFirebaseFromSignupState(User user, SignupState state) async {
+  Future<void> addUserToFirebaseFromSignupState(User user, SignupState state) async {
     final userProfile = UserProfile(
         id: user.uid,
         age: 0,
@@ -43,10 +45,10 @@ class AuthenticationRepository {
         imageUrl: '',
         badges: [],
         friends: []);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .set(userProfile.toJson());
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userProfile.toJson());
+    state.rank.title == 'Leder'
+        ? await GetIt.instance.get<GroupRepository>().addLeaderToGroup(state.group, user.uid)
+        : null;
   }
 
   Future<bool> isSignedIn() async {

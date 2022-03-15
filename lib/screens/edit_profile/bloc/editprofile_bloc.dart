@@ -64,15 +64,34 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     }
   }
 
+  Future<void> updateLeaderLists(UserProfile old, UserProfile updated) async {
+    // Hvis leder skifter gruppe
+    if (old.rank.title == 'Leder' &&
+        updated.rank.title == 'Leder' &&
+        old.group.id != updated.group.id) {
+      await groupRepository.removeLeaderFromGroup(old.group, old.id);
+      await groupRepository.addLeaderToGroup(updated.group, updated.id);
+    }
+    // Hvis man opdateres til at blive leder
+    else if (updated.rank.title == 'Leder') {
+      await groupRepository.addLeaderToGroup(updated.group, updated.id);
+    }
+    // Hvis man var leder men ikke er leder længere
+    else if (old.rank.title == 'Leder' && updated.rank.title != 'Leder') {
+      await groupRepository.removeLeaderFromGroup(old.group, old.id);
+    }
+  }
+
   Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
     emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
     var path;
     if (state.imageFile != null) {
       path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
-      print(path);
+      debugPrint(path);
     }
     final updatedUserprofile =
         userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
+    await updateLeaderLists(userprofile, updatedUserprofile);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
     authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
     profileBloc.add(UserUpdatedProfile(updatedUserprofile));

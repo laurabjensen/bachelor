@@ -7,13 +7,18 @@ abstract class BadgeRegistrationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadFromFirebase extends BadgeRegistrationEvent {
-  const LoadFromFirebase();
+class DateChanged extends BadgeRegistrationEvent {
+  final DateTime date;
+
+  const DateChanged(this.date);
 }
 
-//TODO: SKAL MULIGVIS SLETTES
-class GroupChanged extends BadgeRegistrationEvent {
-  final String? group;
+class LeaderChanged extends BadgeRegistrationEvent {
+  final UserProfile leader;
 
-  const GroupChanged(this.group);
+  const LeaderChanged(this.leader);
+}
+
+class SendRegistrationPressed extends BadgeRegistrationEvent {
+  const SendRegistrationPressed();
 }

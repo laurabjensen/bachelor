@@ -47,7 +47,10 @@ dependencies:
   image_cropper: ^1.4.1
   dropdown_formfield: ^0.1.4
   expandable: ^5.0.1
+  flutter_localizations:
+    sdk: flutter 
   url_launcher: ^6.0.20
+  intl: ^0.17.0
 
 
 dev_dependencies:

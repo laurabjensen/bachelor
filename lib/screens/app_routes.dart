@@ -10,4 +10,5 @@ class AppRoutes {
   static const resetScreen = 'reset';
   static const specificBadgeScreen = 'specificBadge';
   static const registerBadgeScreen = 'registerBadge';
+  static const approveBadgesScreen = 'approveBadges';
 }

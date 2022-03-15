@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/group.dart';
+import 'package:spejder_app/model/user_profile.dart';
 
 class LeaderDropdown extends StatelessWidget {
-  final List<Group> groups;
-  final Group group;
-  final Function(Group?) onChanged;
+  final List<UserProfile> leaders;
+  final UserProfile? leader;
+  final Function(UserProfile?) onChanged;
 
-  const LeaderDropdown({required this.groups, required this.group, required this.onChanged});
+  const LeaderDropdown({required this.leaders, required this.leader, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Group? initialValue =
-        group.id.isNotEmpty ? groups.firstWhere(((element) => element.id == group.id)) : null;
+    UserProfile? initialValue =
+        leader != null ? leaders.firstWhere(((element) => element.id == leader!.id)) : null;
 
     return Padding(
         padding: EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -28,7 +29,7 @@ class LeaderDropdown extends StatelessWidget {
                   child: DropdownButtonFormField(
                     value: initialValue,
                     decoration: InputDecoration(
-                        hintText: 'Leder',
+                        hintText: 'Vælg Leder',
                         //floatingLabelStyle: , //TODO: FIX HER
                         //hintStyle: theme.primaryTextTheme.headline4,
                         labelStyle: theme.primaryTextTheme.headline4,
@@ -41,11 +42,11 @@ class LeaderDropdown extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                         floatingLabelBehavior: FloatingLabelBehavior.always),
-                    items: groups.map<DropdownMenuItem<Group>>((rank) {
-                      return DropdownMenuItem<Group>(
-                          value: group,
+                    items: leaders.map<DropdownMenuItem<UserProfile>>((leader) {
+                      return DropdownMenuItem<UserProfile>(
+                          value: leader,
                           child: Text(
-                            group.name,
+                            leader.name,
                             style: theme.primaryTextTheme.headline3,
                           ));
                     }).toList(),
