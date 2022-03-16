@@ -58,7 +58,7 @@ class DatePickerWidget extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => datePicker(),
                         child: Text(
-                          'Vælg',
+                          date != null ? 'Ændre' : 'Vælg',
                           style: theme.primaryTextTheme.bodyText1!.copyWith(fontSize: 20),
                         ),
                       )),

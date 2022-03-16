@@ -48,7 +48,7 @@ class BadgeRegistration {
     return {
       'badge': badgeSpecific.badge.id,
       'rank': badgeSpecific.rank,
-      'userProfile': userProfile.id,
+      'user': userProfile.id,
       'leader': leader.id,
       'date': Timestamp.fromDate(date),
       'description': description,

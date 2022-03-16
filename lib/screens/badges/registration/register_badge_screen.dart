@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
@@ -15,6 +14,9 @@ import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/edit_profile/components/about_widget.dart';
 import 'package:spejder_app/validators.dart';
 
+//TODO!: Tjek om man allerede har lavet en registration på det level
+//TODO!: Tjek at man ikke prøver at registrerer et mærke af højere rang
+//TODO!: Hvad skal ske når ledere skal registerer mærker
 class RegisterBadgeScreen extends StatefulWidget {
   final BadgeSpecific badgeSpecific;
   const RegisterBadgeScreen({Key? key, required this.badgeSpecific}) : super(key: key);
@@ -49,8 +51,16 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    return BlocBuilder(
+    return BlocConsumer(
         bloc: badgeRegistrationBloc,
+        listener: (context, BadgeRegistrationState state) {
+          if (state.badgeRegistrationStatus == BadgeRegistrationStateStatus.loading) {
+            EasyLoading.show();
+          } else if (state.badgeRegistrationStatus == BadgeRegistrationStateStatus.success) {
+            EasyLoading.showSuccess('Mærket er sendt til godkendelse');
+            Navigator.pop(context);
+          }
+        },
         builder: (context, BadgeRegistrationState state) {
           return CustomScaffold(
               body: SafeArea(
@@ -67,6 +77,7 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
                       Center(
                           child: BadgeInfoWidget(
                         badgeSpecific: widget.badgeSpecific,
+                        badgeRegistrations: [],
                       )),
 
                       // Dato

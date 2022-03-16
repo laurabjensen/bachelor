@@ -46,6 +46,7 @@ class BadgeRegistrationBloc extends Bloc<BadgeRegistrationEvent, BadgeRegistrati
 
   Future<void> _sendRegistrationPressed(
       BadgeSpecific badgeSpecific, String description, Emitter<BadgeRegistrationState> emit) async {
+    emit(state.copyWith(badgeRegistrationStatus: BadgeRegistrationStateStatus.loading));
     final badgeRegistration = BadgeRegistration(
         id: '',
         badgeSpecific: badgeSpecific,
@@ -56,5 +57,6 @@ class BadgeRegistrationBloc extends Bloc<BadgeRegistrationEvent, BadgeRegistrati
         waitingOnLeader: true,
         denied: false);
     await badgeRegistrationRepository.createBadgeRegistration(badgeRegistration);
+    emit(state.copyWith(badgeRegistrationStatus: BadgeRegistrationStateStatus.success));
   }
 }

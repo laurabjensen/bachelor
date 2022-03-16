@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
+import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
@@ -47,54 +50,67 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ValueListenableBuilder(
-        valueListenable: badgeSpecific,
-        builder: (context, BadgeSpecific value, child) {
-          return CustomScaffold(
-            body: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(0, 60, 0, 40),
-              child: CustomNavBar(
-                padding: EdgeInsets.only(left: 10),
-                widget: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    BadgeInfoWidget(badgeSpecific: value),
-                    BadgeRow(
-                        badge: widget.badge,
-                        onChange: (newBadgeSpecific) {
-                          badgeSpecific.value = newBadgeSpecific;
-                        }),
-                    BadgePanelList(
-                      badgeSpecific: badgeSpecific.value,
-                      isLeader: userProfile.rank.title == 'Leder',
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: SizedBox(
-                        width: 170,
-                        height: 51,
-                        child: ElevatedButton(
-                          onPressed: () => Navigator.pushNamed(
-                              context, AppRoutes.registerBadgeScreen,
-                              arguments: value),
-                          style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                          child: Text(
-                            'Registrer mærke',
-                            style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
-                          ),
+    return FutureBuilder(
+        future: GetIt.instance
+            .get<BadgeRegistrationRepository>()
+            .getBadgeRegistrationFromBadgeAndUser(widget.badge, userProfile),
+        builder: (context, AsyncSnapshot<List<BadgeRegistration>> list) {
+          if (list.hasData) {
+            return ValueListenableBuilder(
+                valueListenable: badgeSpecific,
+                builder: (context, BadgeSpecific value, child) {
+                  return CustomScaffold(
+                    body: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(0, 60, 0, 40),
+                      child: CustomNavBar(
+                        padding: EdgeInsets.only(left: 10),
+                        widget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            BadgeInfoWidget(
+                              badgeSpecific: value,
+                              badgeRegistrations: list.data!,
+                            ),
+                            BadgeRow(
+                                badge: widget.badge,
+                                onChange: (newBadgeSpecific) {
+                                  badgeSpecific.value = newBadgeSpecific;
+                                }),
+                            BadgePanelList(
+                              badgeSpecific: badgeSpecific.value,
+                              isLeader: userProfile.rank.title == 'Leder',
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                              child: SizedBox(
+                                width: 170,
+                                height: 51,
+                                child: ElevatedButton(
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, AppRoutes.registerBadgeScreen,
+                                      arguments: value),
+                                  style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+                                  child: Text(
+                                    'Registrer mærke',
+                                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // Læs mere button med icon
+                            ReadMoreButton(
+                              badgeSpecific: badgeSpecific.value,
+                            )
+                          ],
                         ),
                       ),
                     ),
-
-                    // Læs mere button med icon
-                    ReadMoreButton(
-                      badgeSpecific: badgeSpecific.value,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
+                  );
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
         });
   }
 }
