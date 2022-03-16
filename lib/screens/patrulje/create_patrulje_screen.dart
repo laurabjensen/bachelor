@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
@@ -51,62 +50,34 @@ class _CreatePatruljeScreenState extends State<CreatePatruljeScreen> {
                   style:
                       theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
                 ),
-                LoginTextFormField(
-                    controller: nameController,
-                    labelText: 'Navn på patrulje',
-                    value: null,
-                    obscureText: false,
-                    validator: Validators.validateNotNull,
-                    onChanged: (name) => null,
-                    /*onChanged: (name) => widget.userprofile
-                                                .copyWith(name: name),*/
-                    keyboardType: TextInputType.name),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 20, 8, 24),
+                  child: LoginTextFormField(
+                      controller: nameController,
+                      labelText: 'Navn på patrulje',
+                      value: null,
+                      obscureText: false,
+                      validator: Validators.validateNotNull,
+                      onChanged: (name) => null,
+                      /*onChanged: (name) => widget.userprofile
+                                                  .copyWith(name: name),*/
+                      keyboardType: TextInputType.name),
+                ),
                 // TODO! USE DROPDOWN
-                Container(
-                  height: 51,
-                  width: 306,
-                  color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
+                  child: Container(
+                    height: 51,
+                    width: 346,
+                    color: Colors.white,
+                  ),
                 ),
                 /*RankDropdown(
                                       ranks: state.ranks,
                                       rank: state.rank ?? widget.userprofile.rank,
                                       onChanged: (rank) =>
                                           widget.editprofileBloc.add(RankChanged(rank))),*/
-/*ListView(
-          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-          shrinkWrap: true,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Udfordringsmærker',
-                style: theme.primaryTextTheme.headline1,
-              ),
-            ),
-             GridView.builder(
-          itemCount: itemList.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 0.56,
-              crossAxisSpacing: 2,
-              mainAxisSpacing: 2),
-          itemBuilder: (context, index) {
-            return GridItem(
-                item: itemList[index],
-                isSelected: (bool value) {
-                  setState(() {
-                    if (value) {
-                      selectedList.add(itemList[index]);
-                    } else {
-                      selectedList.remove(itemList[index]);
-                    }
-                  });
-                  print("$index : $value");
-                },
-                key: Key(itemList[index].rank.toString()));
-          }),
-          ],
-        );*/
+
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: SizedBox(
