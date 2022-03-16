@@ -59,6 +59,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                           style: theme.primaryTextTheme.headline1!
                               .copyWith(fontSize: 17),
                         ),
+                        //TODO: REMEMBER VALIDATION
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                           child: LoginTextFormField(
