@@ -1,9 +1,25 @@
+import 'package:spejder_app/model/user_profile.dart';
+
 class Validators {
   static String? validateNotNull(
     String? field,
     param1,
   ) {
     if (field == null || field.isEmpty) {
+      return 'Udfyld venligst';
+    }
+    return null;
+  }
+
+  static String? validateDateNotNull(DateTime? field) {
+    if (field == null) {
+      return 'Udfyld venligst';
+    }
+    return null;
+  }
+
+  static String? validateUserNotNull(UserProfile? field) {
+    if (field == null || field.id.isEmpty) {
       return 'Udfyld venligst';
     }
     return null;

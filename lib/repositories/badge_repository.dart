@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
+import 'package:collection/collection.dart';
 
 class BadgeRepository {
   Future<List<Badge>> getAllBadges() async {
@@ -77,5 +78,15 @@ class BadgeRepository {
       }
     }
     return badges;
+  }
+
+  Future<BadgeSpecific?> getBadgeSpecific(String badgeId, String rankId) async {
+    final badge =
+        GetIt.instance.get<List<Badge>>().firstWhereOrNull((element) => element.id == badgeId);
+    if (badge != null) {
+      var badgeSpecific = badge.levels.firstWhereOrNull((element) => element.rank == rankId);
+      return badgeSpecific;
+    }
+    return null;
   }
 }

@@ -36,16 +36,23 @@ class GroupRepository {
     return leaders;
   }
 
-  Future<void> addLeaderToGroup(Group group, String userId) async {
-    var leaders = group.leaderUserProfiles!.map((e) => e.id).toList();
+  Future<Group> addLeaderToGroup(Group group, String userId) async {
+    var leaders = group.leaders;
     leaders.add(userId);
     await FirebaseFirestore.instance
         .collection('groups')
         .doc(group.id)
         .update({'leaders': leaders});
+
+    final newGroup = group.copyWith(leaders: leaders);
+    var groups = GetIt.instance.get<List<Group>>();
+    groups.remove(group);
+    groups.add(newGroup);
+    GetIt.instance.registerSingleton<List<Group>>(groups);
+    return newGroup;
   }
 
-  Future<void> removeLeaderFromGroup(Group group, String userId) async {
+  Future<Group> removeLeaderFromGroup(Group group, String userId) async {
     var leaders = group.leaders;
     leaders.remove(userId);
     await FirebaseFirestore.instance
@@ -53,9 +60,11 @@ class GroupRepository {
         .doc(group.id)
         .update({'leaders': leaders});
 
-    if (group.leaderUserProfiles != null && group.leaderUserProfiles!.isNotEmpty) {
-      var leaderUserProfiles = group.leaderUserProfiles!.map((e) => e.id).toList();
-      leaderUserProfiles.remove(userId);
-    }
+    final newGroup = group.copyWith(leaders: leaders);
+    var groups = GetIt.instance.get<List<Group>>();
+    groups.remove(group);
+    groups.add(newGroup);
+    GetIt.instance.registerSingleton<List<Group>>(groups);
+    return newGroup;
   }
 }

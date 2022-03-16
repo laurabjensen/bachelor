@@ -6,7 +6,7 @@ import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/patrol/bloc/create_patrol_bloc.dart';
 import 'package:spejder_app/screens/patrol/components/custom_selectable_grid.dart';
 import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 import '../../custom_scaffold.dart';
 import '../components/navbar.dart';

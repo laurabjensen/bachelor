@@ -24,5 +24,7 @@ class LeaderChanged extends BadgeRegistrationEvent {
 }
 
 class SendRegistrationPressed extends BadgeRegistrationEvent {
-  const SendRegistrationPressed();
+  final BadgeSpecific badgeSpecific;
+  final String description;
+  const SendRegistrationPressed({required this.badgeSpecific, required this.description});
 }

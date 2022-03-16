@@ -7,13 +7,12 @@ class Group {
   final String name;
   final int zipCode;
   final List<String> leaders;
-  final List<UserProfile>? leaderUserProfiles;
-  const Group(
-      {required this.id,
-      required this.name,
-      required this.zipCode,
-      required this.leaders,
-      this.leaderUserProfiles});
+  const Group({
+    required this.id,
+    required this.name,
+    required this.zipCode,
+    required this.leaders,
+  });
 
   Group.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
@@ -31,10 +30,10 @@ class Group {
       List<String>? leaders,
       List<UserProfile>? leaderUserProfiles}) {
     return Group(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        zipCode: zipCode ?? this.zipCode,
-        leaders: leaders ?? this.leaders,
-        leaderUserProfiles: leaderUserProfiles ?? this.leaderUserProfiles);
+      id: id ?? this.id,
+      name: name ?? this.name,
+      zipCode: zipCode ?? this.zipCode,
+      leaders: leaders ?? this.leaders,
+    );
   }
 }

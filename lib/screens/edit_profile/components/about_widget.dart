@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AboutMeWidget extends StatelessWidget {
   final TextEditingController controller;
-  final String? Function(String?, String?) validator;
+  final String? Function(String?, String?)? validator;
   final Function(String?) onChanged;
   final String labelText;
   final String hintText;
@@ -43,7 +43,7 @@ class AboutMeWidget extends StatelessWidget {
             keyboardType: TextInputType.multiline,
             onChanged: onChanged,
             maxLines: 5,
-            validator: (data) => validator(data, null),
+            validator: validator != null ? (data) => validator!(data, null) : null,
           ),
         ),
       ),

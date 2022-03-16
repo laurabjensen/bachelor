@@ -64,22 +64,24 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     }
   }
 
-  Future<void> updateLeaderLists(UserProfile old, UserProfile updated) async {
+  Future<Group> updateLeaderLists(UserProfile old, UserProfile updated) async {
+    Group group = updated.group;
     // Hvis leder skifter gruppe
     if (old.rank.title == 'Leder' &&
         updated.rank.title == 'Leder' &&
         old.group.id != updated.group.id) {
-      await groupRepository.removeLeaderFromGroup(old.group, old.id);
-      await groupRepository.addLeaderToGroup(updated.group, updated.id);
+      group = await groupRepository.removeLeaderFromGroup(old.group, old.id);
+      group = await groupRepository.addLeaderToGroup(updated.group, updated.id);
     }
     // Hvis man opdateres til at blive leder
     else if (updated.rank.title == 'Leder') {
-      await groupRepository.addLeaderToGroup(updated.group, updated.id);
+      group = await groupRepository.addLeaderToGroup(updated.group, updated.id);
     }
     // Hvis man var leder men ikke er leder længere
     else if (old.rank.title == 'Leder' && updated.rank.title != 'Leder') {
-      await groupRepository.removeLeaderFromGroup(old.group, old.id);
+      group = await groupRepository.removeLeaderFromGroup(old.group, old.id);
     }
+    return group;
   }
 
   Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
@@ -89,9 +91,10 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
       path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
       debugPrint(path);
     }
-    final updatedUserprofile =
+    var updatedUserprofile =
         userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
-    await updateLeaderLists(userprofile, updatedUserprofile);
+    var updatedGroup = await updateLeaderLists(userprofile, updatedUserprofile);
+    updatedUserprofile = updatedUserprofile.copyWith(group: updatedGroup);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
     authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
     profileBloc.add(UserUpdatedProfile(updatedUserprofile));

@@ -13,7 +13,7 @@ import 'package:spejder_app/screens/badges/registration/components/leader_dropdo
 import 'package:spejder_app/screens/badges/registration/components/read_more_button.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/edit_profile/components/about_widget.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 class RegisterBadgeScreen extends StatefulWidget {
   final BadgeSpecific badgeSpecific;
@@ -25,30 +25,25 @@ class RegisterBadgeScreen extends StatefulWidget {
 
 class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
   late ThemeData theme;
-  String _selectedDate = 'Klik for at vælge dato';
   late TextEditingController descriptionController;
   late UserProfile userprofile;
   late BadgeRegistrationBloc badgeRegistrationBloc;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     userprofile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     badgeRegistrationBloc = BadgeRegistrationBloc(userProfile: userprofile);
-    descriptionController = TextEditingController(text: userprofile.description);
+    descriptionController = TextEditingController();
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? d = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2020),
-    );
-    if (d != null)
-      setState(() {
-        _selectedDate = DateFormat.yMMMMd('en_US').format(d);
-      });
+  void onPressed(BadgeRegistrationState state) {
+    final currentFormState = formKey.currentState;
+    if (currentFormState!.validate()) {
+      badgeRegistrationBloc.add(SendRegistrationPressed(
+          badgeSpecific: widget.badgeSpecific, description: descriptionController.text));
+    }
   }
 
   @override
@@ -62,82 +57,93 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
             child: SingleChildScrollView(
               child: CustomNavBar(
                 padding: EdgeInsets.only(top: 10, left: 10),
-                widget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Spejder mærke i stort
-                    Center(
-                        child: BadgeInfoWidget(
-                      badgeSpecific: widget.badgeSpecific,
-                    )),
+                widget: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Spejder mærke i stort
+                      Center(
+                          child: BadgeInfoWidget(
+                        badgeSpecific: widget.badgeSpecific,
+                      )),
 
-                    // Dato
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                      // Dato
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
 
-                      child: Text('Hvornår har du taget mærket?',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      // Date picker
-                    ),
-                    DatePickerWidget(
-                      date: state.date,
-                      onChanged: (date) {
-                        date != null ? badgeRegistrationBloc.add(DateChanged(date)) : null;
-                      },
-                    ),
-
-                    // Leder
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                      child: Text('Hvem er din leder?',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                    ),
-                    // Leder dropdown
-                    LeaderDropdown(
-                        leaders: state.leaders,
-                        leader: state.leader,
-                        onChanged: (leader) => badgeRegistrationBloc.add(LeaderChanged(leader))),
-                    // Din beskrivelse
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                      child: Text('Din beskrivelse',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                    ),
-                    // Beskrivelses felt
-                    AboutMeWidget(
-                        controller: descriptionController,
-                        onChanged: (description) => null,
-                        validator: Validators.validateNotNull,
-                        labelText: '', // TODO: STYLE
-                        hintText: 'Skriv lidt om dit spejderliv' // TODO: STYLE,
-                        ),
-                    // Button leder godkendelse
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Center(
-                        child: SizedBox(
-                          width: 267,
-                          height: 51,
-                          child: ElevatedButton(
-                            onPressed: () => null,
-                            style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text('Send til leder godkendelse',
-                                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
-                                  textAlign: TextAlign.center),
+                        child: Text('Hvornår har du taget mærket?',
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(fontWeight: FontWeight.bold)),
+                        // Date picker
+                      ),
+                      DatePickerWidget(
+                        validator: Validators.validateDateNotNull,
+                        date: state.date,
+                        onChanged: (date) {
+                          date != null ? badgeRegistrationBloc.add(DateChanged(date)) : null;
+                        },
+                      ),
+                      // Leder
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                        child: Text('Hvem er din leder?',
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(fontWeight: FontWeight.bold)),
+                      ),
+                      // Leder dropdown
+                      state.leaders.isNotEmpty
+                          ? LeaderDropdown(
+                              validator: Validators.validateUserNotNull,
+                              leaders: state.leaders,
+                              leader: state.leader ?? UserProfile.empty,
+                              onChanged: (leader) =>
+                                  badgeRegistrationBloc.add(LeaderChanged(leader)))
+                          : Center(
+                              child: Text(
+                              'Der er ingen ledere tilknyttet denne gruppe',
+                              style: theme.primaryTextTheme.bodyText2,
+                            )),
+                      // Din beskrivelse
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                        child: Text('Din beskrivelse',
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(fontWeight: FontWeight.bold)),
+                      ),
+                      // Beskrivelses felt
+                      AboutMeWidget(
+                          controller: descriptionController,
+                          onChanged: (description) => null,
+                          validator: null,
+                          labelText: '', // TODO: STYLE
+                          hintText: 'Skriv lidt om dit spejderliv' // TODO: STYLE,
+                          ),
+                      // Button leder godkendelse
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 267,
+                            height: 51,
+                            child: ElevatedButton(
+                              onPressed: () => onPressed(state),
+                              style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text('Send til leder godkendelse',
+                                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
+                                    textAlign: TextAlign.center),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    // Button læs mere
-                    ReadMoreButton(badgeSpecific: widget.badgeSpecific)
-                  ],
+                      // Button læs mere
+                      ReadMoreButton(badgeSpecific: widget.badgeSpecific)
+                    ],
+                  ),
                 ),
               ),
             ),

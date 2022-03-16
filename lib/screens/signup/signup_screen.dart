@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 import 'bloc/signup_bloc.dart';
 import 'components/rank_dropdown.dart';
@@ -57,35 +57,30 @@ class _SignupScreenState extends State<SignupScreen> {
                           margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                           height: 700,
                           decoration: BoxDecoration(
-                              color: Color(0xffEEF2F3),
-                              borderRadius: BorderRadius.circular(15)),
+                              color: Color(0xffEEF2F3), borderRadius: BorderRadius.circular(15)),
                           child: Form(
                               key: formKey,
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
                                     ClipRRect(
-                                      child: Image.asset(
-                                          'assets/logo_m_skrift.png'),
+                                      child: Image.asset('assets/logo_m_skrift.png'),
                                     ),
                                     LoginTextFormField(
                                         labelText: 'Navn',
                                         value: state.name,
                                         obscureText: false,
                                         validator: Validators.validateNotNull,
-                                        onChanged: (name) =>
-                                            signupBloc.add(NameChanged(name!)),
+                                        onChanged: (name) => signupBloc.add(NameChanged(name!)),
                                         keyboardType: TextInputType.name),
                                     //TODO: FIKS HER SÅ DET BLIVER VÆLG FØDSELSDAG
                                     LoginTextFormField(
                                       labelText: 'Alder',
-                                      value: state.age == 0
-                                          ? ''
-                                          : state.age.toString(),
+                                      value: state.age == 0 ? '' : state.age.toString(),
                                       obscureText: false,
                                       validator: Validators.validateNotNull,
-                                      onChanged: (age) => signupBloc
-                                          .add(AgeChanged(int.parse(age!))),
+                                      onChanged: (age) =>
+                                          signupBloc.add(AgeChanged(int.parse(age!))),
                                       keyboardType: TextInputType.number,
                                     ),
                                     LoginTextFormField(
@@ -93,8 +88,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       value: state.email,
                                       obscureText: false,
                                       validator: Validators.validateNotNull,
-                                      onChanged: (email) =>
-                                          signupBloc.add(EmailChanged(email!)),
+                                      onChanged: (email) => signupBloc.add(EmailChanged(email!)),
                                       keyboardType: TextInputType.emailAddress,
                                     ),
                                     LoginTextFormField(
@@ -102,35 +96,31 @@ class _SignupScreenState extends State<SignupScreen> {
                                       value: state.password,
                                       obscureText: true,
                                       validator: Validators.validateNotNull,
-                                      onChanged: (password) => signupBloc
-                                          .add(PasswordChanged(password!)),
+                                      onChanged: (password) =>
+                                          signupBloc.add(PasswordChanged(password!)),
                                       keyboardType: TextInputType.text,
                                     ),
                                     LoginTextFormField(
                                       labelText: 'Bekræft kodeord',
                                       value: state.passwordConfirm,
                                       obscureText: true,
-                                      validator: Validators
-                                          .validateConfirmationPassword,
+                                      validator: Validators.validateConfirmationPassword,
                                       optionalValue: state.password,
-                                      onChanged: (password) => signupBloc.add(
-                                          ConfirmPasswordChanged(password!)),
+                                      onChanged: (password) =>
+                                          signupBloc.add(ConfirmPasswordChanged(password!)),
                                       keyboardType: TextInputType.text,
                                     ),
                                     GroupDropDown(
                                       groups: state.groups,
                                       selectedGroup: state.group,
-                                      onChanged: (group) =>
-                                          signupBloc.add(GroupChanged(group)),
+                                      onChanged: (group) => signupBloc.add(GroupChanged(group)),
                                     ),
                                     RankDropdown(
                                         ranks: state.ranks,
                                         rank: state.rank,
-                                        onChanged: (rank) =>
-                                            signupBloc.add(RankChanged(rank))),
+                                        onChanged: (rank) => signupBloc.add(RankChanged(rank))),
                                     Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 15),
+                                        padding: EdgeInsets.fromLTRB(0, 10, 0, 15),
                                         child: SizedBox(
                                             width: 169,
                                             height: 51,
@@ -139,15 +129,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                               style: ElevatedButton.styleFrom(
                                                   primary: Color(0xff377E62)),
                                               child: Text('Opret bruger',
-                                                  style: theme.primaryTextTheme
-                                                      .headline1),
+                                                  style: theme.primaryTextTheme.headline1),
                                             ))),
                                     TextButton(
                                         onPressed: () => Navigator.pop(context),
                                         child: Text(
                                           'Tilbage',
-                                          style: theme
-                                              .primaryTextTheme.headline1!
+                                          style: theme.primaryTextTheme.headline1!
                                               .copyWith(color: Colors.black),
                                         ))
                                   ],

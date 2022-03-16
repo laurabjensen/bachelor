@@ -10,7 +10,7 @@ import 'package:spejder_app/screens/edit_profile/components/about_widget.dart';
 import 'package:spejder_app/screens/edit_profile/components/user_image_widget.dart';
 import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
 import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 import '../components/image_picker.dart';
 

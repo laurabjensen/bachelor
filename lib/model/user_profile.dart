@@ -59,7 +59,7 @@ class UserProfile {
   UserProfile.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
             id: json.id,
-            age: json['age'] as int,
+            age: json.get('age'),
             email: json['email'].toString(),
             name: json['name'].toString(),
             group: Group.empty,
@@ -80,8 +80,23 @@ class UserProfile {
       'seniority': seniority,
       'description': description,
       'imageUrl': imageUrl,
+      'friends': friends,
+      'badges': badges.map((e) => e.id).toList(),
     };
   }
+
+  static const empty = UserProfile(
+      id: '',
+      age: 0,
+      email: '',
+      name: '',
+      group: Group.empty,
+      rank: Rank.empty,
+      seniority: 0,
+      description: '',
+      imageUrl: '',
+      badges: [],
+      friends: []);
 
   String namePossessiveCase() {
     if (name.endsWith('s') || name.endsWith('x') || name.endsWith('z')) {

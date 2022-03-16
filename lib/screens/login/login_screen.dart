@@ -6,7 +6,7 @@ import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

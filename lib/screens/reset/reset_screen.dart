@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
-import 'package:spejder_app/screens/signup/validators.dart';
+import 'package:spejder_app/validators.dart';
 
 class ResetScreen extends StatefulWidget {
   const ResetScreen({Key? key}) : super(key: key);
@@ -31,9 +31,8 @@ class _ResetScreenState extends State<ResetScreen> {
           child: Container(
             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
             height: 450,
-            decoration: BoxDecoration(
-                color: Color(0xffEEF2F3),
-                borderRadius: BorderRadius.circular(15)),
+            decoration:
+                BoxDecoration(color: Color(0xffEEF2F3), borderRadius: BorderRadius.circular(15)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -62,8 +61,7 @@ class _ResetScreenState extends State<ResetScreen> {
                     height: 51,
                     child: ElevatedButton(
                       onPressed: () => null,
-                      style:
-                          ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+                      style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
                       child: Text(
                         'Send mail',
                         style: theme.primaryTextTheme.headline1,
@@ -78,8 +76,7 @@ class _ResetScreenState extends State<ResetScreen> {
                     height: 51,
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      style:
-                          ElevatedButton.styleFrom(primary: Color(0xffACC6B1)),
+                      style: ElevatedButton.styleFrom(primary: Color(0xffACC6B1)),
                       child: Text(
                         'Fortryd',
                         style: theme.primaryTextTheme.headline1,

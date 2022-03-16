@@ -4,8 +4,11 @@ import 'package:intl/intl.dart';
 class DatePickerWidget extends StatelessWidget {
   final DateTime? date;
   final Function(DateTime?) onChanged;
+  final String? Function(DateTime?) validator;
 
-  const DatePickerWidget({Key? key, required this.date, required this.onChanged}) : super(key: key);
+  const DatePickerWidget(
+      {Key? key, required this.date, required this.onChanged, required this.validator})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -21,7 +24,7 @@ class DatePickerWidget extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Material(
             color: Colors.white,
             elevation: 10.0,
@@ -30,7 +33,7 @@ class DatePickerWidget extends StatelessWidget {
             child: SizedBox(
               height: 51,
               child: TextFormField(
-                validator: null,
+                validator: (string) => validator(date),
                 controller: null,
                 obscureText: true,
                 obscuringCharacter: ' ',

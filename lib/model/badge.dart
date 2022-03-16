@@ -27,4 +27,6 @@ class Badge {
 
   Badge.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(id: json.id, name: json['name'] ?? '', type: json['type'] ?? '', levels: []);
+
+  static const empty = Badge(id: '', name: '', type: '', levels: []);
 }
