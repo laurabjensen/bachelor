@@ -44,15 +44,34 @@ class _FriendsScreenState extends State<FriendsScreen> {
               foregroundColor: Colors.black,
               backgroundColor: Color(0xff63A288),
               actions: <Widget>[
-                IconButton(
-                  tooltip: 'Se veninde aktivitet',
-                  icon: Icon(
-                    Icons.person_add,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => Navigator.pushNamed(
-                      context, AppRoutes.friendsActivityScreen,
-                      arguments: widget.userProfile),
+                Stack(
+                  children: [
+                    Stack(
+                      children: [
+                        Icon(Icons.circle, size: 25, color: Colors.red),
+                        Positioned(
+                          left: 10,
+                          top: 3,
+                          child: Text(
+                              '1', //TODO! FIX HER SÅ DET IK ER HARDCODED
+                              style: theme.primaryTextTheme.headline1!.copyWith(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      tooltip: 'Se veninde aktivitet',
+                      icon: Icon(
+                        Icons.person_add,
+                        color: Colors.black,
+                      ),
+                      onPressed: () => Navigator.pushNamed(
+                          context, AppRoutes.friendsActivityScreen,
+                          arguments: widget.userProfile),
+                    ),
+                  ],
                 )
               ],
               bottom: TabBar(

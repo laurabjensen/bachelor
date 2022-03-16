@@ -14,7 +14,8 @@ import '../components/navbar.dart';
 class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
@@ -50,11 +51,13 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                       children: [
                         Text(
                           'Opret ny patrulje',
-                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
+                          style: theme.primaryTextTheme.headline1!
+                              .copyWith(fontSize: 30),
                         ),
                         Text(
                           widget.userProfile.group.name,
-                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
+                          style: theme.primaryTextTheme.headline1!
+                              .copyWith(fontSize: 17),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
@@ -69,28 +72,33 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                                                       .copyWith(name: name),*/
                               keyboardType: TextInputType.name),
                         ),
-                        // TODO! USE DROPDOWN
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
                           child: RankDropdown(
                               ranks: state.ranks,
                               rank: state.rank ?? widget.userProfile.rank,
-                              onChanged: (rank) => createPatrolBloc.add(RankChanged(rank))),
+                              onChanged: (rank) =>
+                                  createPatrolBloc.add(RankChanged(rank))),
                         ),
                         CustomSelectableGrid(),
                         Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: SizedBox(
-                                width: 200,
-                                height: 51,
-                                child: ElevatedButton(
-                                    onPressed: () =>
-                                        Navigator.pushNamed(context, AppRoutes.signupScreen),
-                                    style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                                    child: Text(
-                                      'Opret patrulje med X spejdere', // ${selectedList.length}
-                                      style: theme.primaryTextTheme.headline1,
-                                    )))),
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                          child: SizedBox(
+                            width: 200,
+                            height: 60,
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.pushNamed(
+                                  context, AppRoutes.signupScreen),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Color(0xff377E62)),
+                              child: Text(
+                                'Opret patrulje med X spejdere', // ${selectedList.length}
+                                style: theme.primaryTextTheme.headline1,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
