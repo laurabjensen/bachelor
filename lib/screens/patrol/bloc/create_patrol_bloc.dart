@@ -7,17 +7,14 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
-part 'create_patrulje_event.dart';
-part 'create_patrulje_state.dart';
+part 'create_patrol_event.dart';
+part 'create_patrol_state.dart';
 
-class CreatePatruljeBloc
-    extends Bloc<CreatePatruljeEvent, CreatePatruljeState> {
+class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
-  final UserProfileRepository userProfileRepository =
-      GetIt.instance.get<UserProfileRepository>();
+  final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
 
-  CreatePatruljeBloc(UserProfile userProfile)
-      : super(CreatePatruljeState(userprofile: userProfile)) {
+  CreatePatrolBloc(UserProfile userProfile) : super(CreatePatrolState(userprofile: userProfile)) {
     //on<CreatePatruljeEvent>((event, emit));
     on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
 
@@ -25,13 +22,12 @@ class CreatePatruljeBloc
   }
 
   //Henter userprofile for brugeren der er logget ind
-  Future<void> _loadFromFirebase(Emitter<CreatePatruljeState> emit) async {
+  Future<void> _loadFromFirebase(Emitter<CreatePatrolState> emit) async {
     final ranks = GetIt.instance.get<List<Rank>>();
     emit(state.copyWith(ranks: ranks));
   }
 
-  Future<void> _rankChanged(
-      Rank? rank, Emitter<CreatePatruljeState> emit) async {
+  Future<void> _rankChanged(Rank? rank, Emitter<CreatePatrolState> emit) async {
     if (rank == null) {
       emit(state.copyWith(rank: Rank.empty));
     } else {

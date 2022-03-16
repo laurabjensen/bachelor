@@ -7,17 +7,16 @@ import 'package:spejder_app/screens/signup/validators.dart';
 import '../../custom_scaffold.dart';
 import '../components/navbar.dart';
 
-class CreatePatruljeScreen extends StatefulWidget {
+class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const CreatePatruljeScreen({Key? key, required this.userProfile})
-      : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
 
   @override
-  State<CreatePatruljeScreen> createState() => _CreatePatruljeScreenState();
+  State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
 }
 
-class _CreatePatruljeScreenState extends State<CreatePatruljeScreen> {
+class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
   late ThemeData theme;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController;
@@ -42,13 +41,11 @@ class _CreatePatruljeScreenState extends State<CreatePatruljeScreen> {
               children: [
                 Text(
                   'Opret ny patrulje',
-                  style:
-                      theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
+                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
                 ),
                 Text(
                   widget.userProfile.group.name,
-                  style:
-                      theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
+                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 24),
@@ -84,10 +81,8 @@ class _CreatePatruljeScreenState extends State<CreatePatruljeScreen> {
                         width: 200,
                         height: 51,
                         child: ElevatedButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, AppRoutes.signupScreen),
-                            style: ElevatedButton.styleFrom(
-                                primary: Color(0xff377E62)),
+                            onPressed: () => Navigator.pushNamed(context, AppRoutes.signupScreen),
+                            style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
                             child: Text(
                               'Opret patrulje med X spejdere', // ${selectedList.length}
                               style: theme.primaryTextTheme.headline1,

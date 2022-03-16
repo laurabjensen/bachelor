@@ -27,13 +27,11 @@ class _LeaderScreenState extends State<LeaderScreen> {
               children: [
                 Text(
                   widget.userProfile.name,
-                  style:
-                      theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
+                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
                 ),
                 Text(
                   widget.userProfile.group.name,
-                  style:
-                      theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
+                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -41,8 +39,7 @@ class _LeaderScreenState extends State<LeaderScreen> {
                     height: 70,
                     width: 336,
                     child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(
-                            context, AppRoutes.approveBadgesScreen),
+                        onTap: () => Navigator.pushNamed(context, AppRoutes.approveBadgesScreen),
                         child: Card(
                           elevation: 10,
                           shape: RoundedRectangleBorder(
@@ -56,8 +53,7 @@ class _LeaderScreenState extends State<LeaderScreen> {
                               children: [
                                 Text(
                                   'Godkend mærker',
-                                  style: theme.primaryTextTheme.headline3!
-                                      .copyWith(fontSize: 20),
+                                  style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 20),
                                 ),
                                 Container(
                                   height: 30,
@@ -79,8 +75,7 @@ class _LeaderScreenState extends State<LeaderScreen> {
                     height: 70,
                     width: 336,
                     child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(
-                            context, AppRoutes.createPatruljeScreen,
+                        onTap: () => Navigator.pushNamed(context, AppRoutes.createPatrolScreen,
                             arguments: widget.userProfile),
                         child: Card(
                           elevation: 10,
@@ -95,8 +90,7 @@ class _LeaderScreenState extends State<LeaderScreen> {
                               children: [
                                 Text(
                                   'Registrer patrulje',
-                                  style: theme.primaryTextTheme.headline3!
-                                      .copyWith(fontSize: 20),
+                                  style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 20),
                                 ),
                                 IconButton(
                                   onPressed: () => Navigator.pop(context),
