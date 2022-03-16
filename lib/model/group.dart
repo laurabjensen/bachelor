@@ -6,8 +6,14 @@ class Group {
   final String id;
   final String name;
   final int zipCode;
-  final List<UserProfile> leaders;
-  const Group({required this.id, required this.name, required this.zipCode, required this.leaders});
+  final List<String> leaders;
+  final List<UserProfile>? leaderUserProfiles;
+  const Group(
+      {required this.id,
+      required this.name,
+      required this.zipCode,
+      required this.leaders,
+      this.leaderUserProfiles});
 
   Group.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
@@ -18,17 +24,17 @@ class Group {
 
   static const empty = Group(id: '', name: '', zipCode: 0, leaders: []);
 
-  Group copyWith({
-    String? id,
-    String? name,
-    int? zipCode,
-    List<UserProfile>? leaders,
-  }) {
+  Group copyWith(
+      {String? id,
+      String? name,
+      int? zipCode,
+      List<String>? leaders,
+      List<UserProfile>? leaderUserProfiles}) {
     return Group(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      zipCode: zipCode ?? this.zipCode,
-      leaders: leaders ?? this.leaders,
-    );
+        id: id ?? this.id,
+        name: name ?? this.name,
+        zipCode: zipCode ?? this.zipCode,
+        leaders: leaders ?? this.leaders,
+        leaderUserProfiles: leaderUserProfiles ?? this.leaderUserProfiles);
   }
 }

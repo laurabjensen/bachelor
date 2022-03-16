@@ -19,9 +19,17 @@ class GroupRepository {
     return groups;
   }
 
-  Future<List<UserProfile>> getLeadersForGroup(dynamic snapshot) async {
-    var leaders = <UserProfile>[];
+  Future<List<String>> getLeadersForGroup(dynamic snapshot) async {
+    var leaders = <String>[];
     for (var leader in snapshot) {
+      leaders.add(leader);
+    }
+    return leaders;
+  }
+
+  Future<List<UserProfile>> getLeaderUserProfilesForGroup(Group group) async {
+    var leaders = <UserProfile>[];
+    for (var leader in group.leaders) {
       final leaderSnapshot = await FirebaseFirestore.instance.collection('users').doc(leader).get();
       leaders.add(await userProfileRepository.getUserprofileFromDocSnapshot(leaderSnapshot));
     }
@@ -29,7 +37,7 @@ class GroupRepository {
   }
 
   Future<void> addLeaderToGroup(Group group, String userId) async {
-    var leaders = group.leaders.map((e) => e.id).toList();
+    var leaders = group.leaderUserProfiles!.map((e) => e.id).toList();
     leaders.add(userId);
     await FirebaseFirestore.instance
         .collection('groups')
@@ -38,11 +46,16 @@ class GroupRepository {
   }
 
   Future<void> removeLeaderFromGroup(Group group, String userId) async {
-    var leaders = group.leaders.map((e) => e.id).toList();
+    var leaders = group.leaders;
     leaders.remove(userId);
     await FirebaseFirestore.instance
         .collection('groups')
         .doc(group.id)
         .update({'leaders': leaders});
+
+    if (group.leaderUserProfiles != null && group.leaderUserProfiles!.isNotEmpty) {
+      var leaderUserProfiles = group.leaderUserProfiles!.map((e) => e.id).toList();
+      leaderUserProfiles.remove(userId);
+    }
   }
 }

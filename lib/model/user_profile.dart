@@ -14,7 +14,7 @@ class UserProfile {
   final String description;
   final String imageUrl;
   final List<Badge> badges;
-  final List<UserProfile> friends;
+  final List<String> friends;
 
   const UserProfile({
     required this.id,
@@ -41,7 +41,7 @@ class UserProfile {
       String? description,
       String? imageUrl,
       List<Badge>? badges,
-      List<UserProfile>? friends}) {
+      List<String>? friends}) {
     return UserProfile(
         id: id ?? this.id,
         age: age ?? this.age,

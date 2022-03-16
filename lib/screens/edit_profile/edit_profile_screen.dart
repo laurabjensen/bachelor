@@ -151,7 +151,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             )),
                         Positioned(
                           top: 0,
-                          left: (MediaQuery.of(context).size.width / 2) - (170 / 2),
+                          left: (MediaQuery.of(context).size.width / 2) - (160 / 2),
                           child: UserImageWidget(
                               imageFile: state.imageFile,
                               imageUrl: widget.userprofile.imageUrl,

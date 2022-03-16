@@ -40,15 +40,22 @@ class UserProfileRepository {
     return GetIt.instance.get<List<Rank>>().firstWhere((element) => element.id == rankId);
   }
 
-  Future<List<UserProfile>> getFriendsForUser(String userId) async {
+  Future<List<String>> getFriendsForUser(String userId) async {
     final userSnapshot =
         (await FirebaseFirestore.instance.collection('users').doc(userId).get()).get('friends');
-    var friends = <UserProfile>[];
+    var friends = <String>[];
     for (var friend in userSnapshot) {
-      final friendSnapshot = await FirebaseFirestore.instance.collection('users').doc(friend).get();
-      friends.add(await getUserprofileFromDocSnapshot(friendSnapshot));
+      friends.add(friend);
     }
     return friends;
+  }
+
+  Future<List<UserProfile>> getFriendUserProfilesForUser(List<String> friends) async {
+    var userProfiles = <UserProfile>[];
+    for (var friend in friends) {
+      userProfiles.add(await getUserprofileFromId(friend));
+    }
+    return userProfiles;
   }
 
 // TODO: FIKS HER

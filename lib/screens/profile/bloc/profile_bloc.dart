@@ -24,7 +24,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _loadObjects(Emitter<ProfileState> emit) async {
-    emit(state.copyWith(badges: userProfile.badges, friends: userProfile.friends));
+    final friends = await userProfileRepository.getFriendUserProfilesForUser(userProfile.friends);
+    emit(state.copyWith(badges: userProfile.badges, friends: friends));
   }
 
   Future<void> _userUpdated(UserProfile userProfile, Emitter<ProfileState> emit) async {

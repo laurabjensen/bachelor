@@ -14,10 +14,10 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
   final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
 
-  CreatePatrolBloc(UserProfile userProfile) : super(CreatePatrolState(userprofile: userProfile)) {
-    //on<CreatePatruljeEvent>((event, emit));
+  CreatePatrolBloc() : super(CreatePatrolState()) {
+    //on<CreatePatrolEvent>((event, emit));
     on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
-
+    on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
     add(LoadFromFirebase());
   }
 

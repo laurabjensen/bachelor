@@ -24,9 +24,8 @@ class ProfileBadgeWidget extends StatelessWidget {
         case 'Spejder':
           return DecorationImage(image: Image.network(badge.levels[2].imageUrl).image);
         case 'Seniorspejder':
-          return DecorationImage(image: Image.network(badge.levels[3].imageUrl).image);
         default:
-          return null;
+          return DecorationImage(image: Image.network(badge.levels[3].imageUrl).image);
       }
     }
 

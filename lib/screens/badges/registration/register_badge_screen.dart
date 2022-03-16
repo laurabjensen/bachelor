@@ -28,12 +28,13 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
   String _selectedDate = 'Klik for at vælge dato';
   late TextEditingController descriptionController;
   late UserProfile userprofile;
-  final badgeRegistrationBloc = BadgeRegistrationBloc();
+  late BadgeRegistrationBloc badgeRegistrationBloc;
 
   @override
   void initState() {
     super.initState();
     userprofile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    badgeRegistrationBloc = BadgeRegistrationBloc(userProfile: userprofile);
     descriptionController = TextEditingController(text: userprofile.description);
   }
 
@@ -57,93 +58,90 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
         bloc: badgeRegistrationBloc,
         builder: (context, BadgeRegistrationState state) {
           return CustomScaffold(
-            body: SafeArea(
-                child: SingleChildScrollView(
+              body: SafeArea(
+            child: SingleChildScrollView(
               child: CustomNavBar(
                 padding: EdgeInsets.only(top: 10, left: 10),
-                widget: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Spejder mærke i stort
-                      Center(
-                          child: BadgeInfoWidget(
-                        badgeSpecific: widget.badgeSpecific,
-                      )),
+                widget: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Spejder mærke i stort
+                    Center(
+                        child: BadgeInfoWidget(
+                      badgeSpecific: widget.badgeSpecific,
+                    )),
 
-                      // Dato
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                    // Dato
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
 
-                        child: Text('Hvornår har du taget mærket?',
-                            style: theme.primaryTextTheme.headline1!
-                                .copyWith(fontWeight: FontWeight.bold)),
-                        // Date picker
-                      ),
-                      DatePickerWidget(
-                        date: state.date,
-                        onChanged: (date) {
-                          date != null ? badgeRegistrationBloc.add(DateChanged(date)) : null;
-                        },
-                      ),
+                      child: Text('Hvornår har du taget mærket?',
+                          style: theme.primaryTextTheme.headline1!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                      // Date picker
+                    ),
+                    DatePickerWidget(
+                      date: state.date,
+                      onChanged: (date) {
+                        date != null ? badgeRegistrationBloc.add(DateChanged(date)) : null;
+                      },
+                    ),
 
-                      // Leder
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                        child: Text('Hvem er din leder?',
-                            style: theme.primaryTextTheme.headline1!
-                                .copyWith(fontWeight: FontWeight.bold)),
-                      ),
-                      // Leder dropdown
-                      LeaderDropdown(
-                          leaders: userprofile.group.leaders,
-                          leader: state.leader,
-                          onChanged: (leader) => null),
-                      // Din beskrivelse
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                        child: Text('Din beskrivelse',
-                            style: theme.primaryTextTheme.headline1!
-                                .copyWith(fontWeight: FontWeight.bold)),
-                      ),
-                      // Beskrivelses felt
-                      AboutMeWidget(
-                          controller: descriptionController,
-                          onChanged: (description) => null,
-                          validator: Validators.validateNotNull,
-                          labelText: '', // TODO: STYLE
-                          hintText: 'Skriv lidt om dit spejderliv' // TODO: STYLE,
-                          ),
-                      // Button leder godkendelse
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Center(
-                          child: SizedBox(
-                            width: 267,
-                            height: 51,
-                            child: ElevatedButton(
-                              onPressed: () => null,
-                              style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text('Send til leder godkendelse',
-                                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
-                                    textAlign: TextAlign.center),
-                              ),
+                    // Leder
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                      child: Text('Hvem er din leder?',
+                          style: theme.primaryTextTheme.headline1!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                    // Leder dropdown
+                    LeaderDropdown(
+                        leaders: state.leaders,
+                        leader: state.leader,
+                        onChanged: (leader) => badgeRegistrationBloc.add(LeaderChanged(leader))),
+                    // Din beskrivelse
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+                      child: Text('Din beskrivelse',
+                          style: theme.primaryTextTheme.headline1!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                    // Beskrivelses felt
+                    AboutMeWidget(
+                        controller: descriptionController,
+                        onChanged: (description) => null,
+                        validator: Validators.validateNotNull,
+                        labelText: '', // TODO: STYLE
+                        hintText: 'Skriv lidt om dit spejderliv' // TODO: STYLE,
+                        ),
+                    // Button leder godkendelse
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 267,
+                          height: 51,
+                          child: ElevatedButton(
+                            onPressed: () => null,
+                            style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text('Send til leder godkendelse',
+                                  style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
+                                  textAlign: TextAlign.center),
                             ),
                           ),
                         ),
                       ),
-                      // Button læs mere
-                      ReadMoreButton(badgeSpecific: widget.badgeSpecific)
-                    ],
-                  ),
+                    ),
+                    // Button læs mere
+                    ReadMoreButton(badgeSpecific: widget.badgeSpecific)
+                  ],
                 ),
               ),
-            )),
-          );
+            ),
+          ));
         });
   }
 }

@@ -30,9 +30,11 @@ class RankDropdown extends StatelessWidget {
                     decoration: InputDecoration(
                         hintText: 'Rang',
                         //floatingLabelStyle: , //TODO: FIX HER
-                        //hintStyle: theme.primaryTextTheme.headline4,
+                        hintStyle: theme.primaryTextTheme.headline4,
                         labelStyle: theme.primaryTextTheme.headline4,
-                        contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        contentPadding: initialValue != null
+                            ? EdgeInsets.fromLTRB(0, 5, 0, 5)
+                            : EdgeInsets.fromLTRB(10, 5, 0, 5),
                         errorStyle: TextStyle(height: 0, fontSize: 16),
                         suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         fillColor: Colors.white,

@@ -7,6 +7,10 @@ abstract class BadgeRegistrationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadFromFirebase extends BadgeRegistrationEvent {
+  const LoadFromFirebase();
+}
+
 class DateChanged extends BadgeRegistrationEvent {
   final DateTime date;
 
@@ -14,7 +18,7 @@ class DateChanged extends BadgeRegistrationEvent {
 }
 
 class LeaderChanged extends BadgeRegistrationEvent {
-  final UserProfile leader;
+  final UserProfile? leader;
 
   const LeaderChanged(this.leader);
 }

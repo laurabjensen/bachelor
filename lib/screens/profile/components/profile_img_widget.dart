@@ -13,43 +13,45 @@ class ProfileImageWidget extends StatelessWidget {
     return Center(
         child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 200,
+      child:
+          // Sizedbox laver mellemrum mellem profilbilledewidget og navn
+          SizedBox(
+        height: 160,
         width: 200,
         child: Stack(
           children: [
             // Profile picture circle
             Positioned(
-                left: 15,
+                left: 25,
                 child: userProfile.imageUrl.isNotEmpty
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Image.network(
                           userProfile.imageUrl,
-                          width: 170,
-                          height: 170,
+                          width: 150,
+                          height: 150,
                           fit: BoxFit.fitHeight,
                         ))
                     : Stack(
                         children: [
                           Container(
-                              height: 170,
-                              width: 170,
+                              height: 150,
+                              width: 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: Color(0xff037B55),
                               )),
                           Positioned(
-                              left: 25, top: 25, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
+                              left: 15, top: 15, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
                         ],
                       )),
             // Range picture
             Positioned(
-              top: 120,
+              top: 100,
               left: 10,
               child: Container(
-                height: 65,
-                width: 65,
+                height: 55,
+                width: 55,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(60),
                     color: Colors.white,
@@ -58,21 +60,21 @@ class ProfileImageWidget extends StatelessWidget {
             ),
             // Star
             Positioned(
-              top: 110,
-              left: 130,
+              top: 100,
+              left: 125,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   // Outline border around star
                   Icon(
                     Icons.star,
-                    size: 70,
+                    size: 60,
                     color: Color.fromARGB(255, 56, 57, 58),
                   ),
                   // Silver star
                   Icon(
                     Icons.star,
-                    size: 65,
+                    size: 55,
                     color: Color(0xff8d99a3),
                   ),
                   // Number of years

@@ -92,12 +92,9 @@ class _LeaderScreenState extends State<LeaderScreen> {
                                   'Registrer patrulje',
                                   style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 20),
                                 ),
-                                IconButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  icon: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
-                                  ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.black,
                                 ),
                               ],
                             ),

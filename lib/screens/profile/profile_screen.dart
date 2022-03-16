@@ -43,15 +43,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return CustomScaffold(
-      body: SafeArea(
-        child: BlocBuilder(
-            bloc: profileBloc,
-            builder: (context, ProfileState state) {
-              return SingleChildScrollView(
-                  child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
+      body: BlocBuilder(
+          bloc: profileBloc,
+          builder: (context, ProfileState state) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Stack(
                     children: [
                       ProfileNavbar(
                         onBack: () => Navigator.pop(context),
@@ -74,50 +74,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  Divider(
-                    color: Color(0xff178C6D),
-                    thickness: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Om mig",
-                        style: theme.primaryTextTheme.headline1,
+                ),
+                Divider(
+                  color: Color(0xff178C6D),
+                  thickness: 2,
+                ),
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Om mig',
+                            style: theme.primaryTextTheme.headline1,
+                          ),
+                        ),
                       ),
-                    ),
+                      ProfileDescriptionWidget(
+                        userProfile: state.userProfile,
+                      ),
+                      ProfileBadgesRow(
+                        //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
+                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
+                            arguments: state.userProfile),
+                        objects: state.badges,
+                        headlineText: state.userProfile.id == currentUser.id
+                            ? 'Mine mærker'
+                            : '${state.userProfile.namePossessiveCase()} mærker',
+                        noObjectsText: state.userProfile.id == currentUser.id
+                            ? 'Du har endnu ikke registreret nogen mærker'
+                            : '${state.userProfile.name} har endnu ikke registreret nogen mærker',
+                        userProfile: state.userProfile,
+                      ),
+                      ProfileFriendsRow(
+                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),
+                        objects: state.friends,
+                        headlineText: state.userProfile.id == currentUser.id
+                            ? 'Mine venner'
+                            : '${state.userProfile.namePossessiveCase()} venner',
+                        noObjectsText: state.userProfile.id == currentUser.id
+                            ? 'Du har endnu ikke registreret nogen venner'
+                            : '${state.userProfile.name} har endnu ikke registreret nogen venner',
+                      ),
+                    ],
                   ),
-                  ProfileDescriptionWidget(
-                    userProfile: state.userProfile,
-                  ),
-                  ProfileBadgesRow(
-                    //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-                    onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
-                        arguments: state.userProfile),
-                    objects: state.badges,
-                    headlineText: state.userProfile.id == currentUser.id
-                        ? 'Mine mærker'
-                        : '${state.userProfile.namePossessiveCase()} mærker',
-                    noObjectsText: state.userProfile.id == currentUser.id
-                        ? 'Du har endnu ikke registreret nogen mærker'
-                        : '${state.userProfile.name} har endnu ikke registreret nogen mærker',
-                    userProfile: state.userProfile,
-                  ),
-                  ProfileFriendsRow(
-                    onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen),
-                    objects: state.friends,
-                    headlineText: state.userProfile.id == currentUser.id
-                        ? 'Mine venner'
-                        : '${state.userProfile.namePossessiveCase()} venner',
-                    noObjectsText: state.userProfile.id == currentUser.id
-                        ? 'Du har endnu ikke registreret nogen venner'
-                        : '${state.userProfile.name} har endnu ikke registreret nogen venner',
-                  ),
-                ],
-              ));
-            }),
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

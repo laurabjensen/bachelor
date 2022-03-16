@@ -29,11 +29,13 @@ class LeaderDropdown extends StatelessWidget {
                   child: DropdownButtonFormField(
                     value: initialValue,
                     decoration: InputDecoration(
-                        hintText: 'Vælg Leder',
+                        hintText: 'Leder',
                         //floatingLabelStyle: , //TODO: FIX HER
-                        //hintStyle: theme.primaryTextTheme.headline4,
+                        hintStyle: theme.primaryTextTheme.headline4,
                         labelStyle: theme.primaryTextTheme.headline4,
-                        contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        contentPadding: initialValue != null
+                            ? EdgeInsets.fromLTRB(10, 5, 0, 5)
+                            : EdgeInsets.fromLTRB(10, 5, 0, 5),
                         errorStyle: TextStyle(height: 0, fontSize: 16),
                         suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         fillColor: Colors.white,
@@ -42,17 +44,17 @@ class LeaderDropdown extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                         floatingLabelBehavior: FloatingLabelBehavior.always),
-                    items: leaders.map<DropdownMenuItem<UserProfile>>((leader) {
+                    items: leaders.map<DropdownMenuItem<UserProfile>>((rank) {
                       return DropdownMenuItem<UserProfile>(
                           value: leader,
                           child: Text(
-                            leader.name,
+                            leader!.name,
                             style: theme.primaryTextTheme.headline3,
                           ));
                     }).toList(),
                     onChanged: onChanged,
                     icon: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
                       child: Icon(
                         Icons.keyboard_arrow_down,
                         color: Color(0xff377E62),

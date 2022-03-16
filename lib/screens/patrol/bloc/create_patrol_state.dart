@@ -7,13 +7,12 @@ class CreatePatrolState extends Equatable {
   final CreatePatrolStateStatus createPatrolStatus;
   final Rank? rank;
   final List<Rank> ranks;
-  final UserProfile userprofile;
 
-  const CreatePatrolState(
-      {this.createPatrolStatus = CreatePatrolStateStatus.initial,
-      this.rank,
-      this.ranks = const <Rank>[],
-      required this.userprofile});
+  const CreatePatrolState({
+    this.createPatrolStatus = CreatePatrolStateStatus.initial,
+    this.rank,
+    this.ranks = const <Rank>[],
+  });
 
   CreatePatrolState copyWith(
       {CreatePatrolStateStatus? createPatrolStatus,
@@ -21,10 +20,10 @@ class CreatePatrolState extends Equatable {
       List<Rank>? ranks,
       UserProfile? userprofile}) {
     return CreatePatrolState(
-        createPatrolStatus: createPatrolStatus ?? this.createPatrolStatus,
-        rank: rank ?? this.rank,
-        ranks: ranks ?? this.ranks,
-        userprofile: userprofile ?? this.userprofile);
+      createPatrolStatus: createPatrolStatus ?? this.createPatrolStatus,
+      rank: rank ?? this.rank,
+      ranks: ranks ?? this.ranks,
+    );
   }
 
   @override
