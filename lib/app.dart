@@ -10,6 +10,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/badges/registration/register_badge_screen.dart';
 import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
+import 'package:spejder_app/screens/friends/friends_activity/friends_activity_screen.dart';
 import 'package:spejder_app/screens/group/group_screen.dart';
 import 'package:spejder_app/screens/home/home_screen.dart';
 import 'package:spejder_app/screens/leader/approve_badges_screen.dart';
@@ -44,25 +45,29 @@ class App extends StatelessWidget {
         routes: {
           AppRoutes.signupScreen: (context) => SignupScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
-          AppRoutes.badgesScreen: (context) => BadgesScreen(),
+          AppRoutes.badgesScreen: (context) => BadgesScreen(
+              userProfile:
+                  ModalRoute.of(context)!.settings.arguments as UserProfile),
           AppRoutes.profileScreen: (context) => ProfileScreen(),
           AppRoutes.groupScreen: (context) => GroupScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(
-                userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile,
-              ),
-          AppRoutes.friendsScreen: (context) => FriendsScreen(),
-          AppRoutes.specificBadgeScreen: (context) =>
-              SpecificBadgeScreen(badge: ModalRoute.of(context)!.settings.arguments as Badge),
-          /*AppRoutes.editProfileScreen: (context) => EditProfileScreen(
-                userprofile:
+                userProfile:
                     ModalRoute.of(context)!.settings.arguments as UserProfile,
-              ),*/
+              ),
+          AppRoutes.friendsScreen: (context) => FriendsScreen(
+              userProfile:
+                  ModalRoute.of(context)!.settings.arguments as UserProfile),
+          AppRoutes.friendsActivityScreen: (context) => FriendsActivityScreen(),
+          AppRoutes.specificBadgeScreen: (context) => SpecificBadgeScreen(
+              badge: ModalRoute.of(context)!.settings.arguments as Badge),
           AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(
-              badgeSpecific: ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
+              badgeSpecific:
+                  ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
           AppRoutes.resetScreen: (context) => ResetScreen(),
           AppRoutes.approveBadgesScreen: (context) => ApproveBadgesScreen(),
           AppRoutes.createPatrolScreen: (context) => CreatePatrolScreen(
-                userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile,
+                userProfile:
+                    ModalRoute.of(context)!.settings.arguments as UserProfile,
               ),
         },
         builder: EasyLoading.init(),

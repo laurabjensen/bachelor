@@ -7,20 +7,23 @@ import 'package:spejder_app/screens/badges/all_badges_tab.dart';
 import 'bloc/badges_bloc.dart';
 
 class BadgesScreen extends StatefulWidget {
+  final UserProfile userProfile;
+
+  const BadgesScreen({Key? key, required this.userProfile}) : super(key: key);
   @override
   _BadgesScreenState createState() => _BadgesScreenState();
 }
 
 class _BadgesScreenState extends State<BadgesScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
   late BadgesBloc badgesBloc;
 
   @override
   void initState() {
     super.initState();
-    badgesBloc = BadgesBloc();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    badgesBloc = BadgesBloc(userProfile: widget.userProfile);
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   // TODO! Find ud af hvad vi skal gøre med background svg her!!!
@@ -43,18 +46,21 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 tabs: [
                   Tab(
                       child: Text('Alle mærker',
-                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                          style: theme.primaryTextTheme.headline2!
+                              .copyWith(color: Colors.black))),
                   Tab(
                       child: Text(
-                          userProfile.id == currentUser.id
+                          widget.userProfile.id == currentUser.id
                               ? 'Mine mærker'
-                              : '${userProfile.name} mærker',
-                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                              : '${widget.userProfile.name} mærker',
+                          style: theme.primaryTextTheme.headline2!
+                              .copyWith(color: Colors.black))),
                 ],
               ),
               title: Text(
                 'Mærke oversigt',
-                style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
+                style: theme.primaryTextTheme.headline1!
+                    .copyWith(color: Colors.black),
               ),
             ),
             body: TabBarView(
@@ -66,7 +72,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 BadgesTab(
                   challengeBadges: state.userChallengeBadges,
                   engagementBadges: state.userEngagementBadges,
-                  userProfile: userProfile,
+                  userProfile: widget.userProfile,
                 )
               ],
             ),

@@ -8,13 +8,15 @@ import 'package:spejder_app/repositories/login_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
+import 'package:spejder_app/screens/friends/bloc/friends_bloc.dart';
 
 // Initialiserer blocs og repositories som singletons
 void setupDi() {
   final getIt = GetIt.instance;
   getIt.allowReassignment = true;
 
-  getIt.registerLazySingleton(() => AuthenticationBloc(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(
+      () => AuthenticationBloc(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => AuthenticationRepository());
   getIt.registerLazySingleton(() => UserProfileRepository());
   getIt.registerLazySingleton(() => LoginRepository());
