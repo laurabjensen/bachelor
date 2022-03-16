@@ -6,3 +6,7 @@ abstract class FriendsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadFriends extends FriendsEvent {
+  const LoadFriends();
+}

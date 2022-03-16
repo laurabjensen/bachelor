@@ -6,6 +6,7 @@ class AppRoutes {
   static const groupScreen = 'group';
   static const leaderScreen = 'leader';
   static const friendsScreen = 'friends';
+  static const friendsActivityScreen = 'friendsActivity';
   static const editProfileScreen = 'editprofile';
   static const resetScreen = 'reset';
   static const specificBadgeScreen = 'specificBadge';
