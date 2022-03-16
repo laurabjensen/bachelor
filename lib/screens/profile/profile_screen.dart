@@ -23,19 +23,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile currentUser;
-  late ProfileBloc profileBloc = ProfileBloc(
-      userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);
+  late ProfileBloc profileBloc =
+      ProfileBloc(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);
 
   @override
   void initState() {
     super.initState();
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   void logout() async {
-    if (await simpleChoiceDialog(
-        context, 'Er du sikker på, at du ønsker at logge ud?')) {
+    if (await simpleChoiceDialog(context, 'Er du sikker på, at du ønsker at logge ud?')) {
       Navigator.pop(context);
       BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
     }
@@ -60,15 +58,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onEditUser: () => Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                EditProfileScreen(
-                                    userprofile: state.userProfile,
-                                    editprofileBloc: EditprofileBloc(
-                                        state.userProfile,
-                                        authenticationBloc:
-                                            BlocProvider.of<AuthenticationBloc>(
-                                                context),
-                                        profileBloc: profileBloc)),
+                            builder: (BuildContext context) => EditProfileScreen(
+                                userprofile: state.userProfile,
+                                editprofileBloc: EditprofileBloc(state.userProfile,
+                                    authenticationBloc:
+                                        BlocProvider.of<AuthenticationBloc>(context),
+                                    profileBloc: profileBloc)),
                           ),
                         ),
                         onLogout: logout,
@@ -103,8 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ProfileBadgesRow(
                         //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-                        onSeeAll: () => Navigator.pushNamed(
-                            context, AppRoutes.badgesScreen,
+                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
                             arguments: state.userProfile),
                         objects: state.badges,
                         headlineText: state.userProfile.id == currentUser.id
@@ -116,8 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userProfile: state.userProfile,
                       ),
                       ProfileFriendsRow(
-                        onSeeAll: () => Navigator.pushNamed(
-                            context, AppRoutes.friendsScreen),
+                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen,
+                            arguments: currentUser),
                         objects: state.friends,
                         headlineText: state.userProfile.id == currentUser.id
                             ? 'Mine Veninder'
