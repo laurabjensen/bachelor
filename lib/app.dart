@@ -45,29 +45,22 @@ class App extends StatelessWidget {
         routes: {
           AppRoutes.signupScreen: (context) => SignupScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
-          AppRoutes.badgesScreen: (context) => BadgesScreen(
-              userProfile:
-                  ModalRoute.of(context)!.settings.arguments as UserProfile),
+          AppRoutes.badgesScreen: (context) =>
+              BadgesScreen(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile),
           AppRoutes.profileScreen: (context) => ProfileScreen(),
           AppRoutes.groupScreen: (context) => GroupScreen(),
-          AppRoutes.leaderScreen: (context) => LeaderScreen(
-                userProfile:
-                    ModalRoute.of(context)!.settings.arguments as UserProfile,
-              ),
-          AppRoutes.friendsScreen: (context) => FriendsScreen(
-              userProfile:
-                  ModalRoute.of(context)!.settings.arguments as UserProfile),
+          AppRoutes.leaderScreen: (context) => LeaderScreen(),
+          AppRoutes.friendsScreen: (context) =>
+              FriendsScreen(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile),
           AppRoutes.friendsActivityScreen: (context) => FriendsActivityScreen(),
-          AppRoutes.specificBadgeScreen: (context) => SpecificBadgeScreen(
-              badge: ModalRoute.of(context)!.settings.arguments as Badge),
+          AppRoutes.specificBadgeScreen: (context) =>
+              SpecificBadgeScreen(badge: ModalRoute.of(context)!.settings.arguments as Badge),
           AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(
-              badgeSpecific:
-                  ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
+              badgeSpecific: ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
           AppRoutes.resetScreen: (context) => ResetScreen(),
           AppRoutes.approveBadgesScreen: (context) => ApproveBadgesScreen(),
           AppRoutes.createPatrolScreen: (context) => CreatePatrolScreen(
-                userProfile:
-                    ModalRoute.of(context)!.settings.arguments as UserProfile,
+                userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile,
               ),
         },
         builder: EasyLoading.init(),

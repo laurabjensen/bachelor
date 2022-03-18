@@ -74,7 +74,7 @@ class BadgeWidget extends StatelessWidget {
                         )
                       : Flexible(
                           child: Text(
-                            rank.capitalize(),
+                            rank.title.capitalize(),
                             textAlign: TextAlign.center,
                             style: theme.primaryTextTheme.headline3,
                           ),

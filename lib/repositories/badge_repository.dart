@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:collection/collection.dart';
+import 'package:spejder_app/model/rank.dart';
 
 class BadgeRepository {
   Future<List<Badge>> getAllBadges() async {
@@ -22,10 +23,11 @@ class BadgeRepository {
         .collection('levels')
         .get();
     var levels = <BadgeSpecific>[];
-    levels.add(BadgeSpecific.fromJson(badge, levelsCollection.docs[3]));
-    levels.add(BadgeSpecific.fromJson(badge, levelsCollection.docs[1]));
-    levels.add(BadgeSpecific.fromJson(badge, levelsCollection.docs[2]));
-    levels.add(BadgeSpecific.fromJson(badge, levelsCollection.docs[0]));
+    var ranks = GetIt.instance.get<List<Rank>>();
+    levels.add(BadgeSpecific.fromJson(badge, ranks, levelsCollection.docs[3]));
+    levels.add(BadgeSpecific.fromJson(badge, ranks, levelsCollection.docs[1]));
+    levels.add(BadgeSpecific.fromJson(badge, ranks, levelsCollection.docs[2]));
+    levels.add(BadgeSpecific.fromJson(badge, ranks, levelsCollection.docs[0]));
     return badge.copyWith(levels: levels);
   }
 

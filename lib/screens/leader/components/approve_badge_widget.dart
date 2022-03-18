@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:spejder_app/extensions.dart';
-import 'package:spejder_app/model/badge_specific.dart';
+import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/screens/leader/components/button_row.dart';
 
 class ApproveBadgeWidget extends StatelessWidget {
-  final BadgeSpecific badgeSpecific;
+  final BadgeRegistration badgeRegistration;
 
-  const ApproveBadgeWidget({Key? key, required this.badgeSpecific}) : super(key: key);
+  const ApproveBadgeWidget({Key? key, required this.badgeRegistration}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -22,13 +23,13 @@ class ApproveBadgeWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Mærke + navn
+              // Badge + name
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 8, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Mærke
+                    // Badge
                     SizedBox(
                       height: 168,
                       width: 160,
@@ -41,75 +42,77 @@ class ApproveBadgeWidget extends StatelessWidget {
                             width: 90,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Image.network(badgeSpecific.imageUrl).image,
+                                  image:
+                                      Image.network(badgeRegistration.badgeSpecific.imageUrl).image,
                                   fit: BoxFit.fitWidth),
                             ),
                           ),
                           Flexible(
-                            child: Text(badgeSpecific.badge.name,
+                            child: Text(badgeRegistration.badgeSpecific.badge.name,
                                 textAlign: TextAlign.center,
                                 style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
                           ),
-                          Text(badgeSpecific.rank.capitalize(),
+                          Text(badgeRegistration.badgeSpecific.rank.title.capitalize(),
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),
                         ],
                       ),
                     ),
-                    // Profil
+                    // Profile
                     SizedBox(
-                        height: 168,
-                        width: 160,
-                        child: Column(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                        height: 90,
-                                        width: 90,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(100),
-                                          color: Color(0xff037B55),
-                                        )),
-                                    Positioned(
-                                        top: 5,
-                                        left: 5,
-                                        child: SvgPicture.asset(
-                                          'assets/tørklæde_rød.svg',
-                                          width: 80,
-                                          height: 80,
-                                        ))
-                                  ],
+                      height: 168,
+                      width: 160,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                height: 90,
+                                width: 90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Color(0xff037B55),
                                 ),
-                                Text('Mille',
-                                    style:
-                                        theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
-                                Text(badgeSpecific.rank.capitalize(),
-                                    style: theme.primaryTextTheme.headline1!
-                                        .copyWith(color: Colors.black, fontSize: 18)),
-                              ],
-                            ),
-                          ],
-                        ))
+                              ),
+                              Positioned(
+                                top: 5,
+                                left: 4,
+                                child: SvgPicture.asset(
+                                  'assets/tørklæde_rød.svg',
+                                  width: 80,
+                                  height: 80,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            child: Text(badgeRegistration.userProfile.name,
+                                textAlign: TextAlign.center,
+                                style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
+                          ),
+                          Text(badgeRegistration.userProfile.rank.title,
+                              style: theme.primaryTextTheme.headline1!
+                                  .copyWith(color: Colors.black, fontSize: 18)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-              // Dato
+              // Date
               Text(
-                'Har taget mærket: DATO',
+                'Har taget mærket: ${DateFormat.d().format(badgeRegistration.date)}. ${DateFormat.MMMM('da').format(badgeRegistration.date)} ${DateFormat.y().format(badgeRegistration.date)}',
                 style: theme.primaryTextTheme.headline3!.copyWith(
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
               ),
-              // Godkend / Afvis
+              // Approve / Decline
               ApproveBadgeButtonRow(
                 onAccept: () => null,
                 onDeny: () => null,
-              )
+              ),
             ],
           ),
         ),
@@ -117,3 +120,25 @@ class ApproveBadgeWidget extends StatelessWidget {
     );
   }
 }
+
+/**Stack(
+                                children: [
+                                  Container(
+                                    height: 90,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Color(0xff037B55),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    left: 5,
+                                    child: SvgPicture.asset(
+                                      'assets/tørklæde_rød.svg',
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                  ),
+                                ],
+                              ), */

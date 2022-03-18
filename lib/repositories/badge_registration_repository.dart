@@ -43,4 +43,16 @@ class BadgeRegistrationRepository {
     }
     return list;
   }
+
+  Future<List<BadgeRegistration>> getBadgeRegistrationForLeader(UserProfile userProfile) async {
+    var list = <BadgeRegistration>[];
+    var snapshot = await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .where('leader', isEqualTo: userProfile.id)
+        .get();
+    for (var snap in snapshot.docs) {
+      list.add(await getBadgeRegistrationFromId(snap.id));
+    }
+    return list;
+  }
 }

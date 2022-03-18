@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/rank.dart';
 
 class BadgeSpecific {
   final Badge badge;
-  final String rank;
+  final Rank rank;
   final String purpose;
   final String prerequisite;
   final String prerequisiteLeader;
@@ -26,7 +27,7 @@ class BadgeSpecific {
 
   BadgeSpecific copyWith({
     Badge? badge,
-    String? rank,
+    Rank? rank,
     String? purpose,
     String? prerequisite,
     String? prerequisiteLeader,
@@ -48,10 +49,10 @@ class BadgeSpecific {
     );
   }
 
-  BadgeSpecific.fromJson(Badge badge, DocumentSnapshot<Map<String, Object?>> json)
+  BadgeSpecific.fromJson(Badge badge, List<Rank> ranks, DocumentSnapshot<Map<String, Object?>> json)
       : this(
           badge: badge,
-          rank: json.id,
+          rank: ranks.firstWhere((element) => element.id == json.id),
           purpose: json['purpose'] ?? '',
           prerequisite: json['prerequisite'] ?? '',
           prerequisiteLeader: json['prerequisiteLeader'] ?? '',
@@ -63,7 +64,7 @@ class BadgeSpecific {
 
   static const empty = BadgeSpecific(
       badge: Badge.empty,
-      rank: '',
+      rank: Rank.empty,
       purpose: '',
       prerequisite: '',
       prerequisiteLeader: '',

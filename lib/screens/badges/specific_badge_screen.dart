@@ -34,15 +34,10 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     badgeSpecific = ValueNotifier<BadgeSpecific>(widget.badge.levels.firstWhere((element) {
       if (userProfile.rank.title == 'Leder') {
-        return element.rank == 'seniorspejder';
+        return element.rank.title == 'Seniorspejder';
       } else {
-        return element.rank ==
-            BlocProvider.of<AuthenticationBloc>(context)
-                .state
-                .userProfile!
-                .rank
-                .title
-                .toLowerCase();
+        return element.rank.title ==
+            BlocProvider.of<AuthenticationBloc>(context).state.userProfile!.rank.title;
       }
     }));
   }
@@ -50,7 +45,8 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   Widget getButton(BadgeRegistration? registration, BadgeSpecific value, ThemeData theme) {
     if (registration != null) {
       if (registration.getStatus() == BadgeRegistrationStatus.waitingOnLeader ||
-          registration.getStatus() == BadgeRegistrationStatus.denied) {
+          registration.getStatus() == BadgeRegistrationStatus.denied ||
+          userProfile.rank.level > badgeSpecific.value.rank.level) {
         return Container();
       }
     }

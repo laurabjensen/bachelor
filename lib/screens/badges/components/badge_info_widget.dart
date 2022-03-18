@@ -68,7 +68,8 @@ class BadgeInfoWidget extends StatelessWidget {
             style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 25)),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-          child: Text(badgeSpecific.rank.capitalize(), style: theme.primaryTextTheme.headline1),
+          child:
+              Text(badgeSpecific.rank.title.capitalize(), style: theme.primaryTextTheme.headline1),
         ),
         status()
       ],

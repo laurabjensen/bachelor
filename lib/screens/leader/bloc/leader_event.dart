@@ -6,3 +6,7 @@ abstract class LeaderEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadFromFirebase extends LeaderEvent {
+  const LoadFromFirebase();
+}
