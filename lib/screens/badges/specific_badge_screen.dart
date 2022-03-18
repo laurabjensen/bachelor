@@ -14,6 +14,7 @@ import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
 import 'package:spejder_app/screens/badges/registration/components/read_more_button.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
+import 'package:collection/collection.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
   final Badge badge;
@@ -46,6 +47,31 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     }));
   }
 
+  Widget getButton(BadgeRegistration? registration, BadgeSpecific value, ThemeData theme) {
+    if (registration != null) {
+      if (registration.getStatus() == BadgeRegistrationStatus.waitingOnLeader ||
+          registration.getStatus() == BadgeRegistrationStatus.denied) {
+        return Container();
+      }
+    }
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+      child: SizedBox(
+        width: 170,
+        height: 51,
+        child: ElevatedButton(
+          onPressed: () =>
+              Navigator.pushNamed(context, AppRoutes.registerBadgeScreen, arguments: value),
+          style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
+          child: Text(
+            'Registrer mærke',
+            style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -58,6 +84,9 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
             return ValueListenableBuilder(
                 valueListenable: badgeSpecific,
                 builder: (context, BadgeSpecific value, child) {
+                  var registration = list.data!
+                      .firstWhereOrNull((element) => element.badgeSpecific == badgeSpecific.value);
+
                   return CustomScaffold(
                     body: SingleChildScrollView(
                       padding: EdgeInsets.fromLTRB(0, 60, 0, 40),
@@ -68,35 +97,22 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                           children: [
                             BadgeInfoWidget(
                               badgeSpecific: value,
-                              badgeRegistrations: list.data!,
+                              registration: registration,
                             ),
                             BadgeRow(
-                                badge: widget.badge,
-                                onChange: (newBadgeSpecific) {
-                                  badgeSpecific.value = newBadgeSpecific;
-                                }),
+                              badge: widget.badge,
+                              onChange: (newBadgeSpecific) {
+                                badgeSpecific.value = newBadgeSpecific;
+                              },
+                              registrationList: list.data,
+                              selectedBadge: badgeSpecific.value,
+                            ),
                             BadgePanelList(
                               badgeSpecific: badgeSpecific.value,
                               isLeader: userProfile.rank.title == 'Leder',
+                              registration: registration,
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: SizedBox(
-                                width: 170,
-                                height: 51,
-                                child: ElevatedButton(
-                                  onPressed: () => Navigator.pushNamed(
-                                      context, AppRoutes.registerBadgeScreen,
-                                      arguments: value),
-                                  style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                                  child: Text(
-                                    'Registrer mærke',
-                                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 18),
-                                  ),
-                                ),
-                              ),
-                            ),
-
+                            getButton(registration, value, theme),
                             // Læs mere button med icon
                             ReadMoreButton(
                               badgeSpecific: badgeSpecific.value,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:spejder_app/extensions.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:collection/collection.dart';
+import 'package:spejder_app/screens/badges/registration/bloc/badge_registration_bloc.dart';
 
 class BadgeInfoWidget extends StatelessWidget {
   final BadgeSpecific badgeSpecific;
-  final List<BadgeRegistration> badgeRegistrations;
+  final BadgeRegistration? registration;
 
-  const BadgeInfoWidget({Key? key, required this.badgeSpecific, required this.badgeRegistrations})
+  const BadgeInfoWidget({Key? key, required this.badgeSpecific, this.registration})
       : super(key: key);
 
   @override
@@ -16,18 +18,33 @@ class BadgeInfoWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     Widget status() {
-      var registration =
-          badgeRegistrations.firstWhereOrNull((element) => element.badgeSpecific == badgeSpecific);
       if (registration != null) {
+        String text() {
+          switch (registration!.getStatus()) {
+            case BadgeRegistrationStatus.accepted:
+              return 'Du har taget mærket';
+            case BadgeRegistrationStatus.waitingOnLeader:
+              return 'Venter på godkendelse fra leder';
+            case BadgeRegistrationStatus.denied:
+              return 'Mærke afvist';
+          }
+        }
+
         return Column(
           children: [
-            Text(registration.waitingOnLeader
-                ? 'Venter på godkendelse fra leder'
-                : registration.denied
-                    ? 'Mærke afvist'
-                    : 'Du har taget mærket'),
-            (!registration.waitingOnLeader && !registration.denied)
-                ? Text(registration.date.toString())
+            Text(
+              text(),
+              style: theme.primaryTextTheme.headline2!.copyWith(
+                fontSize: 16,
+              ),
+            ),
+            (registration!.getStatus() == BadgeRegistrationStatus.accepted)
+                ? Text(
+                    'D. ${DateFormat.d().format(registration!.date)}. ${DateFormat.MMMM('da').format(registration!.date)} ${DateFormat.y().format(registration!.date)}',
+                    style: theme.primaryTextTheme.headline2!.copyWith(
+                      fontSize: 16,
+                    ),
+                  )
                 : Container()
           ],
         );
@@ -50,7 +67,7 @@ class BadgeInfoWidget extends StatelessWidget {
         Text(badgeSpecific.badge.name,
             style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 25)),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
           child: Text(badgeSpecific.rank.capitalize(), style: theme.primaryTextTheme.headline1),
         ),
         status()

@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
 
+enum BadgeRegistrationStatus { waitingOnLeader, denied, accepted }
+
 class BadgeRegistration {
   final String id;
   final BadgeSpecific badgeSpecific;
@@ -67,4 +69,10 @@ class BadgeRegistration {
             description: json.get('description'),
             waitingOnLeader: json.get('waitingOnLeader'),
             denied: json.get('denied'));
+
+  BadgeRegistrationStatus getStatus() {
+    if (waitingOnLeader) return BadgeRegistrationStatus.waitingOnLeader;
+    if (denied) return BadgeRegistrationStatus.denied;
+    return BadgeRegistrationStatus.accepted;
+  }
 }

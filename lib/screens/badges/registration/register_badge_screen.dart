@@ -77,7 +77,6 @@ class _RegisterBadgeScreenState extends State<RegisterBadgeScreen> {
                       Center(
                           child: BadgeInfoWidget(
                         badgeSpecific: widget.badgeSpecific,
-                        badgeRegistrations: [],
                       )),
 
                       // Dato
