@@ -14,7 +14,6 @@ import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
 import 'package:spejder_app/screens/badges/registration/components/read_more_button.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
   final Badge badge;
@@ -109,7 +108,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                   );
                 });
           } else {
-            return Center(child: CircularProgressIndicator());
+            return CustomScaffold(body: Center(child: CircularProgressIndicator()));
           }
         });
   }

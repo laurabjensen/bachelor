@@ -61,10 +61,6 @@ class BadgeSpecific {
           imageUrl: json['imageUrl'] ?? '',
         );
 
-  String getRank() {
-    return '${rank[0].toUpperCase()}${rank.substring(1).toLowerCase()}';
-  }
-
   static const empty = BadgeSpecific(
       badge: Badge.empty,
       rank: '',

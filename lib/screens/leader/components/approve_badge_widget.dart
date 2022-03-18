@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spejder_app/extensions.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/screens/leader/components/button_row.dart';
 
@@ -49,7 +50,7 @@ class ApproveBadgeWidget extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
                           ),
-                          Text(badgeSpecific.getRank(),
+                          Text(badgeSpecific.rank.capitalize(),
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),
                         ],
@@ -87,7 +88,7 @@ class ApproveBadgeWidget extends StatelessWidget {
                                 Text('Mille',
                                     style:
                                         theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
-                                Text(badgeSpecific.getRank(),
+                                Text(badgeSpecific.rank.capitalize(),
                                     style: theme.primaryTextTheme.headline1!
                                         .copyWith(color: Colors.black, fontSize: 18)),
                               ],

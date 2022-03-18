@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/extensions.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:collection/collection.dart';
@@ -50,7 +51,7 @@ class BadgeInfoWidget extends StatelessWidget {
             style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 25)),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-          child: Text(badgeSpecific.getRank(), style: theme.primaryTextTheme.headline1),
+          child: Text(badgeSpecific.rank.capitalize(), style: theme.primaryTextTheme.headline1),
         ),
         status()
       ],

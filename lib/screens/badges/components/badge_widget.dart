@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/extensions.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 
@@ -12,6 +13,7 @@ class BadgeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var rank = (badge.levels[index].rank).capitalize();
 
     return GestureDetector(
       onTap: () => onTap(badge.levels[index]),
@@ -23,19 +25,30 @@ class BadgeWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 50,
-                width: 50,
+                height: 45,
+                width: 45,
                 decoration: BoxDecoration(
                     image:
                         DecorationImage(image: Image.network(badge.levels[index].imageUrl).image)),
               ),
-              Flexible(
-                child: Text(
-                  badge.levels[index].rank,
-                  textAlign: TextAlign.center,
-                  style: theme.primaryTextTheme.headline3,
-                ),
-              )
+              rank == 'Seniorspejder'
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        Text(
+                          'Senior',
+                          style: TextStyle(height: 0.9),
+                        ),
+                        Text('spejder', style: TextStyle(height: 0.9))
+                      ],
+                    )
+                  : Flexible(
+                      child: Text(
+                        rank,
+                        textAlign: TextAlign.center,
+                        style: theme.primaryTextTheme.headline3,
+                      ),
+                    )
             ],
           ),
         ),
