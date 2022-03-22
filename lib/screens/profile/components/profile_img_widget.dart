@@ -33,13 +33,14 @@ class ProfileImageWidget extends StatelessWidget {
                           fit: BoxFit.fitHeight,
                         ))
                     : Stack(
+                        // Remember to also update changes fx color -  if made - for the friends row
                         children: [
                           Container(
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Color(0xff037B55),
+                                color: Color(0xffFED105),
                               )),
                           Positioned(
                               left: 15, top: 15, child: SvgPicture.asset('assets/tørklæde_rød.svg'))

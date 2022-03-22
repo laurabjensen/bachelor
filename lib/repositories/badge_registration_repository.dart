@@ -51,8 +51,34 @@ class BadgeRegistrationRepository {
         .where('leader', isEqualTo: userProfile.id)
         .get();
     for (var snap in snapshot.docs) {
-      list.add(await getBadgeRegistrationFromId(snap.id));
+      if (snap.get('waitingOnLeader')) {
+        list.add(await getBadgeRegistrationFromId(snap.id));
+      }
     }
     return list;
+  }
+
+  // Wating on leader = false now since the leader makes an action on the badge. Updates firebase values
+  Future<void> approveBadgeRegistration(BadgeRegistration badgeRegistration) async {
+    badgeRegistration = badgeRegistration.copyWith(waitingOnLeader: false, denied: false);
+    await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .doc(badgeRegistration.id)
+        .update(badgeRegistration.toMap());
+    var list = badgeRegistration.userProfile.badges.map((e) => e.id).toList();
+    list.add(badgeRegistration.badgeSpecific.badge.id);
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(badgeRegistration.userProfile.id)
+        .update({'badges': list});
+  }
+
+  // Wating on leader = false now since the leader makes an action on the badge. Updates firebase values
+  Future<void> denyBadgeRegistration(BadgeRegistration badgeRegistration) async {
+    badgeRegistration = badgeRegistration.copyWith(waitingOnLeader: false, denied: true);
+    await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .doc(badgeRegistration.id)
+        .update(badgeRegistration.toMap());
   }
 }

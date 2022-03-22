@@ -96,6 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userProfile: state.userProfile,
                       ),
                       ProfileBadgesRow(
+                        //TODO!: Load liste a badgeRegistrations i stedet for bare badges
                         //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
                         onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
                             arguments: state.userProfile),

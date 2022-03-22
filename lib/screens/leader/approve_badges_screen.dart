@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
@@ -20,58 +21,75 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
   void initState() {
     super.initState();
     userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    leaderBloc = LeaderBloc(userProfile: userProfile);
   }
 
   @override
   Widget build(BuildContext context) {
+    leaderBloc = ModalRoute.of(context)!.settings.arguments as LeaderBloc;
     final theme = Theme.of(context);
 
-    return CustomScaffold(
-      body: CustomNavBar(
-        padding: EdgeInsets.only(top: 40, left: 10),
-        widget: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Godkend mærker',
-                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
-                  ),
+    return BlocListener(
+        bloc: leaderBloc,
+        listener: (context, LeaderState state) {
+          if (state.registrationStatus == LeaderBadgeRegistrationStatus.loading) {
+            EasyLoading.show();
+          } else if (state.registrationStatus == LeaderBadgeRegistrationStatus.finished) {
+            EasyLoading.dismiss();
+          }
+        },
+        child: CustomScaffold(
+          body: CustomNavBar(
+            padding: EdgeInsets.only(top: 40, left: 10),
+            widget: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'Godkend mærker',
+                        style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
+                      ),
+                    ),
+                    BlocBuilder(
+                        bloc: leaderBloc,
+                        builder: (context, LeaderState state) {
+                          if (state.loadStatus == LeaderLoadStatus.loaded) {
+                            if (state.badgeRegistrations.isNotEmpty) {
+                              return Expanded(
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: state.badgeRegistrations.length,
+                                      itemBuilder: (context, index) {
+                                        return ApproveBadgeWidget(
+                                            badgeRegistration: state.badgeRegistrations[index],
+                                            onAccept: () => leaderBloc
+                                                .add(ApproveBadge(state.badgeRegistrations[index])),
+                                            onDeny: () => leaderBloc
+                                                .add(DenyBadge(state.badgeRegistrations[index])));
+                                      }));
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                    'Der ligger ingen mærker til godkendelse hos dig i øjeblikket!',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        theme.primaryTextTheme.headline2!.copyWith(fontSize: 17)),
+                              );
+                            }
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })
+                  ],
                 ),
-                BlocBuilder(
-                    bloc: leaderBloc,
-                    builder: (context, LeaderState state) {
-                      if (state.loadStatus == LeaderBadgeRegistrationLoadStatus.loaded) {
-                        if (state.badgeRegistrations.isNotEmpty) {
-                          return Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.badgeRegistrations.length,
-                                  itemBuilder: (context, index) {
-                                    return ApproveBadgeWidget(
-                                      badgeRegistration: state.badgeRegistrations[index],
-                                    );
-                                  }));
-                        } else {
-                          return Text(
-                              'Der ligger ingen mærker til godkendelse hos dig i øjeblikket',
-                              style: theme.primaryTextTheme.headline2!.copyWith(fontSize: 17));
-                        }
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    })
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

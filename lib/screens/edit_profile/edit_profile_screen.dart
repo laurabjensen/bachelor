@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/edit_profile/bloc/editprofile_bloc.dart';
@@ -54,9 +55,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: true, //TODO: FIX
-      backgroundColor: Color(0xff63A288),
+    return CustomScaffold(
       body: BlocListener(
           bloc: widget.editprofileBloc,
           listener: (context, EditprofileState state) {

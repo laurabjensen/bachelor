@@ -17,15 +17,37 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
   final UserProfile userProfile;
   LeaderBloc({required this.userProfile}) : super(LeaderState()) {
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
+    on<ApproveBadge>((event, emit) => _approveBadge(event.badgeRegistration, emit));
+    on<DenyBadge>((event, emit) => _denyBadge(event.badgeRegistration, emit));
 
     add(LoadFromFirebase());
   }
 
+  Future<List<BadgeRegistration>> loadList() async {
+    return await badgeRegistrationRepository.getBadgeRegistrationForLeader(userProfile);
+  }
+
   Future<void> _loadFromFirebase(Emitter<LeaderState> emit) async {
-    var badgeRegistrations =
-        await badgeRegistrationRepository.getBadgeRegistrationForLeader(userProfile);
+    var badgeRegistrations = await loadList();
+    emit(state.copyWith(
+        badgeRegistrations: badgeRegistrations, loadStatus: LeaderLoadStatus.loaded));
+  }
+
+  Future<void> _approveBadge(BadgeRegistration badgeRegistration, Emitter<LeaderState> emit) async {
+    emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
+    await badgeRegistrationRepository.approveBadgeRegistration(badgeRegistration);
+    var badgeRegistrations = await loadList();
     emit(state.copyWith(
         badgeRegistrations: badgeRegistrations,
-        loadStatus: LeaderBadgeRegistrationLoadStatus.loaded));
+        registrationStatus: LeaderBadgeRegistrationStatus.finished));
+  }
+
+  Future<void> _denyBadge(BadgeRegistration badgeRegistration, Emitter<LeaderState> emit) async {
+    emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
+    await badgeRegistrationRepository.denyBadgeRegistration(badgeRegistration);
+    var badgeRegistrations = await loadList();
+    emit(state.copyWith(
+        badgeRegistrations: badgeRegistrations,
+        registrationStatus: LeaderBadgeRegistrationStatus.finished));
   }
 }

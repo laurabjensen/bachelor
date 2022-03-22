@@ -19,7 +19,7 @@ class ProfileFriendWidget extends StatelessWidget {
               width: 70,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Color(0xff037B55),
+                color: Color(0xffFED105),
               )),
           Positioned(
               left: 3.5,

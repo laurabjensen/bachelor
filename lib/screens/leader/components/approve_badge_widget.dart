@@ -7,8 +7,12 @@ import 'package:spejder_app/screens/leader/components/button_row.dart';
 
 class ApproveBadgeWidget extends StatelessWidget {
   final BadgeRegistration badgeRegistration;
+  final Function() onAccept;
+  final Function() onDeny;
 
-  const ApproveBadgeWidget({Key? key, required this.badgeRegistration}) : super(key: key);
+  const ApproveBadgeWidget(
+      {Key? key, required this.badgeRegistration, required this.onAccept, required this.onDeny})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -108,10 +112,10 @@ class ApproveBadgeWidget extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
-              // Approve / Decline
+              // Approve / Deny
               ApproveBadgeButtonRow(
-                onAccept: () => null,
-                onDeny: () => null,
+                onAccept: onAccept,
+                onDeny: onDeny,
               ),
             ],
           ),
@@ -120,25 +124,3 @@ class ApproveBadgeWidget extends StatelessWidget {
     );
   }
 }
-
-/**Stack(
-                                children: [
-                                  Container(
-                                    height: 90,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Color(0xff037B55),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 5,
-                                    left: 5,
-                                    child: SvgPicture.asset(
-                                      'assets/tørklæde_rød.svg',
-                                      width: 80,
-                                      height: 80,
-                                    ),
-                                  ),
-                                ],
-                              ), */

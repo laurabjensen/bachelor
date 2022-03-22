@@ -47,7 +47,7 @@ class BadgeRegistration {
   Map<String, dynamic> toMap() {
     return {
       'badge': badgeSpecific.badge.id,
-      'rank': badgeSpecific.rank,
+      'rank': badgeSpecific.rank.id,
       'user': userProfile.id,
       'leader': leader.id,
       'date': Timestamp.fromDate(date),

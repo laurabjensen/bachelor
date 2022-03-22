@@ -47,7 +47,7 @@ class UserImageWidget extends StatelessWidget {
                     )
                   : Container(
                       decoration: BoxDecoration(
-                          color: const Color(0xff0dfdb4),
+                          color: const Color(0xffFED105),
                           borderRadius: BorderRadius.circular(size)),
                       width: 170,
                       height: 170,

@@ -10,3 +10,13 @@ abstract class LeaderEvent extends Equatable {
 class LoadFromFirebase extends LeaderEvent {
   const LoadFromFirebase();
 }
+
+class ApproveBadge extends LeaderEvent {
+  final BadgeRegistration badgeRegistration;
+  const ApproveBadge(this.badgeRegistration);
+}
+
+class DenyBadge extends LeaderEvent {
+  final BadgeRegistration badgeRegistration;
+  const DenyBadge(this.badgeRegistration);
+}
