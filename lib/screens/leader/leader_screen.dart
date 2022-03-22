@@ -5,7 +5,6 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
-import 'package:spejder_app/screens/leader/bloc/leader_bloc.dart';
 
 class LeaderScreen extends StatefulWidget {
   @override

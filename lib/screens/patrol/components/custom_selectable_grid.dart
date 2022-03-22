@@ -18,7 +18,7 @@ class _CustomSelectableGridState extends State<CustomSelectableGrid> {
           shrinkWrap: false,
           scrollDirection: Axis.vertical,
           itemCount: 10,
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio:
                 MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
@@ -34,7 +34,7 @@ class _CustomSelectableGridState extends State<CustomSelectableGrid> {
               child: Card(
                 // check if the index is equal to the selected Card integer
                 color: selectedCard == index ? Colors.blue : Colors.grey,
-                child: Container(
+                child: SizedBox(
                   height: 200,
                   width: 200,
                   child: Center(

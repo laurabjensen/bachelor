@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/user_profile.dart';
 
 class LeaderDropdown extends StatelessWidget {

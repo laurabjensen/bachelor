@@ -28,11 +28,4 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
         badgeRegistrations: badgeRegistrations,
         loadStatus: LeaderBadgeRegistrationLoadStatus.loaded));
   }
-
-  @override
-  Stream<LeaderState> mapEventToState(
-    LeaderEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-  }
 }

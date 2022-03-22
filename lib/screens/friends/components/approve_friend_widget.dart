@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/friends/friends_activity/regret_button_row.dart';
 import 'package:spejder_app/screens/leader/components/button_row.dart';
 
 class ApproveFriendWidget extends StatelessWidget {
   final UserProfile userProfile;
 
-  const ApproveFriendWidget({Key? key, required this.userProfile})
-      : super(key: key);
+  const ApproveFriendWidget({Key? key, required this.userProfile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +17,7 @@ class ApproveFriendWidget extends StatelessWidget {
         child: Container(
           height: 280,
           width: 336,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -56,8 +53,7 @@ class ApproveFriendWidget extends StatelessWidget {
                             ],
                           ),
                           Text(userProfile.name,
-                              style: theme.primaryTextTheme.headline3!
-                                  .copyWith(fontSize: 22)),
+                              style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
                           Text(userProfile.rank.title,
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),

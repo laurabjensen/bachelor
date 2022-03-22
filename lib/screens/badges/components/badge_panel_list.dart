@@ -14,8 +14,6 @@ class BadgePanelList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ListView(
       padding: EdgeInsets.fromLTRB(18, 16, 18, 16),
       physics: NeverScrollableScrollPhysics(),

@@ -10,7 +10,9 @@ class BadgeRepository {
     final snapshots = await FirebaseFirestore.instance.collection('badges').get();
     var badges = <Badge>[];
     for (var snapshot in snapshots.docs) {
-      badges.add(await getBadge(snapshot));
+      if (snapshot.get('type') == 'Udfordring' || snapshot.get('type') == 'Engagement') {
+        badges.add(await getBadge(snapshot));
+      }
     }
     return badges;
   }
@@ -83,10 +85,10 @@ class BadgeRepository {
   }
 
   Future<BadgeSpecific?> getBadgeSpecific(String badgeId, String rankId) async {
-    final badge =
-        GetIt.instance.get<List<Badge>>().firstWhereOrNull((element) => element.id == badgeId);
+    var list = GetIt.instance.get<List<Badge>>();
+    final badge = list.firstWhereOrNull((element) => element.id == badgeId);
     if (badge != null) {
-      var badgeSpecific = badge.levels.firstWhereOrNull((element) => element.rank == rankId);
+      var badgeSpecific = badge.levels.firstWhereOrNull((element) => element.rank.id == rankId);
       return badgeSpecific;
     }
     return null;

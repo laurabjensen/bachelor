@@ -4,7 +4,6 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
-import 'package:spejder_app/screens/badges/badge_widget.dart';
 import 'package:spejder_app/screens/components/popup_dialog.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
 import 'package:spejder_app/screens/profile/components/profile_badges_row_widget.dart';

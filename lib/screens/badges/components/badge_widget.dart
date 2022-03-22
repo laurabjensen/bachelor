@@ -61,7 +61,7 @@ class BadgeWidget extends StatelessWidget {
                           .image, /*colorFilter: ColorFilter.mode(Colors.grey, BlendMode.saturation)*/
                     )),
                   ),
-                  rank == 'seniorspejder'
+                  rank.id == 'seniorspejder'
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: const [

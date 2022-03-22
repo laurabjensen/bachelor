@@ -6,10 +6,6 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/friends/components/approve_friend_widget.dart';
-import 'package:spejder_app/screens/friends/components/regret_friend_widget.dart';
-import 'package:spejder_app/screens/leader/components/approve_badge_widget.dart';
-
-import '../../../model/badge.dart';
 
 class FriendsActivityScreen extends StatefulWidget {
   @override
@@ -18,14 +14,12 @@ class FriendsActivityScreen extends StatefulWidget {
 
 class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile =
-      ModalRoute.of(context)!.settings.arguments as UserProfile;
+  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
 
   @override
   void initState() {
     super.initState();
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   @override
@@ -45,8 +39,7 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     'Veninde aktivitet',
-                    style: theme.primaryTextTheme.headline1!
-                        .copyWith(fontSize: 30),
+                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
                   ),
                 ),
                 Expanded(

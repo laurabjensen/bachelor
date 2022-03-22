@@ -86,7 +86,7 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
 
   Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
     emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
-    var path;
+    String? path;
     if (state.imageFile != null) {
       path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
       debugPrint(path);

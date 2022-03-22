@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:spejder_app/extensions.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
-import 'package:collection/collection.dart';
-import 'package:spejder_app/screens/badges/registration/bloc/badge_registration_bloc.dart';
 
 class BadgeInfoWidget extends StatelessWidget {
   final BadgeSpecific badgeSpecific;
