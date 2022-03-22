@@ -42,13 +42,16 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     }));
   }
 
+  /* Register button only shows is you have the correct level
+   and have been denied or not yet registered the badge */
   Widget getButton(BadgeRegistration? registration, BadgeSpecific value, ThemeData theme) {
     if (registration != null) {
       if (registration.getStatus() == BadgeRegistrationStatus.waitingOnLeader ||
-          registration.getStatus() == BadgeRegistrationStatus.denied ||
-          userProfile.rank.level > badgeSpecific.value.rank.level) {
+          registration.getStatus() == BadgeRegistrationStatus.accepted) {
         return Container();
       }
+    } else if (userProfile.rank.level < badgeSpecific.value.rank.level) {
+      return Container();
     }
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
