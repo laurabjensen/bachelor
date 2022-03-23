@@ -29,7 +29,7 @@ class ProfileFriendWidget extends StatelessWidget {
                 height: 60,
                 width: 60,
                 fit: BoxFit.scaleDown,
-              ))
+              )),
         ],
       );
     }
@@ -46,21 +46,39 @@ class ProfileFriendWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              userProfile.imageUrl.isNotEmpty
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        userProfile.imageUrl,
-                        width: 70,
-                        height: 70,
-                        fit: BoxFit.fitHeight,
-                      ))
-                  : noImageWidget(),
+              Stack(
+                children: [
+                  userProfile.imageUrl.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.network(
+                            userProfile.imageUrl,
+                            width: 70,
+                            height: 70,
+                            fit: BoxFit.fitHeight,
+                          ))
+                      : noImageWidget(),
+                  // Range picture
+                  Positioned(
+                    top: 41,
+                    right: 46,
+                    child: Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(60),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: Image.network(userProfile.rank.imageUrl).image)),
+                    ),
+                  ),
+                ],
+              ),
               Text(
                 userProfile.name,
                 textAlign: TextAlign.center,
                 style: theme.primaryTextTheme.headline3,
-              )
+              ),
             ],
           ),
         ),

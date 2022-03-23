@@ -62,23 +62,20 @@ class ProfileImageWidget extends StatelessWidget {
             // Star
             Positioned(
               top: 100,
-              left: 125,
+              left: 130,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Outline border around star
-                  Icon(
-                    Icons.star,
-                    size: 60,
-                    color: Color.fromARGB(255, 56, 57, 58),
+                  //Silver inner star
+                  ClipRect(
+                    child: SvgPicture.asset(
+                      'assets/star.svg',
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.fill,
+                      color: Color(0xffC0C0C0),
+                    ),
                   ),
-                  // Silver star
-                  Icon(
-                    Icons.star,
-                    size: 55,
-                    color: Color(0xff8d99a3),
-                  ),
-                  // Number of years
                   Text(
                     userProfile.seniority.toString(),
                     style: theme.primaryTextTheme.headline3,

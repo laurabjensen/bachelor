@@ -15,15 +15,14 @@ class BadgesScreen extends StatefulWidget {
 }
 
 class _BadgesScreenState extends State<BadgesScreen> {
-  late UserProfile currentUser;
+  late UserProfile loggedInUser;
   late BadgesBloc badgesBloc;
 
   @override
   void initState() {
     super.initState();
     badgesBloc = BadgesBloc(userProfile: widget.userProfile);
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
   // TODO! Find ud af hvad vi skal gøre med background svg her!!!
@@ -46,21 +45,18 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 tabs: [
                   Tab(
                       child: Text('Alle mærker',
-                          style: theme.primaryTextTheme.headline2!
-                              .copyWith(color: Colors.black))),
+                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                   Tab(
                       child: Text(
-                          widget.userProfile.id == currentUser.id
+                          widget.userProfile.id == loggedInUser.id
                               ? 'Mine mærker'
-                              : '${widget.userProfile.name} mærker',
-                          style: theme.primaryTextTheme.headline2!
-                              .copyWith(color: Colors.black))),
+                              : '${widget.userProfile.namePossessiveCase()} mærker',
+                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                 ],
               ),
               title: Text(
                 'Mærke oversigt',
-                style: theme.primaryTextTheme.headline1!
-                    .copyWith(color: Colors.black),
+                style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
               ),
             ),
             body: TabBarView(
@@ -68,7 +64,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 BadgesTab(
                     challengeBadges: state.allChallengeBadges,
                     engagementBadges: state.allEngagementBadges,
-                    userProfile: currentUser),
+                    userProfile: loggedInUser),
                 BadgesTab(
                   challengeBadges: state.userChallengeBadges,
                   engagementBadges: state.userEngagementBadges,

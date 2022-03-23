@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/profile/components/profile_badge_widget.dart';
 
@@ -47,7 +48,10 @@ class ProfileBadgesRow extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: objects.length,
                         itemBuilder: (BuildContext context, int index) => ProfileBadgeWidget(
-                            badge: objects[index] as Badge, rank: userProfile.rank),
+                          badgeRegistration: (objects[index] as BadgeRegistration),
+                          rank: userProfile.rank,
+                          userProfile: userProfile,
+                        ),
                       ),
                     ))
                 : SizedBox(

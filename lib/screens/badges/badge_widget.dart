@@ -30,7 +30,8 @@ class ProfileBadgeWidget extends StatelessWidget {
     }
 
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, AppRoutes.specificBadgeScreen, arguments: badge),
+        onTap: () => Navigator.pushNamed(context, AppRoutes.specificBadgeScreen,
+            arguments: {'badge': badge, 'userProfile': userProfile}),
         child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(

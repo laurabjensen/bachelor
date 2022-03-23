@@ -78,7 +78,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                       child: Text(
                           userProfile.id == currentUser.id
                               ? 'Mine veninder'
-                              : '${userProfile.name} veninder',
+                              : '${userProfile.namePossessiveCase()} veninder',
                           style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                 ],
               ),

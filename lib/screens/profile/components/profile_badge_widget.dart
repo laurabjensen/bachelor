@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/rank.dart';
+import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 
 class ProfileBadgeWidget extends StatelessWidget {
-  final Badge badge;
+  final BadgeRegistration badgeRegistration;
   final Rank rank;
+  final UserProfile userProfile;
 
-  const ProfileBadgeWidget({Key? key, required this.badge, required this.rank}) : super(key: key);
+  const ProfileBadgeWidget(
+      {Key? key, required this.badgeRegistration, required this.rank, required this.userProfile})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    DecorationImage? getImage() {
-      switch (rank.title) {
-        case 'Spire':
-          return DecorationImage(image: Image.network(badge.levels[0].imageUrl).image);
-        case 'Smutte':
-          return DecorationImage(image: Image.network(badge.levels[1].imageUrl).image);
-        case 'Spejder':
-          return DecorationImage(image: Image.network(badge.levels[2].imageUrl).image);
-        case 'Seniorspejder':
-        default:
-          return DecorationImage(image: Image.network(badge.levels[3].imageUrl).image);
-      }
-    }
+    final badge = GetIt.instance
+        .get<List<Badge>>()
+        .firstWhere((element) => element.id == badgeRegistration.badgeSpecific.badge.id);
 
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, AppRoutes.specificBadgeScreen, arguments: badge),
+      onTap: () => Navigator.pushNamed(context, AppRoutes.specificBadgeScreen,
+          arguments: {'badge': badge, 'userProfile': userProfile}),
       child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -43,10 +39,12 @@ class ProfileBadgeWidget extends StatelessWidget {
                 Container(
                   height: 70,
                   width: 70,
-                  decoration: BoxDecoration(image: getImage()),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: Image.network(badgeRegistration.badgeSpecific.imageUrl).image)),
                 ),
                 Text(
-                  badge.name,
+                  badgeRegistration.badgeSpecific.badge.name,
                   textAlign: TextAlign.center,
                   style: theme.primaryTextTheme.headline3,
                 )

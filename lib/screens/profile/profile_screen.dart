@@ -111,10 +111,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ProfileFriendsRow(
                         onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen,
-                            arguments: currentUser),
+                            arguments: state.userProfile),
                         objects: state.friends,
                         headlineText: state.userProfile.id == currentUser.id
-                            ? 'Mine Veninder'
+                            ? 'Mine veninder'
                             : '${state.userProfile.namePossessiveCase()} veninder',
                         noObjectsText: state.userProfile.id == currentUser.id
                             ? 'Du har endnu ikke registreret nogen veninder'

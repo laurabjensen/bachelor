@@ -29,6 +29,35 @@ class BadgeRegistrationRepository {
         userProfile: user, leader: leader, badgeSpecific: badgeSpecific);
   }
 
+  Future<BadgeRegistration> getBadgeRegistrationFromIdWithUser(
+      String badgeRegistrationId, UserProfile userProfile) async {
+    var snap = await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .doc(badgeRegistrationId)
+        .get();
+    var badgeRegistration = BadgeRegistration.fromJson(snap);
+    final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+    final badgeSpecific =
+        await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
+    return badgeRegistration.copyWith(
+        userProfile: userProfile, leader: leader, badgeSpecific: badgeSpecific);
+  }
+
+  Future<List<BadgeRegistration>> getBadgeRegistrationsFromUserProfile(
+      UserProfile userProfile) async {
+    var badges = <BadgeRegistration>[];
+    for (var badge in userProfile.badgeRegistrations) {
+      var snap = await FirebaseFirestore.instance.collection('badgeRegistrations').doc(badge).get();
+      var badgeRegistration = BadgeRegistration.fromJson(snap);
+      final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+      final badgeSpecific =
+          await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
+      badges.add(badgeRegistration.copyWith(
+          userProfile: userProfile, leader: leader, badgeSpecific: badgeSpecific));
+    }
+    return badges;
+  }
+
   //TODO!: Hvorfor vil den ikke lave et index i firestore???
   Future<List<BadgeRegistration>> getBadgeRegistrationFromBadgeAndUser(
       Badge badge, UserProfile userProfile) async {
@@ -39,7 +68,7 @@ class BadgeRegistrationRepository {
         .where('badge', isEqualTo: badge.id)
         .get();
     for (var snap in snapshot.docs) {
-      list.add(await getBadgeRegistrationFromId(snap.id));
+      list.add(await getBadgeRegistrationFromIdWithUser(snap.id, userProfile));
     }
     return list;
   }
@@ -65,8 +94,8 @@ class BadgeRegistrationRepository {
         .collection('badgeRegistrations')
         .doc(badgeRegistration.id)
         .update(badgeRegistration.toMap());
-    var list = badgeRegistration.userProfile.badges.map((e) => e.id).toList();
-    list.add(badgeRegistration.badgeSpecific.badge.id);
+    var list = badgeRegistration.userProfile.badgeRegistrations;
+    list.add(badgeRegistration.id);
     await FirebaseFirestore.instance
         .collection('users')
         .doc(badgeRegistration.userProfile.id)

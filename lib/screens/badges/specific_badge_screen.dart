@@ -17,22 +17,26 @@ import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:collection/collection.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
-  final Badge badge;
+  final Map args;
 
-  const SpecificBadgeScreen({Key? key, required this.badge}) : super(key: key);
+  const SpecificBadgeScreen({Key? key, required this.args}) : super(key: key);
   @override
   _SpecificBadgeScreenState createState() => _SpecificBadgeScreenState();
 }
 
 class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
-  late ValueNotifier<BadgeSpecific> badgeSpecific;
+  late Badge badge;
   late UserProfile userProfile;
+  late ValueNotifier<BadgeSpecific> badgeSpecific;
+  late UserProfile loggedInUser;
 
   @override
   void initState() {
     super.initState();
-    userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    badgeSpecific = ValueNotifier<BadgeSpecific>(widget.badge.levels.firstWhere((element) {
+    badge = widget.args['badge'];
+    userProfile = widget.args['userProfile'];
+    loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    badgeSpecific = ValueNotifier<BadgeSpecific>(badge.levels.firstWhere((element) {
       if (userProfile.rank.title == 'Leder') {
         return element.rank.title == 'Seniorspejder';
       } else {
@@ -77,7 +81,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     return FutureBuilder(
         future: GetIt.instance
             .get<BadgeRegistrationRepository>()
-            .getBadgeRegistrationFromBadgeAndUser(widget.badge, userProfile),
+            .getBadgeRegistrationFromBadgeAndUser(badge, userProfile),
         builder: (context, AsyncSnapshot<List<BadgeRegistration>> list) {
           if (list.hasData) {
             return ValueListenableBuilder(
@@ -99,7 +103,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                               registration: registration,
                             ),
                             BadgeRow(
-                              badge: widget.badge,
+                              badge: badge,
                               onChange: (newBadgeSpecific) {
                                 badgeSpecific.value = newBadgeSpecific;
                               },

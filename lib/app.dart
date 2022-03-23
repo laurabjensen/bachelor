@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/app_theme.dart';
@@ -54,7 +55,7 @@ class App extends StatelessWidget {
               FriendsScreen(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile),
           AppRoutes.friendsActivityScreen: (context) => FriendsActivityScreen(),
           AppRoutes.specificBadgeScreen: (context) =>
-              SpecificBadgeScreen(badge: ModalRoute.of(context)!.settings.arguments as Badge),
+              SpecificBadgeScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
           AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(
               badgeSpecific: ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
           AppRoutes.resetScreen: (context) => ResetScreen(),

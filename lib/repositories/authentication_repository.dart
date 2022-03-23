@@ -43,7 +43,7 @@ class AuthenticationRepository {
         seniority: 0,
         description: '',
         imageUrl: '',
-        badges: [],
+        badgeRegistrations: [],
         friends: []);
     await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userProfile.toJson());
     state.rank.title == 'Leder'

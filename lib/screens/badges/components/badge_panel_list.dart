@@ -29,6 +29,7 @@ class BadgePanelList extends StatelessWidget {
         BadgePanelWidget(title: 'Udfordring', text: badgeSpecific.challenge),
         (registration != null && registration!.getStatus() == BadgeRegistrationStatus.accepted)
             ? BadgePanelWidget(
+                //TODO! Gør det muligt at opdatere
                 title: 'Din beskrivelse',
                 text: registration!.description.isNotEmpty
                     ? registration!.description

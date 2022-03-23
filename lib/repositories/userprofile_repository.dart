@@ -10,11 +10,9 @@ class UserProfileRepository {
     final group = await getGroupForUserprofile(userprofile.id);
     final rank = await getRankForUserprofile(userprofile.id);
     final friends = await getFriendsForUser(userprofile.id);
-    final badges = await GetIt.instance
-        .get<BadgeRepository>()
-        .getBadgesForUser(userprofile.id);
+    final badges = await getBadgeRegistrationsForUser(userprofile.id);
     return userprofile.copyWith(
-        group: group, rank: rank, friends: friends, badges: badges);
+        group: group, rank: rank, friends: friends, badgeRegistrations: badges);
   }
 
   Future<UserProfile> getUserprofileFromId(String userId) async {
@@ -30,29 +28,22 @@ class UserProfileRepository {
   }
 
   Future<Group> getGroupForUserprofile(String userId) async {
-    var groupId =
-        (await FirebaseFirestore.instance.collection('users').doc(userId).get())
-            .get('group')
-            .toString();
-    return GetIt.instance
-        .get<List<Group>>()
-        .firstWhere((element) => element.id == groupId);
+    var groupId = (await FirebaseFirestore.instance.collection('users').doc(userId).get())
+        .get('group')
+        .toString();
+    return GetIt.instance.get<List<Group>>().firstWhere((element) => element.id == groupId);
   }
 
   Future<Rank> getRankForUserprofile(String userId) async {
-    var rankId =
-        (await FirebaseFirestore.instance.collection('users').doc(userId).get())
-            .get('rank')
-            .toString();
-    return GetIt.instance
-        .get<List<Rank>>()
-        .firstWhere((element) => element.id == rankId);
+    var rankId = (await FirebaseFirestore.instance.collection('users').doc(userId).get())
+        .get('rank')
+        .toString();
+    return GetIt.instance.get<List<Rank>>().firstWhere((element) => element.id == rankId);
   }
 
   Future<List<String>> getFriendsForUser(String userId) async {
     final userSnapshot =
-        (await FirebaseFirestore.instance.collection('users').doc(userId).get())
-            .get('friends');
+        (await FirebaseFirestore.instance.collection('users').doc(userId).get()).get('friends');
     var friends = <String>[];
     for (var friend in userSnapshot) {
       friends.add(friend);
@@ -60,8 +51,17 @@ class UserProfileRepository {
     return friends;
   }
 
-  Future<List<UserProfile>> getFriendUserProfilesForUser(
-      List<String> friends) async {
+  Future<List<String>> getBadgeRegistrationsForUser(String userId) async {
+    final userSnapshot =
+        (await FirebaseFirestore.instance.collection('users').doc(userId).get()).get('badges');
+    var badges = <String>[];
+    for (var badge in userSnapshot) {
+      badges.add(badge);
+    }
+    return badges;
+  }
+
+  Future<List<UserProfile>> getFriendUserProfilesForUser(List<String> friends) async {
     var userProfiles = <UserProfile>[];
     for (var friend in friends) {
       userProfiles.add(await getUserprofileFromId(friend));

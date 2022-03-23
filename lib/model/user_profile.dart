@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge.dart';
+import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 
@@ -13,7 +14,7 @@ class UserProfile {
   final int seniority;
   final String description;
   final String imageUrl;
-  final List<Badge> badges;
+  final List<String> badgeRegistrations;
   final List<String> friends;
 
   const UserProfile({
@@ -26,7 +27,7 @@ class UserProfile {
     required this.seniority,
     required this.description,
     required this.imageUrl,
-    required this.badges,
+    required this.badgeRegistrations,
     required this.friends,
   });
 
@@ -40,7 +41,7 @@ class UserProfile {
       int? seniority,
       String? description,
       String? imageUrl,
-      List<Badge>? badges,
+      List<String>? badgeRegistrations,
       List<String>? friends}) {
     return UserProfile(
         id: id ?? this.id,
@@ -52,7 +53,7 @@ class UserProfile {
         seniority: seniority ?? this.seniority,
         description: description ?? this.description,
         imageUrl: imageUrl ?? this.imageUrl,
-        badges: badges ?? this.badges,
+        badgeRegistrations: badgeRegistrations ?? this.badgeRegistrations,
         friends: friends ?? this.friends);
   }
 
@@ -67,7 +68,7 @@ class UserProfile {
             seniority: json['seniority'] as int,
             description: json['description'].toString(),
             imageUrl: json['imageUrl'].toString(),
-            badges: [],
+            badgeRegistrations: [],
             friends: []);
 
   Map<String, Object?> toJson() {
@@ -81,7 +82,7 @@ class UserProfile {
       'description': description,
       'imageUrl': imageUrl,
       'friends': friends,
-      'badges': badges.map((e) => e.id).toList(),
+      'badges': badgeRegistrations,
     };
   }
 
@@ -95,7 +96,7 @@ class UserProfile {
       seniority: 0,
       description: '',
       imageUrl: '',
-      badges: [],
+      badgeRegistrations: [],
       friends: []);
 
   String namePossessiveCase() {
