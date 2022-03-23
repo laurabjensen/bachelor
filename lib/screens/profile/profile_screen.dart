@@ -4,7 +4,7 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
-import 'package:spejder_app/screens/components/popup_dialog.dart';
+import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
 import 'package:spejder_app/screens/profile/components/profile_badges_row_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_description_widget.dart';
@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void logout() async {
-    if (await simpleChoiceDialog(context, 'Er du sikker på, at du ønsker at logge ud?')) {
+    if (await customDialog(context, 'Er du sikker på, at du ønsker at logge ud?')) {
       Navigator.pop(context);
       BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
     }

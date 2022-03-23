@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<bool> denyDialog(BuildContext context, String question) async {
+Future<bool> customDialog(BuildContext context, String question) async {
   final theme = Theme.of(context);
   if (await showDialog(
       context: context,
@@ -8,8 +8,7 @@ Future<bool> denyDialog(BuildContext context, String question) async {
         return Dialog(
           elevation: 0,
           backgroundColor: Color(0xff63A288),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
           child: SizedBox(
             height: 300,
             child: Column(
@@ -21,7 +20,7 @@ Future<bool> denyDialog(BuildContext context, String question) async {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Er du sikker på, at du vil afvise mærket?',
+                    question,
                     style: theme.primaryTextTheme.headline1,
                     textAlign: TextAlign.center,
                   ),
@@ -34,19 +33,17 @@ Future<bool> denyDialog(BuildContext context, String question) async {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pop(context, true);
                           },
-                          child: Text('Ja',
-                              style: theme.primaryTextTheme.headline1)),
+                          child: Text('Ja', style: theme.primaryTextTheme.headline1)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pop(context, false);
                           },
-                          child: Text('Nej',
-                              style: theme.primaryTextTheme.headline1)),
+                          child: Text('Nej', style: theme.primaryTextTheme.headline1)),
                     ),
                   ],
                 ),
