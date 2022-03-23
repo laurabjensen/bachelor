@@ -13,8 +13,7 @@ class GroupRepository {
         .get();
     var groups = <Group>[];
     for (var snap in snapshot.docs) {
-      groups.add(
-          (Group.fromJson(snap)).copyWith(leaders: await getLeadersForGroup(snap.get('leaders'))));
+      groups.add(Group.fromJson(snap));
     }
     return groups;
   }
@@ -44,12 +43,7 @@ class GroupRepository {
         .doc(group.id)
         .update({'leaders': leaders});
 
-    final newGroup = group.copyWith(leaders: leaders);
-    var groups = GetIt.instance.get<List<Group>>();
-    groups.remove(group);
-    groups.add(newGroup);
-    GetIt.instance.registerSingleton<List<Group>>(groups);
-    return newGroup;
+    return group.copyWith(leaders: leaders);
   }
 
   Future<Group> removeLeaderFromGroup(Group group, String userId) async {
@@ -60,11 +54,38 @@ class GroupRepository {
         .doc(group.id)
         .update({'leaders': leaders});
 
-    final newGroup = group.copyWith(leaders: leaders);
-    var groups = GetIt.instance.get<List<Group>>();
-    groups.remove(group);
-    groups.add(newGroup);
-    GetIt.instance.registerSingleton<List<Group>>(groups);
-    return newGroup;
+    return group.copyWith(leaders: leaders);
+  }
+
+  Future<Group> updateGroupSingleton(Group group) async {
+    var groupUpdated =
+        Group.fromJson(await FirebaseFirestore.instance.collection('groups').doc(group.id).get());
+    var list = GetIt.instance.get<List<Group>>();
+    list.removeWhere((element) => element.id == group.id);
+    list.add(groupUpdated);
+    GetIt.instance.registerSingleton<List<Group>>(list);
+    return groupUpdated;
+  }
+
+  Future<Group> addMemberToGroup(Group group, String userId) async {
+    var members = group.members;
+    members.add(userId);
+    await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .update({'members': members});
+
+    return group.copyWith(members: members);
+  }
+
+  Future<Group> removeMemberFromGroup(Group group, String userId) async {
+    var members = group.members;
+    members.remove(userId);
+    await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .update({'members': members});
+
+    return group.copyWith(members: members);
   }
 }

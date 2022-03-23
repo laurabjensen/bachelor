@@ -18,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return LeaderCardWidget(
         color: Color(0xffC4C4C4),
         text: 'Leder',
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.leaderScreen,
-            arguments: userProfile),
+        onPressed: () =>
+            Navigator.pushNamed(context, AppRoutes.leaderScreen, arguments: userProfile),
         imgPath: 'assets/leder_ikon.svg',
       );
     } else {
@@ -45,8 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeCardWidget(
                       color: Color(0xffDC3E41),
                       text: 'Min Profil',
-                      onPressed: () => Navigator.pushNamed(
-                          context, AppRoutes.profileScreen,
+                      onPressed: () => Navigator.pushNamed(context, AppRoutes.profileScreen,
                           arguments: state.userProfile),
                       imgPath: 'assets/profil_ikon.svg',
                       isLeader: isLeader,
@@ -54,9 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeCardWidget(
                       color: Color(0xffE9993E),
                       text: 'Mærker',
-                      onPressed: () => Navigator.pushNamed(
-                          context, AppRoutes.badgesScreen,
-                          arguments: state.userProfile),
+                      onPressed: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
+                          arguments: {'userprofile': state.userProfile, 'initialTabIndex': 0}),
                       imgPath: 'assets/mærke_ikon.svg',
                       isLeader: isLeader,
                     )
@@ -68,17 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeCardWidget(
                       color: Color(0xffA82277),
                       text: 'Gruppe',
-                      onPressed: () =>
-                          Navigator.pushNamed(context, AppRoutes.groupScreen),
+                      onPressed: () => Navigator.pushNamed(context, AppRoutes.groupScreen),
                       imgPath: 'assets/gruppe_ikon.svg',
                       isLeader: isLeader,
                     ),
                     HomeCardWidget(
                       color: Color(0xff211F4A),
                       text: 'Veninder',
-                      onPressed: () => Navigator.pushNamed(
-                          context, AppRoutes.friendsScreen,
-                          arguments: state.userProfile),
+                      onPressed: () => Navigator.pushNamed(context, AppRoutes.friendsScreen,
+                          arguments: {'userprofile': state.userProfile, 'initialTabIndex': 0}),
                       imgPath: 'assets/venner_ikon.svg',
                       isLeader: isLeader,
                     )

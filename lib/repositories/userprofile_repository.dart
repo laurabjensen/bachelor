@@ -3,16 +3,25 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/repositories/badge_repository.dart';
+import 'package:spejder_app/repositories/group_repository.dart';
+import 'package:collection/collection.dart';
 
 class UserProfileRepository {
   Future<UserProfile> getUserprofile(UserProfile userprofile) async {
     final group = await getGroupForUserprofile(userprofile.id);
     final rank = await getRankForUserprofile(userprofile.id);
+    //final friends = await getFriendsForUser(userprofile.id);
+    //final badges = await getBadgeRegistrationsForUser(userprofile.id);
+    return userprofile.copyWith(
+      group: group,
+      rank: rank,
+    );
+  }
+
+  Future<UserProfile> reloadUserprofile(UserProfile userprofile) async {
     final friends = await getFriendsForUser(userprofile.id);
     final badges = await getBadgeRegistrationsForUser(userprofile.id);
-    return userprofile.copyWith(
-        group: group, rank: rank, friends: friends, badgeRegistrations: badges);
+    return userprofile.copyWith(friends: friends, badgeRegistrations: badges);
   }
 
   Future<UserProfile> getUserprofileFromId(String userId) async {
@@ -84,5 +93,29 @@ class UserProfileRepository {
       users.add(await getUserprofileFromDocSnapshot(snap));
     }
     return users;
+  }
+
+  Future<List<UserProfile>> getGroupUsersFromGroup(Group group) async {
+    var members = <UserProfile>[];
+    //Check firebase
+    var firebaseList = await FirebaseFirestore.instance
+        .collection('users')
+        .where('group', isEqualTo: group.id)
+        .get();
+    // If firebase list is not the same length as the preloaded lists length then update the list
+    if (firebaseList.docs.length != group.members.length) {
+      group = await GetIt.instance.get<GroupRepository>().updateGroupSingleton(group);
+    }
+    // Get all firebase users
+    var allUsers = GetIt.instance.get<List<UserProfile>>();
+
+    //Loop through all id's and check if all users conatin a user with that id and then add it to the members list.
+    for (var member in group.members) {
+      var temp = allUsers.firstWhereOrNull((element) => element.id == member);
+      if (temp != null) {
+        members.add(temp);
+      }
+    }
+    return members;
   }
 }

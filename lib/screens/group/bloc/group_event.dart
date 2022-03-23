@@ -6,3 +6,7 @@ abstract class GroupEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadFromFirebase extends GroupEvent {
+  const LoadFromFirebase();
+}

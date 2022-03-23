@@ -84,6 +84,15 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     return group;
   }
 
+  Future<Group> updateGroupMembersLists(UserProfile old, UserProfile updated) async {
+    Group group = updated.group;
+    if (old.group.id != updated.group.id) {
+      group = await groupRepository.removeMemberFromGroup(old.group, old.id);
+      group = await groupRepository.addMemberToGroup(updated.group, updated.id);
+    }
+    return group;
+  }
+
   Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
     emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
     String? path;
@@ -94,6 +103,8 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     var updatedUserprofile =
         userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
     var updatedGroup = await updateLeaderLists(userprofile, updatedUserprofile);
+    updatedGroup = await updateGroupMembersLists(userprofile, updatedUserprofile);
+    await groupRepository.updateGroupSingleton(userprofile.group);
     updatedUserprofile = updatedUserprofile.copyWith(group: updatedGroup);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
     authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));

@@ -21,11 +21,12 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   }
 
   Future<void> _loadFriends(Emitter<FriendsState> emit) async {
-    //final allUsers = GetIt.instance.get<List<UserProfile>>();
+    final allUsers = GetIt.instance.get<List<UserProfile>>();
     final allUserFriends =
         await friendsRepository.getFriendUserProfilesForUser(userProfile.friends);
 
     emit(state.copyWith(
+      allUsers: allUsers,
       friendsStatus: FriendsStateStatus.loaded,
       allUserFriends: allUserFriends,
     ));

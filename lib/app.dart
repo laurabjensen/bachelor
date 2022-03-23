@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/app_theme.dart';
-import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
@@ -12,6 +10,7 @@ import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/badges/registration/register_badge_screen.dart';
 import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
 import 'package:spejder_app/screens/friends/friends_activity/friends_activity_screen.dart';
+import 'package:spejder_app/screens/group/group_members_screen.dart';
 import 'package:spejder_app/screens/group/group_screen.dart';
 import 'package:spejder_app/screens/home/home_screen.dart';
 import 'package:spejder_app/screens/leader/approve_badges_screen.dart';
@@ -47,12 +46,13 @@ class App extends StatelessWidget {
           AppRoutes.signupScreen: (context) => SignupScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
           AppRoutes.badgesScreen: (context) =>
-              BadgesScreen(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile),
+              BadgesScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
           AppRoutes.profileScreen: (context) => ProfileScreen(),
           AppRoutes.groupScreen: (context) => GroupScreen(),
+          AppRoutes.groupMembersScreen: (context) => GroupMembersScreen(),
           AppRoutes.leaderScreen: (context) => LeaderScreen(),
           AppRoutes.friendsScreen: (context) =>
-              FriendsScreen(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile),
+              FriendsScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
           AppRoutes.friendsActivityScreen: (context) => FriendsActivityScreen(),
           AppRoutes.specificBadgeScreen: (context) =>
               SpecificBadgeScreen(args: ModalRoute.of(context)!.settings.arguments as Map),

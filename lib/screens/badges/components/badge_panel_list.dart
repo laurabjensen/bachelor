@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/screens/badges/components/badge_panel_widget.dart';
+import 'package:spejder_app/screens/badges/components/description_badge_panel_widget.dart';
 
 class BadgePanelList extends StatelessWidget {
   final BadgeSpecific badgeSpecific;
   final bool isLeader;
   final BadgeRegistration? registration;
+  final Function(String text) onDescriptionSaved;
 
   const BadgePanelList(
-      {Key? key, required this.badgeSpecific, required this.isLeader, required this.registration})
+      {Key? key,
+      required this.badgeSpecific,
+      required this.isLeader,
+      required this.registration,
+      required this.onDescriptionSaved})
       : super(key: key);
 
   @override
@@ -28,12 +34,12 @@ class BadgePanelList extends StatelessWidget {
         BadgePanelWidget.showList(title: 'Trin', list: badgeSpecific.steps),
         BadgePanelWidget(title: 'Udfordring', text: badgeSpecific.challenge),
         (registration != null && registration!.getStatus() == BadgeRegistrationStatus.accepted)
-            ? BadgePanelWidget(
+            ? DescriptionBadgePanelWidget(
                 //TODO! Gør det muligt at opdatere
                 title: 'Din beskrivelse',
-                text: registration!.description.isNotEmpty
-                    ? registration!.description
-                    : 'Ingen beskrivelse givet.')
+                text: registration?.description,
+                onDescriptionSaved: (text) => onDescriptionSaved(text),
+              )
             : Container(),
       ],
     );

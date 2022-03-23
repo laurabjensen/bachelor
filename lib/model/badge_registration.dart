@@ -7,8 +7,8 @@ enum BadgeRegistrationStatus { waitingOnLeader, denied, accepted }
 class BadgeRegistration {
   final String id;
   final BadgeSpecific badgeSpecific;
-  final UserProfile userProfile;
-  final UserProfile leader;
+  final String userProfile;
+  final String leader;
   final DateTime date;
   final String description;
   final bool waitingOnLeader;
@@ -27,8 +27,8 @@ class BadgeRegistration {
   BadgeRegistration copyWith(
       {String? id,
       BadgeSpecific? badgeSpecific,
-      UserProfile? userProfile,
-      UserProfile? leader,
+      String? userProfile,
+      String? leader,
       DateTime? date,
       String? description,
       bool? waitingOnLeader,
@@ -48,8 +48,8 @@ class BadgeRegistration {
     return {
       'badge': badgeSpecific.badge.id,
       'rank': badgeSpecific.rank.id,
-      'user': userProfile.id,
-      'leader': leader.id,
+      'user': userProfile,
+      'leader': leader,
       'date': Timestamp.fromDate(date),
       'description': description,
       'waitingOnLeader': waitingOnLeader,
@@ -61,8 +61,8 @@ class BadgeRegistration {
       : this(
             id: json.id,
             badgeSpecific: BadgeSpecific.empty,
-            userProfile: UserProfile.empty,
-            leader: UserProfile.empty,
+            userProfile: json.get('user'),
+            leader: json.get('leader'),
             date: (json.get('date') as Timestamp).toDate(),
             description: json.get('description'),
             waitingOnLeader: json.get('waitingOnLeader'),

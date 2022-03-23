@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:spejder_app/model/badge.dart';
-import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 
@@ -68,8 +66,8 @@ class UserProfile {
             seniority: json['seniority'] as int,
             description: json['description'].toString(),
             imageUrl: json['imageUrl'].toString(),
-            badgeRegistrations: [],
-            friends: []);
+            badgeRegistrations: List<String>.from(json['badges']),
+            friends: List<String>.from(json['friends']));
 
   Map<String, Object?> toJson() {
     return {

@@ -92,11 +92,11 @@ class ApproveBadgeWidget extends StatelessWidget {
                             ],
                           ),
                           Flexible(
-                            child: Text(badgeRegistration.userProfile.name,
+                            child: Text('',
                                 textAlign: TextAlign.center,
                                 style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
                           ),
-                          Text(badgeRegistration.userProfile.rank.title,
+                          Text('',
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),
                         ],

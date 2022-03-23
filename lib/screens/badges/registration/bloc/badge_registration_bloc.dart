@@ -48,8 +48,8 @@ class BadgeRegistrationBloc extends Bloc<BadgeRegistrationEvent, BadgeRegistrati
     final badgeRegistration = BadgeRegistration(
         id: '',
         badgeSpecific: badgeSpecific,
-        userProfile: userProfile,
-        leader: state.leader!,
+        userProfile: userProfile.id,
+        leader: state.leader!.id,
         date: state.date!,
         description: description,
         waitingOnLeader: true,

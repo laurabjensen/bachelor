@@ -27,7 +27,7 @@ class FriendsTab extends StatelessWidget {
                     children: List.generate(friends.length, (index) {
                       return ProfileFriendWidget(
                         //badge: friends[index],
-                        userProfile: userProfile,
+                        userProfile: friends[index],
                       );
                     }))),
           ],

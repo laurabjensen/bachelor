@@ -34,6 +34,9 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   void initState() {
     super.initState();
     badge = widget.args['badge'];
+    if (badge.levels.isEmpty) {
+      badge = GetIt.instance.get<List<Badge>>().firstWhere((element) => element.id == badge.id);
+    }
     userProfile = widget.args['userProfile'];
     loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     badgeSpecific = ValueNotifier<BadgeSpecific>(badge.levels.firstWhere((element) {
@@ -75,6 +78,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     );
   }
 
+  //TODO! Change futurebuilder to bloc and call a function in init state to load registrations
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -114,6 +118,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                               badgeSpecific: badgeSpecific.value,
                               isLeader: userProfile.rank.title == 'Leder',
                               registration: registration,
+                              onDescriptionSaved: (text) => null,
                             ),
                             getButton(registration, value, theme),
                             // Læs mere button med icon

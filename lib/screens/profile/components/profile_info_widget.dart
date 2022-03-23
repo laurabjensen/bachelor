@@ -18,19 +18,22 @@ class ProfileInfoWidget extends StatelessWidget {
           userProfile: userProfile,
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Text(userProfile.name, style: theme.primaryTextTheme.headline1),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('${userProfile.group.name} Gruppe', style: theme.primaryTextTheme.headline2),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            userProfile.rank.title,
-            style: theme.primaryTextTheme.headline2,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${userProfile.group.name} \n',
+                textAlign: TextAlign.center, style: theme.primaryTextTheme.headline2),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              '${userProfile.rank.title} \n',
+              style: theme.primaryTextTheme.headline2,
+            ),
+          ],
         ),
       ],
     );

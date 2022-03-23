@@ -21,12 +21,11 @@ class BadgeRegistrationRepository {
         .doc(badgeRegistrationId)
         .get();
     var badgeRegistration = BadgeRegistration.fromJson(snap);
-    final user = await userProfileRepository.getUserprofileFromId(snap.get('user'));
-    final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+    //final user = await userProfileRepository.getUserprofileFromId(snap.get('user'));
+    //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
     final badgeSpecific =
         await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
-    return badgeRegistration.copyWith(
-        userProfile: user, leader: leader, badgeSpecific: badgeSpecific);
+    return badgeRegistration.copyWith(badgeSpecific: badgeSpecific);
   }
 
   Future<BadgeRegistration> getBadgeRegistrationFromIdWithUser(
@@ -36,11 +35,10 @@ class BadgeRegistrationRepository {
         .doc(badgeRegistrationId)
         .get();
     var badgeRegistration = BadgeRegistration.fromJson(snap);
-    final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+    //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
     final badgeSpecific =
         await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
-    return badgeRegistration.copyWith(
-        userProfile: userProfile, leader: leader, badgeSpecific: badgeSpecific);
+    return badgeRegistration.copyWith(badgeSpecific: badgeSpecific);
   }
 
   Future<List<BadgeRegistration>> getBadgeRegistrationsFromUserProfile(
@@ -49,11 +47,10 @@ class BadgeRegistrationRepository {
     for (var badge in userProfile.badgeRegistrations) {
       var snap = await FirebaseFirestore.instance.collection('badgeRegistrations').doc(badge).get();
       var badgeRegistration = BadgeRegistration.fromJson(snap);
-      final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+      //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
       final badgeSpecific =
           await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
-      badges.add(badgeRegistration.copyWith(
-          userProfile: userProfile, leader: leader, badgeSpecific: badgeSpecific));
+      badges.add(badgeRegistration.copyWith(badgeSpecific: badgeSpecific));
     }
     return badges;
   }
@@ -94,12 +91,10 @@ class BadgeRegistrationRepository {
         .collection('badgeRegistrations')
         .doc(badgeRegistration.id)
         .update(badgeRegistration.toMap());
-    var list = badgeRegistration.userProfile.badgeRegistrations;
+    var path = FirebaseFirestore.instance.collection('users').doc(badgeRegistration.userProfile);
+    var list = (await path.get()).get('badges');
     list.add(badgeRegistration.id);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(badgeRegistration.userProfile.id)
-        .update({'badges': list});
+    await path.update({'badges': list});
   }
 
   // Wating on leader = false now since the leader makes an action on the badge. Updates firebase values

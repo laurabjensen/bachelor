@@ -1,10 +1,24 @@
 part of 'group_bloc.dart';
 
-abstract class GroupState extends Equatable {
-  const GroupState();
-  
-  @override
-  List<Object> get props => [];
-}
+enum GroupLoadStatus { loading, loaded }
 
-class GroupInitial extends GroupState {}
+@immutable
+class GroupState extends Equatable {
+  final List<UserProfile> groupMembers;
+  final GroupLoadStatus loadStatus;
+
+  const GroupState({this.groupMembers = const [], this.loadStatus = GroupLoadStatus.loading});
+
+  GroupState copyWith({
+    List<UserProfile>? groupMembers,
+    GroupLoadStatus? loadStatus,
+  }) {
+    return GroupState(
+      groupMembers: groupMembers ?? this.groupMembers,
+      loadStatus: loadStatus ?? this.loadStatus,
+    );
+  }
+
+  @override
+  List<Object?> get props => [groupMembers, loadStatus];
+}

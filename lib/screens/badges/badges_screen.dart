@@ -7,22 +7,29 @@ import 'package:spejder_app/screens/badges/all_badges_tab.dart';
 import 'bloc/badges_bloc.dart';
 
 class BadgesScreen extends StatefulWidget {
-  final UserProfile userProfile;
+  final Map args;
 
-  const BadgesScreen({Key? key, required this.userProfile}) : super(key: key);
+  const BadgesScreen({Key? key, required this.args}) : super(key: key);
   @override
   _BadgesScreenState createState() => _BadgesScreenState();
 }
 
-class _BadgesScreenState extends State<BadgesScreen> {
+class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMixin {
+  late UserProfile userProfile;
+  late int initialTabIndex;
   late UserProfile loggedInUser;
   late BadgesBloc badgesBloc;
+  late TabController controller;
 
   @override
   void initState() {
-    super.initState();
-    badgesBloc = BadgesBloc(userProfile: widget.userProfile);
+    userProfile = widget.args['userprofile'];
+    initialTabIndex = widget.args['initialTabIndex'];
+    badgesBloc = BadgesBloc(userProfile: userProfile);
     loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    controller = TabController(length: 2, vsync: this, initialIndex: initialTabIndex);
+
+    super.initState();
   }
 
   // TODO! Find ud af hvad vi skal gøre med background svg her!!!
@@ -32,46 +39,48 @@ class _BadgesScreenState extends State<BadgesScreen> {
     return BlocBuilder<BadgesBloc, BadgesState>(
       bloc: badgesBloc,
       builder: (context, state) {
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
+        return Scaffold(
+          backgroundColor: Color(0xff63A288),
+          appBar: AppBar(
+            foregroundColor: Colors.black,
             backgroundColor: Color(0xff63A288),
-            appBar: AppBar(
-              foregroundColor: Colors.black,
-              backgroundColor: Color(0xff63A288),
-              bottom: TabBar(
-                indicatorColor: Colors.black,
-                indicatorWeight: 3,
-                tabs: [
-                  Tab(
-                      child: Text('Alle mærker',
-                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
-                  Tab(
-                      child: Text(
-                          widget.userProfile.id == loggedInUser.id
-                              ? 'Mine mærker'
-                              : '${widget.userProfile.namePossessiveCase()} mærker',
-                          style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
-                ],
-              ),
-              title: Text(
-                'Mærke oversigt',
-                style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
-              ),
-            ),
-            body: TabBarView(
-              children: [
-                BadgesTab(
-                    challengeBadges: state.allChallengeBadges,
-                    engagementBadges: state.allEngagementBadges,
-                    userProfile: loggedInUser),
-                BadgesTab(
-                  challengeBadges: state.userChallengeBadges,
-                  engagementBadges: state.userEngagementBadges,
-                  userProfile: widget.userProfile,
-                )
+            bottom: TabBar(
+              controller: controller,
+              indicatorColor: Colors.black,
+              indicatorWeight: 3,
+              tabs: [
+                Tab(
+                    child: Text('Alle mærker',
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                Tab(
+                    child: Text(
+                        userProfile.id == loggedInUser.id
+                            ? 'Mine mærker'
+                            : '${userProfile.namePossessiveCase()} mærker',
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
               ],
             ),
+            title: Text(
+              'Mærke oversigt',
+              style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
+            ),
+          ),
+          body: TabBarView(
+            controller: controller,
+            children: [
+              BadgesTab(
+                challengeBadges: state.allChallengeBadges,
+                engagementBadges: state.allEngagementBadges,
+                userProfile: loggedInUser,
+                status: state.badgesStatus,
+              ),
+              BadgesTab(
+                challengeBadges: state.userChallengeBadges,
+                engagementBadges: state.userEngagementBadges,
+                userProfile: userProfile,
+                status: state.badgesStatus,
+              ),
+            ],
           ),
         );
       },

@@ -8,12 +8,12 @@ import 'package:spejder_app/screens/components/navbar.dart';
 
 import 'bloc/group_bloc.dart';
 
-class GroupScreen extends StatefulWidget {
+class GroupMembersScreen extends StatefulWidget {
   @override
   _GroupScreenState createState() => _GroupScreenState();
 }
 
-class _GroupScreenState extends State<GroupScreen> {
+class _GroupScreenState extends State<GroupMembersScreen> {
   late UserProfile userProfile;
   late GroupBloc groupBloc;
 
@@ -37,7 +37,7 @@ class _GroupScreenState extends State<GroupScreen> {
             child: Column(
               children: [
                 Text(
-                  userProfile.group.name,
+                  'Medlemmer af ' + userProfile.group.name,
                   style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
                 ),
                 BlocBuilder(
@@ -94,7 +94,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                 onTap: () => Navigator.pushNamed(
                                     //TODO: Fix route
                                     context,
-                                    AppRoutes.groupMembersScreen,
+                                    AppRoutes.createPatrolScreen,
                                     arguments: userProfile),
                                 child: Card(
                                   elevation: 10,

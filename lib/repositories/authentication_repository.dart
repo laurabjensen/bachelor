@@ -46,6 +46,7 @@ class AuthenticationRepository {
         badgeRegistrations: [],
         friends: []);
     await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userProfile.toJson());
+    await GetIt.instance.get<GroupRepository>().addMemberToGroup(state.group, user.uid);
     state.rank.title == 'Leder'
         ? await GetIt.instance.get<GroupRepository>().addLeaderToGroup(state.group, user.uid)
         : null;

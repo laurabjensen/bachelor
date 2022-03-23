@@ -36,18 +36,12 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
   Future<void> _approveBadge(BadgeRegistration badgeRegistration, Emitter<LeaderState> emit) async {
     emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
     await badgeRegistrationRepository.approveBadgeRegistration(badgeRegistration);
-    var badgeRegistrations = await loadList();
-    emit(state.copyWith(
-        badgeRegistrations: badgeRegistrations,
-        registrationStatus: LeaderBadgeRegistrationStatus.finished));
+    emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.finished));
   }
 
   Future<void> _denyBadge(BadgeRegistration badgeRegistration, Emitter<LeaderState> emit) async {
     emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
     await badgeRegistrationRepository.denyBadgeRegistration(badgeRegistration);
-    var badgeRegistrations = await loadList();
-    emit(state.copyWith(
-        badgeRegistrations: badgeRegistrations,
-        registrationStatus: LeaderBadgeRegistrationStatus.finished));
+    emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.finished));
   }
 }

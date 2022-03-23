@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+
     currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
   }
 
@@ -75,15 +76,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Divider(
-                  color: Color(0xff178C6D),
+                  color: Color(0xff008060),
                   thickness: 2,
                 ),
                 Expanded(
                   child: ListView(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -96,10 +98,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userProfile: state.userProfile,
                       ),
                       ProfileBadgesRow(
-                        //TODO!: Load liste a badgeRegistrations i stedet for bare badges
                         //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
                         onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
-                            arguments: state.userProfile),
+                            arguments: {'userprofile': state.userProfile, 'initialTabIndex': 1}),
                         objects: state.badges,
                         headlineText: state.userProfile.id == currentUser.id
                             ? 'Mine mærker'
@@ -111,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ProfileFriendsRow(
                         onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen,
-                            arguments: state.userProfile),
+                            arguments: {'userprofile': state.userProfile, 'initialTabIndex': 1}),
                         objects: state.friends,
                         headlineText: state.userProfile.id == currentUser.id
                             ? 'Mine veninder'
