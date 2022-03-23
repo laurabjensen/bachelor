@@ -7,6 +7,7 @@ import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/leader/bloc/leader_bloc.dart';
 import 'package:spejder_app/screens/leader/components/approve_badge_widget.dart';
+import 'package:spejder_app/screens/leader/components/dialog_deny.dart';
 
 class ApproveBadgesScreen extends StatefulWidget {
   @override
@@ -20,7 +21,15 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
   @override
   void initState() {
     super.initState();
-    userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    userProfile =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+  }
+
+  void deny() async {
+    if (await denyDialog(
+        context, 'Er du sikker på, at du ønsker at logge ud?')) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -31,9 +40,11 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
     return BlocListener(
         bloc: leaderBloc,
         listener: (context, LeaderState state) {
-          if (state.registrationStatus == LeaderBadgeRegistrationStatus.loading) {
+          if (state.registrationStatus ==
+              LeaderBadgeRegistrationStatus.loading) {
             EasyLoading.show();
-          } else if (state.registrationStatus == LeaderBadgeRegistrationStatus.finished) {
+          } else if (state.registrationStatus ==
+              LeaderBadgeRegistrationStatus.finished) {
             EasyLoading.dismiss();
           }
         },
@@ -49,7 +60,8 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'Godkend mærker',
-                        style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
+                        style: theme.primaryTextTheme.headline1!
+                            .copyWith(fontSize: 30),
                       ),
                     ),
                     BlocBuilder(
@@ -60,14 +72,21 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
                               return Expanded(
                                   child: ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: state.badgeRegistrations.length,
+                                      itemCount:
+                                          state.badgeRegistrations.length,
                                       itemBuilder: (context, index) {
                                         return ApproveBadgeWidget(
-                                            badgeRegistration: state.badgeRegistrations[index],
-                                            onAccept: () => leaderBloc
-                                                .add(ApproveBadge(state.badgeRegistrations[index])),
-                                            onDeny: () => leaderBloc
-                                                .add(DenyBadge(state.badgeRegistrations[index])));
+                                            badgeRegistration:
+                                                state.badgeRegistrations[index],
+                                            onAccept: () => leaderBloc.add(
+                                                ApproveBadge(
+                                                    state.badgeRegistrations[
+                                                        index])),
+                                            onDeny: () => deny());
+                                        //leaderBloc.add(
+                                        //DenyBadge(
+                                        //   state.badgeRegistrations[
+                                        //       index])));
                                       }));
                             } else {
                               return Padding(
@@ -75,8 +94,8 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
                                 child: Text(
                                     'Der ligger ingen mærker til godkendelse hos dig i øjeblikket!',
                                     textAlign: TextAlign.center,
-                                    style:
-                                        theme.primaryTextTheme.headline2!.copyWith(fontSize: 17)),
+                                    style: theme.primaryTextTheme.headline2!
+                                        .copyWith(fontSize: 17)),
                               );
                             }
                           } else {
