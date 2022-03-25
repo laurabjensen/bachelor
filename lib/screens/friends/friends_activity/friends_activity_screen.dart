@@ -8,13 +8,15 @@ import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/friends/components/approve_friend_widget.dart';
 
 class FriendsActivityScreen extends StatefulWidget {
+  final UserProfile userProfile;
+
+  const FriendsActivityScreen({Key? key, required this.userProfile}) : super(key: key);
   @override
   State<FriendsActivityScreen> createState() => _FriendsActivityScreenState();
 }
 
 class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
   late UserProfile currentUser;
-  late UserProfile userProfile = ModalRoute.of(context)!.settings.arguments as UserProfile;
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
                     itemBuilder: (context, index) {
                       return ApproveFriendWidget(
                         // TODO: RegretFriendWidget kan også bruges
-                        userProfile: userProfile,
+                        userProfile: widget.userProfile,
                       );
                     },
                   ),

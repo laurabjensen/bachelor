@@ -5,18 +5,20 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
+import 'package:spejder_app/screens/group/bloc/group_bloc.dart';
 import 'package:spejder_app/screens/leader/bloc/leader_bloc.dart';
 import 'package:spejder_app/screens/leader/components/approve_badge_widget.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
 
 class ApproveBadgesScreen extends StatefulWidget {
+  final LeaderBloc leaderBloc;
+  const ApproveBadgesScreen({Key? key, required this.leaderBloc}) : super(key: key);
   @override
   _ApproveBadgesScreenState createState() => _ApproveBadgesScreenState();
 }
 
 class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
   late UserProfile userProfile;
-  late LeaderBloc leaderBloc;
 
   @override
   void initState() {
@@ -26,17 +28,16 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
 
   void deny(LeaderState state, int index) async {
     if (await customDialog(context, 'Er du sikker på, at du ønsker at afvise mærket?')) {
-      leaderBloc.add(DenyBadge(state.badgeRegistrations[index]));
+      widget.leaderBloc.add(DenyBadge(state.badgeRegistrations[index]));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    leaderBloc = ModalRoute.of(context)!.settings.arguments as LeaderBloc;
     final theme = Theme.of(context);
 
     return BlocListener(
-        bloc: leaderBloc,
+        bloc: widget.leaderBloc,
         listener: (context, LeaderState state) {
           if (state.registrationStatus == LeaderBadgeRegistrationStatus.loading) {
             EasyLoading.show();
@@ -60,7 +61,7 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
                       ),
                     ),
                     BlocBuilder(
-                        bloc: leaderBloc,
+                        bloc: widget.leaderBloc,
                         builder: (context, LeaderState state) {
                           if (state.loadStatus == LeaderLoadStatus.loaded) {
                             if (state.badgeRegistrations.isNotEmpty) {
@@ -71,7 +72,7 @@ class _ApproveBadgesScreenState extends State<ApproveBadgesScreen> {
                                       itemBuilder: (context, index) {
                                         return ApproveBadgeWidget(
                                             badgeRegistration: state.badgeRegistrations[index],
-                                            onAccept: () => leaderBloc
+                                            onAccept: () => widget.leaderBloc
                                                 .add(ApproveBadge(state.badgeRegistrations[index])),
                                             onDeny: () => deny(state, index));
                                       }));

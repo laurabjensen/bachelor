@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
+import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
+import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
 import 'package:spejder_app/screens/profile/components/profile_badges_row_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_description_widget.dart';
@@ -16,20 +19,23 @@ import '../edit_profile/bloc/editprofile_bloc.dart';
 import '../edit_profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final UserProfile userProfile;
+
+  const ProfileScreen({Key? key, required this.userProfile}) : super(key: key);
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile currentUser;
-  late ProfileBloc profileBloc =
-      ProfileBloc(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);
+  late ProfileBloc profileBloc;
+  /*ProfileBloc(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);*/
 
   @override
   void initState() {
     super.initState();
-
     currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    profileBloc = ProfileBloc(userProfile: widget.userProfile);
   }
 
   void logout() async {
@@ -55,17 +61,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       ProfileNavbar(
                         onBack: () => Navigator.pop(context),
-                        onEditUser: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => EditProfileScreen(
+                        onEditUser: () => pushNewScreen(context,
+                            screen: EditProfileScreen(
                                 userprofile: state.userProfile,
                                 editprofileBloc: EditprofileBloc(state.userProfile,
                                     authenticationBloc:
                                         BlocProvider.of<AuthenticationBloc>(context),
                                     profileBloc: profileBloc)),
-                          ),
-                        ),
+                            withNavBar: false),
                         onLogout: logout,
                         isMyPage: state.userProfile.id == currentUser.id,
                       ),
@@ -99,8 +102,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ProfileBadgesRow(
                         //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.badgesScreen,
-                            arguments: {'userprofile': state.userProfile, 'initialTabIndex': 1}),
+                        onSeeAll: () => pushNewScreen(context,
+                            screen:
+                                BadgesScreen(userProfile: state.userProfile, initialTabIndex: 1),
+                            withNavBar: false),
                         objects: state.badges,
                         headlineText: state.userProfile.id == currentUser.id
                             ? 'Mine mærker'
@@ -111,8 +116,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userProfile: state.userProfile,
                       ),
                       ProfileFriendsRow(
-                        onSeeAll: () => Navigator.pushNamed(context, AppRoutes.friendsScreen,
-                            arguments: {'userprofile': state.userProfile, 'initialTabIndex': 1}),
+                        onSeeAll: () => pushNewScreen(context,
+                            screen:
+                                FriendsScreen(userProfile: state.userProfile, initialTabIndex: 1)),
                         objects: state.friends,
                         headlineText: state.userProfile.id == currentUser.id
                             ? 'Mine veninder'

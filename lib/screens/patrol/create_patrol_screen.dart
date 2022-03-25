@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/patrol/bloc/create_patrol_bloc.dart';
 import 'package:spejder_app/screens/patrol/components/custom_selectable_grid.dart';
 import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
+import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/validators.dart';
 
 import '../../custom_scaffold.dart';
@@ -14,8 +16,7 @@ import '../components/navbar.dart';
 class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const CreatePatrolScreen({Key? key, required this.userProfile})
-      : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
 
   @override
   State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
@@ -51,13 +52,11 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                       children: [
                         Text(
                           'Opret ny patrulje',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontSize: 30),
+                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
                         ),
                         Text(
                           widget.userProfile.group.name,
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontSize: 17),
+                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
                         ),
                         //TODO: REMEMBER VALIDATION
                         Padding(
@@ -78,8 +77,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                           child: RankDropdown(
                               ranks: state.ranks,
                               rank: state.rank ?? widget.userProfile.rank,
-                              onChanged: (rank) =>
-                                  createPatrolBloc.add(RankChanged(rank))),
+                              onChanged: (rank) => createPatrolBloc.add(RankChanged(rank))),
                         ),
                         CustomSelectableGrid(),
                         Padding(
@@ -88,10 +86,8 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                             width: 200,
                             height: 60,
                             child: ElevatedButton(
-                              onPressed: () => Navigator.pushNamed(
-                                  context, AppRoutes.signupScreen),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color(0xff377E62)),
+                              onPressed: () => null,
+                              style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
                               child: Text(
                                 'Opret patrulje med X spejdere', // ${selectedList.length}
                                 style: theme.primaryTextTheme.headline1,

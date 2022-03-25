@@ -43,17 +43,5 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
             .toList()));
   }
 
-  Future<void> _loadUserBadges(Emitter<BadgesState> emit) async {
-    emit(state.copyWith(badgesStatus: BadgesStateStatus.loading));
-    final badgeRegistrations =
-        await badgeRegistrationRepository.getBadgeRegistrationsFromUserProfile(userProfile);
-    emit(state.copyWith(
-        badgesStatus: BadgesStateStatus.loaded,
-        userChallengeBadges: badgeRegistrations
-            .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
-            .toList(),
-        userEngagementBadges: badgeRegistrations
-            .where((element) => element.badgeSpecific.badge.type == 'Engagement')
-            .toList()));
-  }
+ 
 }

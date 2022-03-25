@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
+import 'package:spejder_app/screens/reset/reset_screen.dart';
+import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/validators.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state.loginStateStatus == LoginStateStatus.loading) {
           //EasyLoading.show();
         } else if (state.loginStateStatus == LoginStateStatus.success) {
-          //Navigator.pushNamed(context, AppRoutes.homeScreen);
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
         } else if (state.loginStateStatus == LoginStateStatus.failure) {
           EasyLoading.showError(state.failureMessage);
@@ -93,7 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: theme.primaryTextTheme.headline1,
                                   )))),
                       TextButton(
-                          onPressed: () => Navigator.pushNamed(context, AppRoutes.resetScreen),
+                          onPressed: () =>
+                              pushNewScreen(context, screen: ResetScreen(), withNavBar: false),
                           child: Text('Glemt kodeord?',
                               style: theme.primaryTextTheme.headline3!
                                   .copyWith(fontStyle: FontStyle.italic))),
@@ -103,7 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 260,
                           height: 45,
                           child: ElevatedButton(
-                            onPressed: () => Navigator.pushNamed(context, AppRoutes.signupScreen),
+                            onPressed: () =>
+                                pushNewScreen(context, screen: SignupScreen(), withNavBar: false),
                             style: ElevatedButton.styleFrom(primary: Color(0xffACC6B1)),
                             child: Text('Bliv en del af fællesskabet',
                                 style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 18)),

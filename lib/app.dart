@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/badges/registration/register_badge_screen.dart';
 import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
+import 'package:spejder_app/screens/components/navigation.dart';
 import 'package:spejder_app/screens/friends/friends_activity/friends_activity_screen.dart';
 import 'package:spejder_app/screens/group/group_members_screen.dart';
 import 'package:spejder_app/screens/group/group_screen.dart';
@@ -42,34 +43,12 @@ class App extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en', ''), Locale('da', 'DK')],
-        routes: {
-          AppRoutes.signupScreen: (context) => SignupScreen(),
-          AppRoutes.homeScreen: (context) => HomeScreen(),
-          AppRoutes.badgesScreen: (context) =>
-              BadgesScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
-          AppRoutes.profileScreen: (context) => ProfileScreen(),
-          AppRoutes.groupScreen: (context) => GroupScreen(),
-          AppRoutes.groupMembersScreen: (context) => GroupMembersScreen(),
-          AppRoutes.leaderScreen: (context) => LeaderScreen(),
-          AppRoutes.friendsScreen: (context) =>
-              FriendsScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
-          AppRoutes.friendsActivityScreen: (context) => FriendsActivityScreen(),
-          AppRoutes.specificBadgeScreen: (context) =>
-              SpecificBadgeScreen(args: ModalRoute.of(context)!.settings.arguments as Map),
-          AppRoutes.registerBadgeScreen: (context) => RegisterBadgeScreen(
-              badgeSpecific: ModalRoute.of(context)!.settings.arguments as BadgeSpecific),
-          AppRoutes.resetScreen: (context) => ResetScreen(),
-          AppRoutes.approveBadgesScreen: (context) => ApproveBadgesScreen(),
-          AppRoutes.createPatrolScreen: (context) => CreatePatrolScreen(
-                userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile,
-              ),
-        },
         builder: EasyLoading.init(),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, AuthenticationState state) {
             switch (state.status) {
               case AuthenticationStateStatus.authenticated:
-                return HomeScreen();
+                return LoggedInNavigationController();
               case AuthenticationStateStatus.unauthenticated:
               default:
                 return LoginScreen();

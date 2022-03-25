@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
+import 'package:spejder_app/screens/leader/approve_badges_screen.dart';
 import 'package:spejder_app/screens/leader/bloc/leader_bloc.dart';
+import 'package:spejder_app/screens/patrol/create_patrol_screen.dart';
 
 class LeaderScreen extends StatefulWidget {
   @override
@@ -55,11 +58,10 @@ class _LeaderScreenState extends State<LeaderScreen> {
                               height: 70,
                               width: 336,
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.approveBadgesScreen,
-                                  arguments: leaderBloc,
-                                ),
+                                onTap: () => pushNewScreen(context,
+                                    screen: ApproveBadgesScreen(
+                                      leaderBloc: leaderBloc,
+                                    )),
                                 child: Card(
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
@@ -109,9 +111,9 @@ class _LeaderScreenState extends State<LeaderScreen> {
                               height: 70,
                               width: 336,
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                    context, AppRoutes.createPatrolScreen,
-                                    arguments: userProfile),
+                                onTap: () => pushNewScreen(context,
+                                    screen: CreatePatrolScreen(userProfile: userProfile),
+                                    withNavBar: false),
                                 child: Card(
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(

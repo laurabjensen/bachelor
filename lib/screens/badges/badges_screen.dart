@@ -7,27 +7,25 @@ import 'package:spejder_app/screens/badges/all_badges_tab.dart';
 import 'bloc/badges_bloc.dart';
 
 class BadgesScreen extends StatefulWidget {
-  final Map args;
+  final UserProfile userProfile;
+  final int initialTabIndex;
 
-  const BadgesScreen({Key? key, required this.args}) : super(key: key);
+  const BadgesScreen({Key? key, required this.userProfile, required this.initialTabIndex})
+      : super(key: key);
   @override
   _BadgesScreenState createState() => _BadgesScreenState();
 }
 
 class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMixin {
-  late UserProfile userProfile;
-  late int initialTabIndex;
   late UserProfile loggedInUser;
   late BadgesBloc badgesBloc;
   late TabController controller;
 
   @override
   void initState() {
-    userProfile = widget.args['userprofile'];
-    initialTabIndex = widget.args['initialTabIndex'];
-    badgesBloc = BadgesBloc(userProfile: userProfile);
+    badgesBloc = BadgesBloc(userProfile: widget.userProfile);
     loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    controller = TabController(length: 2, vsync: this, initialIndex: initialTabIndex);
+    controller = TabController(length: 2, vsync: this, initialIndex: widget.initialTabIndex);
 
     super.initState();
   }
@@ -54,9 +52,9 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
                         style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                 Tab(
                     child: Text(
-                        userProfile.id == loggedInUser.id
+                        widget.userProfile.id == loggedInUser.id
                             ? 'Mine mærker'
-                            : '${userProfile.namePossessiveCase()} mærker',
+                            : '${widget.userProfile.namePossessiveCase()} mærker',
                         style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
               ],
             ),
@@ -77,7 +75,7 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
               BadgesTab(
                 challengeBadges: state.userChallengeBadges,
                 engagementBadges: state.userEngagementBadges,
-                userProfile: userProfile,
+                userProfile: widget.userProfile,
                 status: state.badgesStatus,
               ),
             ],

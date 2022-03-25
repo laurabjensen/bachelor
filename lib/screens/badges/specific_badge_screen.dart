@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
@@ -13,34 +14,35 @@ import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
 import 'package:spejder_app/screens/badges/registration/components/read_more_button.dart';
+import 'package:spejder_app/screens/badges/registration/register_badge_screen.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:collection/collection.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
-  final Map args;
+  final UserProfile userProfile;
+  final Badge badge;
 
-  const SpecificBadgeScreen({Key? key, required this.args}) : super(key: key);
+  const SpecificBadgeScreen({Key? key, required this.userProfile, required this.badge})
+      : super(key: key);
   @override
   _SpecificBadgeScreenState createState() => _SpecificBadgeScreenState();
 }
 
 class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   late Badge badge;
-  late UserProfile userProfile;
   late ValueNotifier<BadgeSpecific> badgeSpecific;
   late UserProfile loggedInUser;
 
   @override
   void initState() {
     super.initState();
-    badge = widget.args['badge'];
-    if (badge.levels.isEmpty) {
+    badge = widget.badge;
+    if (widget.badge.levels.isEmpty) {
       badge = GetIt.instance.get<List<Badge>>().firstWhere((element) => element.id == badge.id);
     }
-    userProfile = widget.args['userProfile'];
     loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     badgeSpecific = ValueNotifier<BadgeSpecific>(badge.levels.firstWhere((element) {
-      if (userProfile.rank.title == 'Leder') {
+      if (widget.userProfile.rank.title == 'Leder') {
         return element.rank.title == 'Seniorspejder';
       } else {
         return element.rank.title ==
@@ -57,7 +59,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
           registration.getStatus() == BadgeRegistrationStatus.accepted) {
         return Container();
       }
-    } else if (userProfile.rank.level < badgeSpecific.value.rank.level) {
+    } else if (widget.userProfile.rank.level < badgeSpecific.value.rank.level) {
       return Container();
     }
     return Padding(
@@ -66,8 +68,8 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
         width: 170,
         height: 51,
         child: ElevatedButton(
-          onPressed: () =>
-              Navigator.pushNamed(context, AppRoutes.registerBadgeScreen, arguments: value),
+          onPressed: () => pushNewScreen(context,
+              screen: RegisterBadgeScreen(badgeSpecific: value), withNavBar: false),
           style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
           child: Text(
             'Registrer mærke',
@@ -85,7 +87,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
     return FutureBuilder(
         future: GetIt.instance
             .get<BadgeRegistrationRepository>()
-            .getBadgeRegistrationFromBadgeAndUser(badge, userProfile),
+            .getBadgeRegistrationFromBadgeAndUser(badge, widget.userProfile),
         builder: (context, AsyncSnapshot<List<BadgeRegistration>> list) {
           if (list.hasData) {
             return ValueListenableBuilder(
@@ -116,7 +118,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                             ),
                             BadgePanelList(
                               badgeSpecific: badgeSpecific.value,
-                              isLeader: userProfile.rank.title == 'Leder',
+                              isLeader: widget.userProfile.rank.title == 'Leder',
                               registration: registration,
                               onDescriptionSaved: (text) => null,
                             ),

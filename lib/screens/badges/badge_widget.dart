@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
+import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
 
 class ProfileBadgeWidget extends StatelessWidget {
   final Badge? badge;
@@ -33,10 +35,14 @@ class ProfileBadgeWidget extends StatelessWidget {
     }
 
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, AppRoutes.specificBadgeScreen, arguments: {
-              'badge': badge ?? badgeRegistration?.badgeSpecific.badge,
-              'userProfile': userProfile
-            }),
+        onTap: () => pushNewScreen(
+              context,
+              screen: SpecificBadgeScreen(
+                userProfile: userProfile,
+                badge: badge ?? badgeRegistration!.badgeSpecific.badge,
+              ),
+              withNavBar: false, // OPTIONAL VALUE. True by default.
+            ),
         child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(

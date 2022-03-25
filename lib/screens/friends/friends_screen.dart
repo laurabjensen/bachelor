@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/friends/components/all_friends_tab.dart';
 import 'package:spejder_app/screens/friends/bloc/friends_bloc.dart';
+import 'package:spejder_app/screens/friends/friends_activity/friends_activity_screen.dart';
 
 class FriendsScreen extends StatefulWidget {
-  final Map args;
+  final UserProfile userProfile;
+  final int initialTabIndex;
 
-  const FriendsScreen({Key? key, required this.args}) : super(key: key);
+  const FriendsScreen({Key? key, required this.userProfile, required this.initialTabIndex})
+      : super(key: key);
   @override
   _FriendsScreenState createState() => _FriendsScreenState();
 }
 
 class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateMixin {
   late UserProfile currentUser;
-  late UserProfile userProfile;
-  late int initialTabIndex;
+
   late FriendsBloc friendsBloc;
   late TabController controller;
 
   @override
   void initState() {
     super.initState();
-    userProfile = widget.args['userprofile'];
-    initialTabIndex = widget.args['initialTabIndex'];
-    friendsBloc = FriendsBloc(userProfile: userProfile);
+
+    friendsBloc = FriendsBloc(userProfile: widget.userProfile);
     currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    controller = TabController(length: 2, vsync: this, initialIndex: initialTabIndex);
+    controller = TabController(length: 2, vsync: this, initialIndex: widget.initialTabIndex);
   }
 
   @override
@@ -59,14 +61,16 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
                     ],
                   ),
                   IconButton(
-                    tooltip: 'Se veninde aktivitet',
-                    icon: Icon(
-                      Icons.person_add,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => Navigator.pushNamed(context, AppRoutes.friendsActivityScreen,
-                        arguments: userProfile),
-                  ),
+                      tooltip: 'Se veninde aktivitet',
+                      icon: Icon(
+                        Icons.person_add,
+                        color: Colors.black,
+                      ),
+                      onPressed: () => pushNewScreen(context,
+                          screen: FriendsActivityScreen(
+                            userProfile: widget.userProfile,
+                          ),
+                          withNavBar: false)),
                 ],
               )
             ],
@@ -80,9 +84,9 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
                         style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
                 Tab(
                     child: Text(
-                        userProfile.id == currentUser.id
+                        widget.userProfile.id == currentUser.id
                             ? 'Mine veninder'
-                            : '${userProfile.namePossessiveCase()} veninder',
+                            : '${widget.userProfile.namePossessiveCase()} veninder',
                         style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
               ],
             ),
@@ -97,7 +101,7 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
               FriendsTab(friends: state.allUsers, userProfile: currentUser),
               FriendsTab(
                 friends: state.allUserFriends,
-                userProfile: userProfile,
+                userProfile: widget.userProfile,
               )
             ],
           ),

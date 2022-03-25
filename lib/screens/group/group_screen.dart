@@ -52,12 +52,7 @@ class _GroupScreenState extends State<GroupScreen> {
                               height: 70,
                               width: 336,
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                  context,
-                                  //TODO: Fix route
-                                  AppRoutes.approveBadgesScreen,
-                                  arguments: groupBloc,
-                                ),
+                                onTap: () => null,
                                 child: Card(
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
@@ -91,11 +86,7 @@ class _GroupScreenState extends State<GroupScreen> {
                               height: 70,
                               width: 336,
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                    //TODO: Fix route
-                                    context,
-                                    AppRoutes.groupMembersScreen,
-                                    arguments: userProfile),
+                                onTap: () => null,
                                 child: Card(
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
