@@ -12,36 +12,28 @@ class ProfileDescriptionWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-          color: Colors.white,
-          elevation: 10.0,
-          shadowColor: Color.fromRGBO(0, 0, 0, 25),
-          borderRadius: BorderRadius.circular(15),
-          child: Scrollbar(
-              controller: controller,
-              isAlwaysShown: true,
-              child: Container(
-                  height: 140,
-                  width: MediaQuery.of(context).size.width,
-                  decoration:
-                      BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                  child: Flex(
-                    direction: Axis.vertical,
-                    children: [
-                      Flexible(
-                          flex: 1,
-                          child: SingleChildScrollView(
-                            controller: controller,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text(userProfile.description,
-                                  style: theme.primaryTextTheme.headline3!.copyWith(height: 1.4)),
-                            ),
-                          )),
-                    ],
-                  )))),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: Scrollbar(
+            controller: controller,
+            isAlwaysShown: true,
+            child: SizedBox(
+                height: 140,
+                width: MediaQuery.of(context).size.width,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Flexible(
+                        flex: 1,
+                        child: SingleChildScrollView(
+                          controller: controller,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(userProfile.description,
+                                style: theme.primaryTextTheme.headline3!.copyWith(height: 1.4)),
+                          ),
+                        )),
+                  ],
+                ))));
   }
 }
 

@@ -17,7 +17,7 @@ class ProfileImageWidget extends StatelessWidget {
           // Sizedbox laver mellemrum mellem profilbilledewidget og navn
           SizedBox(
         height: 160,
-        width: 200,
+        width: 180,
         child: Stack(
           children: [
             // Profile picture circle
@@ -28,27 +28,27 @@ class ProfileImageWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         child: Image.network(
                           userProfile.imageUrl,
-                          width: 150,
-                          height: 150,
+                          width: 140,
+                          height: 140,
                           fit: BoxFit.fitHeight,
                         ))
                     : Stack(
                         // Remember to also update changes fx color -  if made - for the friends row
                         children: [
                           Container(
-                              height: 150,
-                              width: 150,
+                              height: 140,
+                              width: 140,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: Color(0xffFED105),
                               )),
                           Positioned(
-                              left: 15, top: 15, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
+                              left: 10, top: 10, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
                         ],
                       )),
             // Range picture
             Positioned(
-              top: 100,
+              top: 90,
               left: 10,
               child: Container(
                 height: 55,
@@ -61,7 +61,7 @@ class ProfileImageWidget extends StatelessWidget {
             ),
             // Star
             Positioned(
-              top: 100,
+              top: 85,
               left: 130,
               child: Stack(
                 alignment: Alignment.center,

@@ -6,6 +6,7 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
+import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
@@ -48,35 +49,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CustomScaffold(
-      body: BlocBuilder(
-          bloc: profileBloc,
-          builder: (context, ProfileState state) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: Stack(
-                    children: [
-                      ProfileNavbar(
-                        onBack: () => Navigator.pop(context),
-                        onEditUser: () => pushNewScreen(context,
-                            screen: EditProfileScreen(
-                                userprofile: state.userProfile,
-                                editprofileBloc: EditprofileBloc(state.userProfile,
-                                    authenticationBloc:
-                                        BlocProvider.of<AuthenticationBloc>(context),
-                                    profileBloc: profileBloc)),
-                            withNavBar: false),
-                        onLogout: logout,
-                        isMyPage: state.userProfile.id == currentUser.id,
+    return BlocBuilder(
+        bloc: profileBloc,
+        builder: (context, ProfileState state) {
+          return CustomScaffold(
+              appBar: CustomAppBar.personalProficeAppBar(
+                title: widget.userProfile.name,
+                onEditProfilePressed: () => pushNewScreen(context,
+                    screen: EditProfileScreen(
+                        userprofile: state.userProfile,
+                        editprofileBloc: EditprofileBloc(state.userProfile,
+                            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+                            profileBloc: profileBloc)),
+                    withNavBar: false),
+                onLogoutPressed: () => logout(),
+              ),
+              body: DefaultTabController(
+                length: 3,
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, value) {
+                    return [
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: ProfileInfoWidget(
+                              userProfile: state.userProfile,
+                            ),
+                          )
+                        ]),
                       ),
-                      ProfileInfoWidget(
-                        userProfile: state.userProfile,
+                    ];
+                  },
+                  body: Column(
+                    children: <Widget>[
+                      TabBar(
+                        indicatorColor: Colors.white,
+                        labelColor: Colors.white,
+                        labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
+                        tabs: [
+                          Tab(
+                            text: 'Aktivitet',
+                          ),
+                          Tab(
+                            text: 'Mærker',
+                          ),
+                          Tab(
+                            text: 'Veninder',
+                          ),
+                        ],
                       ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [ListView(), ListView(), ListView()],
+                        ),
+                      )
                     ],
                   ),
+                ),
+              ));
+        });
+  }
+}
+
+/**
+ * 
+ * return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ProfileInfoWidget(
+                  userProfile: state.userProfile,
                 ),
                 Divider(
                   color: Color(0xff008060),
@@ -132,7 +174,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             );
-          }),
-    );
-  }
-}
+ */

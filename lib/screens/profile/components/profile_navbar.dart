@@ -30,12 +30,14 @@ class ProfileNavbar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-            onPressed: onBack,
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            )),
+        ModalRoute.of(context)!.isFirst
+            ? Container()
+            : IconButton(
+                onPressed: onBack,
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                )),
         buttonRow()
       ],
     );
