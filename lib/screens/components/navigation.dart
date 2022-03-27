@@ -7,7 +7,6 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/components/custom_nav_bar.dart';
-import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/feed/feed_screen.dart';
 import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/group/group_screen.dart';
@@ -15,10 +14,12 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class LoggedInNavigationController extends StatefulWidget {
   @override
-  _LoggedInNavigationControllerState createState() => _LoggedInNavigationControllerState();
+  _LoggedInNavigationControllerState createState() =>
+      _LoggedInNavigationControllerState();
 }
 
-class _LoggedInNavigationControllerState extends State<LoggedInNavigationController> {
+class _LoggedInNavigationControllerState
+    extends State<LoggedInNavigationController> {
   late PersistentTabController _controller;
   late bool _hideNavBar;
   late UserProfile currentUser;
@@ -26,7 +27,8 @@ class _LoggedInNavigationControllerState extends State<LoggedInNavigationControl
   @override
   void initState() {
     super.initState();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     _controller = PersistentTabController(initialIndex: 2);
     _hideNavBar = false;
   }
@@ -38,7 +40,9 @@ class _LoggedInNavigationControllerState extends State<LoggedInNavigationControl
         userProfile: currentUser,
         initialTabIndex: 0,
       ),
-      FeedScreen(),
+      FeedScreen(
+        userProfile: currentUser,
+      ),
       FriendsScreen(
         userProfile: currentUser,
         initialTabIndex: 0,
