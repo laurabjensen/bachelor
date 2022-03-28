@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/feed/feed_profile_post_widget.dart';
+import 'package:spejder_app/screens/feed/like_button_widget.dart';
 
 class FeedWidget extends StatelessWidget {
   final UserProfile userProfile;
@@ -44,9 +45,8 @@ class FeedWidget extends StatelessWidget {
                       ),
                       Text(
                         '20-03-2022',
-                        style: theme.primaryTextTheme.headline3!.copyWith(
-                          fontSize: 12,
-                        ),
+                        style: theme.primaryTextTheme.headline3!
+                            .copyWith(fontSize: 12, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -115,9 +115,10 @@ class FeedWidget extends StatelessWidget {
                             color: Colors.black,
                             size: 24.0,
                           ),
+                          LikeButtonWidget(),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
