@@ -103,4 +103,18 @@ class UserProfile {
     }
     return '${name}s';
   }
+
+  String badgeCase() {
+    if ((badgeRegistrations.length == 1)) {
+      return 'Mærke';
+    }
+    return 'Mærker';
+  }
+
+  String friendsCase() {
+    if ((badgeRegistrations.length == 1)) {
+      return 'Veninde';
+    }
+    return 'Veninder';
+  }
 }

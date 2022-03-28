@@ -36,7 +36,8 @@ class ProfileInfoWidget extends StatelessWidget {
                       Text('${userProfile.badgeRegistrations.length}',
                           style: theme.primaryTextTheme.headline1!
                               .copyWith(fontWeight: FontWeight.bold)),
-                      Text('Mærker', style: theme.primaryTextTheme.headline1)
+                      Text(userProfile.badgeCase(),
+                          style: theme.primaryTextTheme.headline1)
                     ],
                   ),
                   SizedBox(
@@ -47,7 +48,8 @@ class ProfileInfoWidget extends StatelessWidget {
                       Text('${userProfile.friends.length}',
                           style: theme.primaryTextTheme.headline1!
                               .copyWith(fontWeight: FontWeight.bold)),
-                      Text('Veninder', style: theme.primaryTextTheme.headline1)
+                      Text(userProfile.friendsCase(),
+                          style: theme.primaryTextTheme.headline1)
                     ],
                   )
                 ],
@@ -61,11 +63,13 @@ class ProfileInfoWidget extends StatelessWidget {
                   Flexible(
                       child: Text(
                     '${userProfile.group.name} gruppe',
-                    style: theme.primaryTextTheme.headline2!.copyWith(fontSize: 17),
+                    style: theme.primaryTextTheme.headline2!
+                        .copyWith(fontSize: 17),
                     textAlign: TextAlign.center,
                   )),
                   Text(userProfile.rank.title,
-                      style: theme.primaryTextTheme.headline2!.copyWith(fontSize: 17))
+                      style: theme.primaryTextTheme.headline2!
+                          .copyWith(fontSize: 17))
                 ],
               )
             ],

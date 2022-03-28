@@ -8,15 +8,15 @@ class ChatDetailPage extends StatefulWidget {
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
   List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hej Søde Laura", messageType: "receiver"),
+    ChatMessage(messageContent: 'Hej Søde Laura', messageType: 'receiver'),
     ChatMessage(
-        messageContent: "Se hvad jeg har lavet", messageType: "receiver"),
+        messageContent: 'Se hvad jeg har lavet', messageType: 'receiver'),
     ChatMessage(
-        messageContent: "Hej Ellens, hvor er du god", messageType: "sender"),
-    ChatMessage(messageContent: "TAK!", messageType: "receiver"),
+        messageContent: 'Hej Ellens, hvor er du god', messageType: 'sender'),
+    ChatMessage(messageContent: 'TAK!', messageType: 'receiver'),
     ChatMessage(
-        messageContent: "Hvad skal vi bruge det her til?",
-        messageType: "sender"),
+        messageContent: 'Hvad skal vi bruge det her til?',
+        messageType: 'sender'),
   ];
 
   @override
