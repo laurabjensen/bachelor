@@ -57,7 +57,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Kriss Benwat",
+                        "Ellens",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
