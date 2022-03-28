@@ -25,12 +25,13 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       // Få farve på hjerte til at ændre sig
       likeBuilder: (isLiked) {
         final color = isLiked ? Colors.green : Colors.grey;
-        return Icon(Icons.favorite, color: color, size: sizeOfHeart);
+        final icon = isLiked ? Icons.favorite : Icons.add_reaction_outlined;
+        return Icon(icon, color: color, size: sizeOfHeart);
       },
       //Circle og bubbles color er på animationen ved like
-      circleColor: CircleColor(start: Colors.green, end: Colors.green),
+      circleColor: CircleColor(start: Colors.black, end: Colors.green),
       bubblesColor: BubblesColor(
-          dotPrimaryColor: Colors.green, dotSecondaryColor: Colors.greenAccent),
+          dotPrimaryColor: Colors.black, dotSecondaryColor: Colors.greenAccent),
 
       //Afstand mellem hjerte og likes
       likeCountPadding: EdgeInsets.only(left: 2),

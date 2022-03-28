@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/user_profile.dart';
+import 'package:spejder_app/screens/feed/chat_detail_page.dart';
 import 'package:spejder_app/screens/feed/feed_profile_post_widget.dart';
 import 'package:spejder_app/screens/feed/like_button_widget.dart';
 
@@ -51,14 +52,29 @@ class FeedWidget extends StatelessWidget {
                     ],
                   ),
                   //Dots
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
+                  GestureDetector(
                     child: Icon(
-                      Icons.more_horiz_outlined,
+                      Icons.more_horiz,
                       color: Colors.black,
-                      size: 24.0,
+                      size: 20.0,
                     ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ChatDetailPage();
+                      }));
+                    },
                   ),
+                  /* Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: IconButton(
+                      color: Colors.amber,
+                      splashColor: Colors.blue,
+                      onPressed: () => null,
+                      icon: Icon(Icons.more_horiz_outlined,
+                          color: Colors.black, size: 24.0),
+                    ),
+                  ),*/
                 ],
               ),
               Divider(
@@ -104,18 +120,24 @@ class FeedWidget extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Icon(
-                            Icons.add_reaction_outlined,
-                            color: Colors.black,
-                            size: 24.0,
-                          ),
-                          Icon(
-                            Icons.messenger_outline,
-                            color: Colors.black,
-                            size: 24.0,
-                          ),
+                        children: [
                           LikeButtonWidget(),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            child: Icon(
+                              Icons.messenger_outline,
+                              color: Colors.black,
+                              size: 20.0,
+                            ),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return ChatDetailPage();
+                              }));
+                            },
+                          ),
                         ],
                       ),
                     ),
