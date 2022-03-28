@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/model/chatMessageModel.dart';
 
 class ChatDetailPage extends StatefulWidget {
   @override
@@ -6,6 +7,18 @@ class ChatDetailPage extends StatefulWidget {
 }
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
+  List<ChatMessage> messages = [
+    ChatMessage(messageContent: "Hej Søde Laura", messageType: "receiver"),
+    ChatMessage(
+        messageContent: "Se hvad jeg har lavet", messageType: "receiver"),
+    ChatMessage(
+        messageContent: "Hej Ellens, hvor er du god", messageType: "sender"),
+    ChatMessage(messageContent: "TAK!", messageType: "receiver"),
+    ChatMessage(
+        messageContent: "Hvad skal vi bruge det her til?",
+        messageType: "sender"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +45,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 ),
                 CircleAvatar(
                   backgroundImage: NetworkImage(
-                      "<https://randomuser.me/api/portraits/men/5.jpg>"),
+                      '<https://randomuser.me/api/portraits/men/5.jpg>'),
                   maxRadius: 20,
                 ),
                 SizedBox(
@@ -70,6 +83,36 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       ),
       body: Stack(
         children: <Widget>[
+          ListView.builder(
+            itemCount: messages.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Container(
+                padding:
+                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                child: Align(
+                  alignment: (messages[index].messageType == "receiver"
+                      ? Alignment.topLeft
+                      : Alignment.topRight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: (messages[index].messageType == "receiver"
+                          ? Colors.grey.shade200
+                          : Colors.green[200]),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      messages[index].messageContent,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
