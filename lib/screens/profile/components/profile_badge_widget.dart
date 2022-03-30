@@ -26,8 +26,10 @@ class ProfileBadgeWidget extends StatelessWidget {
         .firstWhere((element) => element.id == badgeRegistration.badgeSpecific.badge.id);
 
     return GestureDetector(
-      onTap: () => pushNewScreen(context,
-          screen: SpecificBadgeScreen(userProfile: userProfile, badge: badge), withNavBar: false),
+      onTap:
+          () => /*pushNewScreen(context,
+          screen: SpecificBadgeScreen(userProfile: userProfile, badge: badge), withNavBar: false),*/
+              null,
       child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

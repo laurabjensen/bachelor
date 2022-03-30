@@ -10,6 +10,7 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
+import 'package:spejder_app/screens/badges/bloc/badges_bloc.dart';
 import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
@@ -21,8 +22,10 @@ import 'package:collection/collection.dart';
 class SpecificBadgeScreen extends StatefulWidget {
   final UserProfile userProfile;
   final Badge badge;
+  final BadgesBloc badgesBloc;
 
-  const SpecificBadgeScreen({Key? key, required this.userProfile, required this.badge})
+  const SpecificBadgeScreen(
+      {Key? key, required this.userProfile, required this.badge, required this.badgesBloc})
       : super(key: key);
   @override
   _SpecificBadgeScreenState createState() => _SpecificBadgeScreenState();
@@ -36,6 +39,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   @override
   void initState() {
     super.initState();
+
     badge = widget.badge;
     if (widget.badge.levels.isEmpty) {
       badge = GetIt.instance.get<List<Badge>>().firstWhere((element) => element.id == badge.id);
@@ -84,16 +88,15 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return FutureBuilder(
-        future: GetIt.instance
-            .get<BadgeRegistrationRepository>()
-            .getBadgeRegistrationFromBadgeAndUser(badge, widget.userProfile),
-        builder: (context, AsyncSnapshot<List<BadgeRegistration>> list) {
-          if (list.hasData) {
+    return BlocProvider.value(
+      value: widget.badgesBloc,
+      child: BlocBuilder(
+          bloc: widget.badgesBloc,
+          builder: (context, BadgesState state) {
             return ValueListenableBuilder(
                 valueListenable: badgeSpecific,
                 builder: (context, BadgeSpecific value, child) {
-                  var registration = list.data!
+                  var registration = state.registrations
                       .firstWhereOrNull((element) => element.badgeSpecific == badgeSpecific.value);
 
                   return CustomScaffold(
@@ -113,14 +116,15 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                               onChange: (newBadgeSpecific) {
                                 badgeSpecific.value = newBadgeSpecific;
                               },
-                              registrationList: list.data,
+                              registrationList: state.registrations,
                               selectedBadge: badgeSpecific.value,
                             ),
                             BadgePanelList(
                               badgeSpecific: badgeSpecific.value,
                               isLeader: widget.userProfile.rank.title == 'Leder',
                               registration: registration,
-                              onDescriptionSaved: (text) => null,
+                              onDescriptionSaved: (text) =>
+                                  widget.badgesBloc.add(DescriptionUpdated(registration!, text)),
                             ),
                             getButton(registration, value, theme),
                             // Læs mere button med icon
@@ -133,9 +137,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                     ),
                   );
                 });
-          } else {
-            return CustomScaffold(body: Center(child: CircularProgressIndicator()));
-          }
-        });
+          }),
+    );
   }
 }

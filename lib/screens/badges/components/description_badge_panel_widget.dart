@@ -1,17 +1,18 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spejder_app/screens/badges/bloc/badges_bloc.dart';
 
 class DescriptionBadgePanelWidget extends StatefulWidget {
   final String title;
   final String? text;
-  final List<String>? list;
+
   final Function(String text) onDescriptionSaved;
 
   const DescriptionBadgePanelWidget({
     required this.title,
     required this.text,
     required this.onDescriptionSaved,
-    this.list,
   });
 
   @override
@@ -19,16 +20,9 @@ class DescriptionBadgePanelWidget extends StatefulWidget {
 }
 
 class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidget> {
-  bool isEditing = false;
-  late TextEditingController controller;
+  late TextEditingController controller = TextEditingController(text: widget.text ?? '');
   late ThemeData theme;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = TextEditingController(text: widget.text ?? '');
-  }
+  late BadgesBloc badgesBloc = BlocProvider.of(context);
 
   Widget textFormField() {
     return Column(children: [
@@ -49,7 +43,11 @@ class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidge
           maxLines: 5,
         ),
       ),
-      TextButton(onPressed: () => widget.onDescriptionSaved(controller.text), child: Text('Gem'))
+      TextButton(
+          onPressed: () {
+            widget.onDescriptionSaved(controller.text);
+          },
+          child: Text('Gem'))
     ]);
   }
 
@@ -78,9 +76,7 @@ class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidge
                         controller.expanded
                             ? IconButton(
                                 padding: EdgeInsets.zero,
-                                onPressed: () => setState(() {
-                                      isEditing = !isEditing;
-                                    }),
+                                onPressed: () => badgesBloc.add(EditingToggled()),
                                 icon: Icon(
                                   Icons.edit,
                                   color: Colors.grey,
@@ -93,7 +89,7 @@ class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidge
               /**/
               collapsed: Container(),
               expanded: Builder(builder: (context) {
-                return isEditing
+                return badgesBloc.state.isEditing
                     ? textFormField()
                     : Text(widget.text!.isNotEmpty ? widget.text! : 'Ingen beskrivelse givet.',
                         style: theme.primaryTextTheme.headline2!

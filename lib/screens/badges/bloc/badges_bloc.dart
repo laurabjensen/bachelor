@@ -18,7 +18,9 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   final UserProfile userProfile;
   BadgesBloc({required this.userProfile}) : super(BadgesState()) {
     on<LoadAllBadges>((event, emit) => _loadAllBadges(emit));
-    //on<LoadUserBadges>((event, emit) => _loadUserBadges(emit));
+    on<DescriptionUpdated>(
+        (event, emit) => _descriptionUpdated(event.badgeRegistration, event.description, emit));
+    on<EditingToggled>((event, emit) => _editingToggled(emit));
     add(LoadAllBadges());
   }
 
@@ -35,6 +37,7 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
         await badgeRegistrationRepository.getBadgeRegistrationsFromUserProfile(userProfile);
     emit(state.copyWith(
         badgesStatus: BadgesStateStatus.loaded,
+        registrations: badgeRegistrations,
         userChallengeBadges: badgeRegistrations
             .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
             .toList(),
@@ -43,5 +46,17 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
             .toList()));
   }
 
- 
+  Future<void> _descriptionUpdated(
+      BadgeRegistration? badgeRegistration, String description, Emitter<BadgesState> emit) async {
+    badgeRegistration = await badgeRegistrationRepository.updateRegistrationDescription(
+        badgeRegistration, description);
+    var registrations = state.registrations;
+    registrations.removeWhere((element) => element.id == badgeRegistration?.id);
+    registrations.add(badgeRegistration!);
+    emit(state.copyWith(registrations: registrations, isEditing: false));
+  }
+
+  Future<void> _editingToggled(Emitter<BadgesState> emit) async {
+    emit(state.copyWith(isEditing: true));
+  }
 }

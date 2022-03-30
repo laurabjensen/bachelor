@@ -14,3 +14,14 @@ class LoadAllBadges extends BadgesEvent {
 class LoadUserBadges extends BadgesEvent {
   const LoadUserBadges();
 }
+
+class DescriptionUpdated extends BadgesEvent {
+  final BadgeRegistration badgeRegistration;
+  final String description;
+
+  const DescriptionUpdated(this.badgeRegistration, this.description);
+}
+
+class EditingToggled extends BadgesEvent {
+  const EditingToggled();
+}

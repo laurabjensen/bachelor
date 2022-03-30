@@ -36,31 +36,3 @@ class ProfileDescriptionWidget extends StatelessWidget {
                 ))));
   }
 }
-
-/*TextFormField(
-                controller: TextEditingController(text: userProfile.description),
-                //initialValue: userProfile.description,
-                readOnly: true,
-                minLines: 7,
-                maxLines: 7,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
-                ),
-              ), */
-
-/*Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-        child: Column(
-          children: const [
-            // TODO: USE THEME ON TEXT
-            Text(
-              '',
-            )
-          ],
-        ),
-      ), */

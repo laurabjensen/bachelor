@@ -105,4 +105,16 @@ class BadgeRegistrationRepository {
         .doc(badgeRegistration.id)
         .update(badgeRegistration.toMap());
   }
+
+  Future<BadgeRegistration?> updateRegistrationDescription(
+      BadgeRegistration? badgeRegistration, String description) async {
+    if (badgeRegistration != null) {
+      badgeRegistration = badgeRegistration.copyWith(description: description);
+      await FirebaseFirestore.instance
+          .collection('badgeRegistrations')
+          .doc(badgeRegistration.id)
+          .update({'description': description});
+    }
+    return badgeRegistration;
+  }
 }

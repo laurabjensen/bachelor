@@ -34,54 +34,58 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocBuilder<BadgesBloc, BadgesState>(
-      bloc: badgesBloc,
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Color(0xff63A288),
-          appBar: AppBar(
-            foregroundColor: Colors.black,
-            backgroundColor: Color(0xff63A288),
-            bottom: TabBar(
-              controller: controller,
-              indicatorColor: Colors.black,
-              indicatorWeight: 3,
-              tabs: [
-                Tab(
-                    child: Text('Alle mærker',
-                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
-                Tab(
-                    child: Text(
-                        widget.userProfile.id == loggedInUser.id
-                            ? 'Mine mærker'
-                            : '${widget.userProfile.namePossessiveCase()} mærker',
-                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
-              ],
-            ),
-            title: Text(
-              'Mærke oversigt',
-              style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
-            ),
-          ),
-          body: TabBarView(
-            controller: controller,
-            children: [
-              BadgesTab(
-                challengeBadges: state.allChallengeBadges,
-                engagementBadges: state.allEngagementBadges,
-                userProfile: loggedInUser,
-                status: state.badgesStatus,
+    return BlocProvider(
+        create: (context) => badgesBloc,
+        child: BlocBuilder<BadgesBloc, BadgesState>(
+          bloc: badgesBloc,
+          builder: (context, state) {
+            return Scaffold(
+              backgroundColor: Color(0xff63A288),
+              appBar: AppBar(
+                foregroundColor: Colors.black,
+                backgroundColor: Color(0xff63A288),
+                bottom: TabBar(
+                  controller: controller,
+                  indicatorColor: Colors.black,
+                  indicatorWeight: 3,
+                  tabs: [
+                    Tab(
+                        child: Text('Alle mærker',
+                            style:
+                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                    Tab(
+                        child: Text(
+                            widget.userProfile.id == loggedInUser.id
+                                ? 'Mine mærker'
+                                : '${widget.userProfile.namePossessiveCase()} mærker',
+                            style:
+                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                  ],
+                ),
+                title: Text(
+                  'Mærke oversigt',
+                  style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
+                ),
               ),
-              BadgesTab(
-                challengeBadges: state.userChallengeBadges,
-                engagementBadges: state.userEngagementBadges,
-                userProfile: widget.userProfile,
-                status: state.badgesStatus,
+              body: TabBarView(
+                controller: controller,
+                children: [
+                  BadgesTab(
+                    challengeBadges: state.allChallengeBadges,
+                    engagementBadges: state.allEngagementBadges,
+                    userProfile: loggedInUser,
+                    status: state.badgesStatus,
+                  ),
+                  BadgesTab(
+                    challengeBadges: state.userChallengeBadges,
+                    engagementBadges: state.userEngagementBadges,
+                    userProfile: widget.userProfile,
+                    status: state.badgesStatus,
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      },
-    );
+            );
+          },
+        ));
   }
 }
