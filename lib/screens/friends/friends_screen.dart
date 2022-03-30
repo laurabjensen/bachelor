@@ -84,7 +84,7 @@ class _FriendsScreenState extends State<FriendsScreen>
               indicatorWeight: 2.5,
               tabs: [
                 Tab(
-                    child: Text('Alle veninder',
+                    child: Text('Alle brugere',
                         style: theme.primaryTextTheme.headline2!
                             .copyWith(color: Colors.white))),
                 Tab(
