@@ -14,7 +14,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final double sizeOfHeart = 20;
+    const double sizeOfHeart = 20;
 
     return LikeButton(
       size: sizeOfHeart,
