@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
@@ -31,6 +32,29 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final list = GetIt.instance.get<List<UserProfile>>();
+
+    Widget noImageWidget() {
+      return Stack(
+        children: [
+          Container(
+              height: 90,
+              width: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Color(0xffFED105),
+              )),
+          Positioned(
+              left: 3.5,
+              top: 5,
+              child: SvgPicture.asset(
+                'assets/tørklæde_rød.svg',
+                height: 80,
+                width: 80,
+                fit: BoxFit.scaleDown,
+              )),
+        ],
+      );
+    }
 
     return CustomScaffold(
       appBar: CustomAppBar.basicAppBarWithBackButton(
