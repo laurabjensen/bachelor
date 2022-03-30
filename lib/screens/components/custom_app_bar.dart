@@ -9,7 +9,7 @@ class CustomAppBar {
           title: Text(title),
           backgroundColor: Color(0xff377E62),
           leading: showBackButton
-              ? IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios))
+              ? IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios, color: Colors.white))
               : Container(),
           actions: const [],
         ));

@@ -39,11 +39,11 @@ class _FeedScreenState extends State<FeedScreen> {
             body: Expanded(
               child: ListView.builder(
                 shrinkWrap: false,
-                itemCount: state.approvedBadges.length,
+                itemCount: state.posts.length,
                 itemBuilder: (context, index) {
                   return FeedWidget(
-                    userProfile: state.approvedBadges[index].userProfile!,
-                    registration: state.approvedBadges[index],
+                    userProfile: state.posts[index].badgeRegistration.userProfile!,
+                    post: state.posts[index],
                   );
                 },
               ),

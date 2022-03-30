@@ -8,6 +8,7 @@ import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
+import 'package:spejder_app/repositories/posts_repository.dart';
 
 part 'badges_event.dart';
 part 'badges_state.dart';
@@ -15,7 +16,9 @@ part 'badges_state.dart';
 class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   final badgeRepository = GetIt.instance.get<BadgeRepository>();
   final badgeRegistrationRepository = GetIt.instance.get<BadgeRegistrationRepository>();
+  final postRepository = GetIt.instance.get<PostsRepository>();
   final UserProfile userProfile;
+
   BadgesBloc({required this.userProfile}) : super(BadgesState()) {
     on<LoadAllBadges>((event, emit) => _loadAllBadges(emit));
     on<DescriptionUpdated>(
@@ -32,18 +35,17 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
       allChallengeBadges: allChallengeBadges,
       allEngagementBadges: allEngagementBadges,
     ));
-
-    final badgeRegistrations =
-        await badgeRegistrationRepository.getBadgeRegistrationsFromUserProfile(userProfile);
+    final posts = await postRepository.getPostsFromUserProfile(userProfile);
     final allRegistrations =
         await badgeRegistrationRepository.getBadgeRegistrationsForUser(userProfile.id);
+    final approvedBadges = posts.map((e) => e.badgeRegistration).toList();
     emit(state.copyWith(
         badgesStatus: BadgesStateStatus.loaded,
-        approvedBadges: badgeRegistrations,
-        userChallengeBadges: badgeRegistrations
+        approvedBadges: approvedBadges,
+        userChallengeBadges: approvedBadges
             .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
             .toList(),
-        userEngagementBadges: badgeRegistrations
+        userEngagementBadges: approvedBadges
             .where((element) => element.badgeSpecific.badge.type == 'Engagement')
             .toList(),
         registrations: allRegistrations));
@@ -54,10 +56,14 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
     badgeRegistration = await badgeRegistrationRepository.updateRegistrationDescription(
         badgeRegistration, description);
     var approvedBadges = state.approvedBadges;
+    var registrations = state.registrations;
     approvedBadges.removeWhere((element) => element.id == badgeRegistration?.id);
     approvedBadges.add(badgeRegistration!);
+    registrations.removeWhere((element) => element.id == badgeRegistration?.id);
+    registrations.add(badgeRegistration);
     emit(state.copyWith(
         approvedBadges: approvedBadges,
+        registrations: registrations,
         userChallengeBadges: approvedBadges
             .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
             .toList(),

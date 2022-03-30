@@ -12,7 +12,7 @@ class UserProfile {
   final int seniority;
   final String description;
   final String imageUrl;
-  final List<String> badgeRegistrations;
+  final List<String> posts;
   final List<String> friends;
 
   const UserProfile({
@@ -25,7 +25,7 @@ class UserProfile {
     required this.seniority,
     required this.description,
     required this.imageUrl,
-    required this.badgeRegistrations,
+    required this.posts,
     required this.friends,
   });
 
@@ -39,7 +39,7 @@ class UserProfile {
       int? seniority,
       String? description,
       String? imageUrl,
-      List<String>? badgeRegistrations,
+      List<String>? posts,
       List<String>? friends}) {
     return UserProfile(
         id: id ?? this.id,
@@ -51,7 +51,7 @@ class UserProfile {
         seniority: seniority ?? this.seniority,
         description: description ?? this.description,
         imageUrl: imageUrl ?? this.imageUrl,
-        badgeRegistrations: badgeRegistrations ?? this.badgeRegistrations,
+        posts: posts ?? this.posts,
         friends: friends ?? this.friends);
   }
 
@@ -66,7 +66,7 @@ class UserProfile {
             seniority: json['seniority'] as int,
             description: json['description'].toString(),
             imageUrl: json['imageUrl'].toString(),
-            badgeRegistrations: List<String>.from(json['badges']),
+            posts: List<String>.from(json['badges']),
             friends: List<String>.from(json['friends']));
 
   Map<String, Object?> toJson() {
@@ -80,7 +80,7 @@ class UserProfile {
       'description': description,
       'imageUrl': imageUrl,
       'friends': friends,
-      'badges': badgeRegistrations,
+      'badges': posts,
     };
   }
 
@@ -94,7 +94,7 @@ class UserProfile {
       seniority: 0,
       description: '',
       imageUrl: '',
-      badgeRegistrations: [],
+      posts: [],
       friends: []);
 
   String namePossessiveCase() {
@@ -105,7 +105,7 @@ class UserProfile {
   }
 
   String badgeCase() {
-    if ((badgeRegistrations.length == 1)) {
+    if ((posts.length == 1)) {
       return 'Mærke';
     }
     return 'Mærker';

@@ -1,18 +1,18 @@
 part of 'feed_bloc.dart';
 
 class FeedState extends Equatable {
-  final List<BadgeRegistration> approvedBadges;
+  final List<Post> posts;
 
-  const FeedState({this.approvedBadges = const []});
+  const FeedState({this.posts = const []});
 
   FeedState copyWith({
-    List<BadgeRegistration>? approvedBadges,
+    List<Post>? posts,
   }) {
     return FeedState(
-      approvedBadges: approvedBadges ?? this.approvedBadges,
+      posts: posts ?? this.posts,
     );
   }
 
   @override
-  List<Object> get props => [approvedBadges];
+  List<Object> get props => [posts];
 }

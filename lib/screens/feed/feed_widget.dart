@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:spejder_app/model/badge_registration.dart';
+import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/feed/chat_detail_page.dart';
 import 'package:spejder_app/screens/feed/feed_profile_post_widget.dart';
 import 'package:spejder_app/screens/feed/like_button_widget.dart';
 
 class FeedWidget extends StatelessWidget {
-  final BadgeRegistration registration;
+  final Post post;
   final UserProfile userProfile;
-  const FeedWidget({Key? key, required this.registration, required this.userProfile})
-      : super(key: key);
+  const FeedWidget({Key? key, required this.post, required this.userProfile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class FeedWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${DateFormat.d().format(registration.approvedAt!)}. ${DateFormat.MMMM('da').format(registration.approvedAt!)} ${DateFormat.y().format(registration.approvedAt!)}',
+                        '${DateFormat.d().format(post.badgeRegistration.approvedAt!)}. ${DateFormat.MMMM('da').format(post.badgeRegistration.approvedAt!)} ${DateFormat.y().format(post.badgeRegistration.approvedAt!)}',
                         style: theme.primaryTextTheme.headline3!
                             .copyWith(fontSize: 12, color: Colors.grey),
                       ),
@@ -86,7 +85,8 @@ class FeedWidget extends StatelessWidget {
                   height: 150,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: Image.network(registration.badgeSpecific.imageUrl).image)),
+                          image:
+                              Image.network(post.badgeRegistration.badgeSpecific.imageUrl).image)),
                 ),
               ),
               Container(

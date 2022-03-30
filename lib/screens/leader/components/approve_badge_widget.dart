@@ -72,14 +72,16 @@ class ApproveBadgeWidget extends StatelessWidget {
                         children: [
                           Stack(
                             children: [
+                              //Yellow background
                               Container(
                                 height: 90,
                                 width: 90,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: Color(0xff037B55),
+                                  color: Color(0xffFED105),
                                 ),
                               ),
+                              //Scraf
                               Positioned(
                                 top: 5,
                                 left: 4,
@@ -92,11 +94,11 @@ class ApproveBadgeWidget extends StatelessWidget {
                             ],
                           ),
                           Flexible(
-                            child: Text('',
+                            child: Text(badgeRegistration.userProfile?.name ?? '',
                                 textAlign: TextAlign.center,
                                 style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 22)),
                           ),
-                          Text('',
+                          Text(badgeRegistration.userProfile?.rank.title ?? '',
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),
                         ],
@@ -107,7 +109,7 @@ class ApproveBadgeWidget extends StatelessWidget {
               ),
               // Date
               Text(
-                'Har taget mærket: ${DateFormat.d().format(badgeRegistration.date)}. ${DateFormat.MMMM('da').format(badgeRegistration.date)} ${DateFormat.y().format(badgeRegistration.date)}',
+                'Har taget mærket: ${DateFormat.d().format(badgeRegistration.date!)}. ${DateFormat.MMMM('da').format(badgeRegistration.date!)} ${DateFormat.y().format(badgeRegistration.date!)}',
                 style: theme.primaryTextTheme.headline3!.copyWith(
                   fontSize: 18,
                 ),

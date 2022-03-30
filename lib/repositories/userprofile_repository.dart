@@ -20,8 +20,8 @@ class UserProfileRepository {
 
   Future<UserProfile> reloadUserprofile(UserProfile userprofile) async {
     final friends = await getFriendsForUser(userprofile.id);
-    final badges = await getBadgeRegistrationsForUser(userprofile.id);
-    return userprofile.copyWith(friends: friends, badgeRegistrations: badges);
+    final posts = await getPostsForUser(userprofile.id);
+    return userprofile.copyWith(friends: friends, posts: posts);
   }
 
   Future<UserProfile> getUserprofileFromId(String userId) async {
@@ -60,7 +60,7 @@ class UserProfileRepository {
     return friends;
   }
 
-  Future<List<String>> getBadgeRegistrationsForUser(String userId) async {
+  Future<List<String>> getPostsForUser(String userId) async {
     final userSnapshot =
         (await FirebaseFirestore.instance.collection('users').doc(userId).get()).get('badges');
     var badges = <String>[];
@@ -117,5 +117,12 @@ class UserProfileRepository {
       }
     }
     return members;
+  }
+
+  Future<void> updateUserBadgeList(String userProfileId, String postId) async {
+    var path = FirebaseFirestore.instance.collection('users').doc(userProfileId);
+    var list = (await path.get()).get('badges');
+    list.add(postId);
+    await path.update({'badges': list});
   }
 }

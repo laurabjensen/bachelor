@@ -38,7 +38,7 @@ class BadgeInfoWidget extends StatelessWidget {
             ),
             (registration!.getStatus() == BadgeRegistrationStatus.accepted)
                 ? Text(
-                    'D. ${DateFormat.d().format(registration!.date)}. ${DateFormat.MMMM('da').format(registration!.date)} ${DateFormat.y().format(registration!.date)}',
+                    'D. ${DateFormat.d().format(registration!.date!)}. ${DateFormat.MMMM('da').format(registration!.date!)} ${DateFormat.y().format(registration!.date!)}',
                     style: theme.primaryTextTheme.headline2!.copyWith(
                       fontSize: 16,
                     ),

@@ -10,19 +10,19 @@ class BadgeRegistration {
   final String userProfileId;
   final UserProfile? userProfile; //Brug til at få alt info om useren
   final String leader;
-  final DateTime date;
+  final DateTime? date;
   final String description;
   final bool waitingOnLeader;
   final bool denied;
   final DateTime? approvedAt;
 
-  BadgeRegistration(
+  const BadgeRegistration(
       {required this.id,
       required this.badgeSpecific,
       required this.userProfileId,
       this.userProfile,
       required this.leader,
-      required this.date,
+      this.date,
       required this.description,
       required this.waitingOnLeader,
       required this.denied,
@@ -58,7 +58,7 @@ class BadgeRegistration {
       'rank': badgeSpecific.rank.id,
       'user': userProfileId,
       'leader': leader,
-      'date': Timestamp.fromDate(date),
+      'date': Timestamp.fromDate(date ?? DateTime.now()),
       'description': description,
       'waitingOnLeader': waitingOnLeader,
       'denied': denied,
@@ -85,4 +85,13 @@ class BadgeRegistration {
     if (denied) return BadgeRegistrationStatus.denied;
     return BadgeRegistrationStatus.accepted;
   }
+
+  static const empty = BadgeRegistration(
+      id: '',
+      badgeSpecific: BadgeSpecific.empty,
+      userProfileId: '',
+      leader: '',
+      description: '',
+      waitingOnLeader: true,
+      denied: false);
 }

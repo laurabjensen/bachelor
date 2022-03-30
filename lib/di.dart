@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
+import 'package:spejder_app/repositories/posts_repository.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/image_repository.dart';
 import 'package:spejder_app/repositories/login_repository.dart';
@@ -23,4 +24,5 @@ void setupDi() {
   getIt.registerLazySingleton(() => BadgeRepository());
   getIt.registerLazySingleton(() => ImageRepository());
   getIt.registerLazySingleton(() => BadgeRegistrationRepository());
+  getIt.registerLazySingleton(() => PostsRepository());
 }

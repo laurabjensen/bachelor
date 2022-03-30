@@ -36,7 +36,7 @@ class ProfileInfoWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         //Mærker
-                        Text('${userProfile.badgeRegistrations.length}',
+                        Text('${userProfile.posts.length}',
                             style: theme.primaryTextTheme.headline1!
                                 .copyWith(fontWeight: FontWeight.bold)),
                         Text(userProfile.badgeCase(), style: theme.primaryTextTheme.headline1)
