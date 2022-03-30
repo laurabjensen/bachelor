@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/feed/chat_detail_page.dart';
-import 'package:spejder_app/screens/feed/feed_profile_post_widget.dart';
+import 'package:spejder_app/screens/feed/feed_widget_topbar.dart';
 import 'package:spejder_app/screens/feed/like_button_widget.dart';
 
 class FeedWidget extends StatelessWidget {
   final Post post;
   final UserProfile userProfile;
-  const FeedWidget({Key? key, required this.post, required this.userProfile}) : super(key: key);
+  final UserProfile currentUser;
+  final Function(bool isLiked) onTap;
+  const FeedWidget(
+      {Key? key,
+      required this.post,
+      required this.userProfile,
+      required this.currentUser,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,53 +32,7 @@ class FeedWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  //Profile picture
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                    child: FeedProfileWidget(
-                      userProfile: userProfile,
-                    ),
-                  ),
-
-                  // Name and Date
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userProfile.name,
-                        style: theme.primaryTextTheme.headline3!.copyWith(
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        '${DateFormat.d().format(post.badgeRegistration.approvedAt!)}. ${DateFormat.MMMM('da').format(post.badgeRegistration.approvedAt!)} ${DateFormat.y().format(post.badgeRegistration.approvedAt!)}',
-                        style: theme.primaryTextTheme.headline3!
-                            .copyWith(fontSize: 12, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  //Sikre at dots kører til højre
-                  Expanded(child: SizedBox()),
-                  //Dots
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Icon(
-                        Icons.more_horiz,
-                        color: Colors.black,
-                        size: 20.0,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return ChatDetailPage();
-                      }));
-                    },
-                  ),
-                ],
-              ),
+              FeedWidgetTopbar(userProfile: userProfile, post: post),
               Divider(
                 color: Color(0xffDADEDF),
                 indent: 8,
@@ -116,7 +77,11 @@ class FeedWidget extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          LikeButtonWidget(),
+                          LikeButtonWidget(
+                            currentUser: currentUser,
+                            likeList: post.likes,
+                            onTap: onTap,
+                          ),
                           SizedBox(
                             width: 10,
                           ),

@@ -44,6 +44,8 @@ class _FeedScreenState extends State<FeedScreen> {
                   return FeedWidget(
                     userProfile: state.posts[index].badgeRegistration.userProfile!,
                     post: state.posts[index],
+                    currentUser: currentUser,
+                    onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
                   );
                 },
               ),

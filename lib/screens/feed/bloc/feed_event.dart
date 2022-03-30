@@ -10,3 +10,10 @@ abstract class FeedEvent extends Equatable {
 class LoadFeed extends FeedEvent {
   const LoadFeed();
 }
+
+class LikeToggled extends FeedEvent {
+  final Post post;
+  final bool isLiked;
+
+  const LikeToggled(this.post, this.isLiked);
+}

@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:spejder_app/model/user_profile.dart';
 
 class LikeButtonWidget extends StatefulWidget {
-  const LikeButtonWidget({Key? key}) : super(key: key);
+  final UserProfile currentUser;
+  final List<String> likeList;
+  final Function(bool isLiked) onTap;
+  const LikeButtonWidget(
+      {Key? key, required this.currentUser, required this.likeList, required this.onTap})
+      : super(key: key);
 
   @override
   State<LikeButtonWidget> createState() => _LikeButtonWidgetState();
 }
 
 class _LikeButtonWidgetState extends State<LikeButtonWidget> {
-  bool isLiked = false;
-  int likeCount = 17;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +26,8 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
 
     return LikeButton(
       size: sizeOfHeart,
-      isLiked: isLiked,
-      likeCount: likeCount,
+      isLiked: widget.likeList.contains(widget.currentUser.id),
+      likeCount: widget.likeList.length,
       // Få farve på hjerte til at ændre sig
       likeBuilder: (isLiked) {
         final color = isLiked ? Colors.green : Colors.grey;
@@ -40,9 +48,10 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
             style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold));
       },
       onTap: (isLiked) async {
+        widget.onTap(!isLiked);
         //Keep state of likes
-        this.isLiked = !isLiked;
-        likeCount += this.isLiked ? 1 : -1;
+        //this.isLiked = !isLiked;
+        //likeCount += this.isLiked ? 1 : -1;
 
         //server request
 

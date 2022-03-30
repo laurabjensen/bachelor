@@ -75,7 +75,7 @@ class UserProfileRepository {
     for (var friend in friends) {
       userProfiles.add(await getUserprofileFromId(friend));
     }
-    return userProfiles;
+    return userProfiles.sortedBy((element) => element.name);
   }
 
 // TODO: FIKS HER

@@ -101,7 +101,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     child: TabBarView(
                       controller: controller,
                       children: [
-                        ProfileFeedTab(userProfile: widget.userProfile, posts: state.posts),
+                        ProfileFeedTab(
+                          userProfile: widget.userProfile,
+                          posts: state.posts,
+                          currentUser: currentUser,
+                        ),
                         ProfileTab(
                           userProfile: widget.userProfile,
                           approvedBadges: state.posts.map((e) => e.badgeRegistration).toList(),

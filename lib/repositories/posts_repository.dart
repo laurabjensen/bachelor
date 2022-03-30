@@ -36,6 +36,7 @@ class PostsRepository {
     for (var post in userProfile.posts) {
       posts.add(await getPostFromId(post));
     }
+    posts.sortBy((element) => element.badgeRegistration.badgeSpecific.badge.name);
     return posts;
   }
 
@@ -60,5 +61,22 @@ class PostsRepository {
     }
     //friends.remove(userProfile.id);
     return list;
+  }
+
+  Future<Post> toggleLikesForPost(bool isLiked, Post post, String userId) async {
+    if (isLiked) {
+      var likes = List<String>.from(
+          (await FirebaseFirestore.instance.collection('posts').doc(post.id).get()).get('likes'));
+      likes.add(userId);
+      post = post.copyWith(likes: likes);
+      await FirebaseFirestore.instance.collection('posts').doc(post.id).update({'likes': likes});
+    } else {
+      var likes = List<String>.from(
+          (await FirebaseFirestore.instance.collection('posts').doc(post.id).get()).get('likes'));
+      likes.remove(userId);
+      post = post.copyWith(likes: likes);
+      await FirebaseFirestore.instance.collection('posts').doc(post.id).update({'likes': likes});
+    }
+    return post;
   }
 }

@@ -17,6 +17,29 @@ class ApproveBadgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    Widget noImageWidget() {
+      return Stack(
+        children: [
+          Container(
+              height: 90,
+              width: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Color(0xffFED105),
+              )),
+          Positioned(
+              left: 3.5,
+              top: 5,
+              child: SvgPicture.asset(
+                'assets/tørklæde_rød.svg',
+                height: 80,
+                width: 80,
+                fit: BoxFit.scaleDown,
+              )),
+        ],
+      );
+    }
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -72,23 +95,30 @@ class ApproveBadgeWidget extends StatelessWidget {
                         children: [
                           Stack(
                             children: [
-                              //Yellow background
-                              Container(
-                                height: 90,
-                                width: 90,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: Color(0xffFED105),
-                                ),
-                              ),
-                              //Scraf
+                              badgeRegistration.userProfile!.imageUrl.isNotEmpty
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image.network(
+                                        badgeRegistration.userProfile!.imageUrl,
+                                        width: 90,
+                                        height: 90,
+                                        fit: BoxFit.fitHeight,
+                                      ))
+                                  : noImageWidget(),
+                              // Range picture
                               Positioned(
-                                top: 5,
-                                left: 4,
-                                child: SvgPicture.asset(
-                                  'assets/tørklæde_rød.svg',
-                                  width: 80,
-                                  height: 80,
+                                top: 60,
+                                left: 0,
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(60),
+                                      color: Colors.white,
+                                      image: DecorationImage(
+                                          image: Image.network(
+                                                  badgeRegistration.userProfile!.rank.imageUrl)
+                                              .image)),
                                 ),
                               ),
                             ],
