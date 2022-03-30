@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/model/user_profile.dart';
+import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/patrol/bloc/create_patrol_bloc.dart';
 import 'package:spejder_app/screens/patrol/components/custom_selectable_grid.dart';
@@ -13,7 +14,8 @@ import '../components/navbar.dart';
 class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
@@ -36,75 +38,75 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
     final theme = Theme.of(context);
 
     return CustomScaffold(
-      body: CustomNavBar(
-        padding: EdgeInsets.only(top: 60, left: 10),
-        widget: BlocBuilder(
-            bloc: createPatrolBloc,
-            builder: (context, CreatePatrolState state) {
-              if (state.ranks.isNotEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Opret ny patrulje',
-                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 30),
-                        ),
-                        Text(
-                          widget.userProfile.group.name,
-                          style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 17),
-                        ),
-                        //TODO: REMEMBER VALIDATION
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
-                          child: LoginTextFormField(
-                              controller: nameController,
-                              labelText: 'Navn på patrulje',
-                              value: null,
-                              obscureText: false,
-                              validator: Validators.validateNotNull,
-                              onChanged: (name) => null,
-                              /*onChanged: (name) => widget.userprofile
+      appBar: CustomAppBar.basicAppBarWithBackButton(
+        title: 'Opret ny patrulje',
+        onBack: () => Navigator.pop(context),
+      ),
+      body: BlocBuilder(
+          bloc: createPatrolBloc,
+          builder: (context, CreatePatrolState state) {
+            if (state.ranks.isNotEmpty) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.userProfile.group.name,
+                        style: theme.primaryTextTheme.headline1!
+                            .copyWith(fontSize: 20),
+                      ),
+                      //TODO: REMEMBER VALIDATION
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
+                        child: LoginTextFormField(
+                            controller: nameController,
+                            labelText: 'Navn på patrulje',
+                            value: null,
+                            obscureText: false,
+                            validator: Validators.validateNotNull,
+                            onChanged: (name) => null,
+                            /*onChanged: (name) => widget.userprofile
                                                       .copyWith(name: name),*/
-                              keyboardType: TextInputType.name),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
-                          child: RankDropdown(
-                              ranks: state.ranks,
-                              rank: state.rank ?? widget.userProfile.rank,
-                              onChanged: (rank) => createPatrolBloc.add(RankChanged(rank))),
-                        ),
-                        CustomSelectableGrid(),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
-                          child: SizedBox(
-                            width: 200,
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: () => null,
-                              style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
-                              child: Text(
-                                'Opret patrulje med X spejdere', // ${selectedList.length}
-                                style: theme.primaryTextTheme.headline1,
-                                textAlign: TextAlign.center,
-                              ),
+                            keyboardType: TextInputType.name),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
+                        child: RankDropdown(
+                            ranks: state.ranks,
+                            rank: state.rank ?? widget.userProfile.rank,
+                            onChanged: (rank) =>
+                                createPatrolBloc.add(RankChanged(rank))),
+                      ),
+                      CustomSelectableGrid(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                        child: SizedBox(
+                          width: 200,
+                          height: 60,
+                          child: ElevatedButton(
+                            onPressed: () => null,
+                            style: ElevatedButton.styleFrom(
+                                primary: Color(0xff377E62)),
+                            child: Text(
+                              'Opret patrulje med X spejdere', // ${selectedList.length}
+                              style: theme.primaryTextTheme.headline1,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              }
-              /*Skal sættes på ellers brokker Ranks dropdown 
-               sig grundet manglende elementer der ikke når at blive loadet*/
-              return Center(
-                child: CircularProgressIndicator(),
+                ),
               );
-            }),
-      ),
+            }
+            /*Skal sættes på ellers brokker Ranks dropdown 
+               sig grundet manglende elementer der ikke når at blive loadet*/
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

@@ -91,8 +91,8 @@ class ApproveFriendWidget extends StatelessWidget {
                             ],
                           ),
                           Text(userProfile.name,
-                              style: theme.primaryTextTheme.headline3!
-                                  .copyWith(fontSize: 20)),
+                              style: theme.primaryTextTheme.headline3!.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
                           Text(userProfile.rank.title,
                               style: theme.primaryTextTheme.headline1!
                                   .copyWith(color: Colors.black, fontSize: 18)),
