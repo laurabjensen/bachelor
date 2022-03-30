@@ -5,7 +5,8 @@ import 'package:spejder_app/model/user_profile.dart';
 class ProfileImageWidget extends StatelessWidget {
   final UserProfile userProfile;
 
-  const ProfileImageWidget({Key? key, required this.userProfile}) : super(key: key);
+  const ProfileImageWidget({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class ProfileImageWidget extends StatelessWidget {
                                 color: Color(0xffFED105),
                               )),
                           Positioned(
-                              left: 10, top: 10, child: SvgPicture.asset('assets/tørklæde_rød.svg'))
+                              left: 10,
+                              top: 10,
+                              child:
+                                  SvgPicture.asset('assets/tørklæde_rød.svg'))
                         ],
                       )),
             // Range picture
@@ -56,7 +60,8 @@ class ProfileImageWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(60),
                     color: Colors.white,
-                    image: DecorationImage(image: Image.network(userProfile.rank.imageUrl).image)),
+                    image: DecorationImage(
+                        image: Image.network(userProfile.rank.imageUrl).image)),
               ),
             ),
             // Star
