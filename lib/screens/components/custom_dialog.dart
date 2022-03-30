@@ -8,7 +8,8 @@ Future<bool> customDialog(BuildContext context, String question) async {
         return Dialog(
           elevation: 0,
           backgroundColor: Color(0xff63A288),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
           child: SizedBox(
             height: 300,
             child: Column(
@@ -35,7 +36,8 @@ Future<bool> customDialog(BuildContext context, String question) async {
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
-                          child: Text('Ja', style: theme.primaryTextTheme.headline1)),
+                          child: Text('Ja',
+                              style: theme.primaryTextTheme.headline1)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -43,7 +45,8 @@ Future<bool> customDialog(BuildContext context, String question) async {
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
-                          child: Text('Nej', style: theme.primaryTextTheme.headline1)),
+                          child: Text('Nej',
+                              style: theme.primaryTextTheme.headline1)),
                     ),
                   ],
                 ),
