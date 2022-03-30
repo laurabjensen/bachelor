@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
+import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/friends/components/all_friends_tab.dart';
 import 'package:spejder_app/screens/friends/bloc/friends_bloc.dart';
 import 'package:spejder_app/screens/friends/friends_activity/friends_activity_screen.dart';
@@ -39,11 +41,8 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
     return BlocBuilder<FriendsBloc, FriendsState>(
       bloc: friendsBloc,
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Color(0xff63A288),
-          appBar: AppBar(
-            foregroundColor: Colors.black,
-            backgroundColor: Color(0xff63A288),
+        return CustomScaffold(
+          appBar: CustomAppBar.withTabBar(
             actions: <Widget>[
               Stack(
                 children: [
@@ -63,7 +62,7 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
                       tooltip: 'Se veninde aktivitet',
                       icon: Icon(
                         Icons.person_add,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                       onPressed: () => pushNewScreen(context,
                           screen: FriendsActivityScreen(
@@ -75,24 +74,21 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
             ],
             bottom: TabBar(
               controller: controller,
-              indicatorColor: Colors.black,
-              indicatorWeight: 3,
+              indicatorColor: Colors.white,
+              indicatorWeight: 2.5,
               tabs: [
                 Tab(
                     child: Text('Alle veninder',
-                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
                 Tab(
                     child: Text(
                         widget.userProfile.id == currentUser.id
                             ? 'Mine veninder'
                             : '${widget.userProfile.namePossessiveCase()} veninder',
-                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
               ],
             ),
-            title: Text(
-              'Veninder oversigt',
-              style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
-            ),
+            title: 'Veninder oversigt',
           ),
           body: TabBarView(
             controller: controller,

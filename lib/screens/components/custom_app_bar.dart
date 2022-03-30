@@ -29,7 +29,7 @@ class CustomAppBar {
         ));
   }
 
-  static personalProficeAppBar(
+  static personalProfileAppBar(
       {required String title,
       required Function() onEditProfilePressed,
       required Function() onLogoutPressed}) {
@@ -46,6 +46,19 @@ class CustomAppBar {
                 onPressed: onLogoutPressed,
                 icon: (Icon(IconData(0xe3b3, fontFamily: 'MaterialIcons'), color: Colors.white))),
           ],
+        ));
+  }
+
+  static withTabBar(
+      {required String title, required PreferredSizeWidget bottom, List<Widget>? actions}) {
+    return PreferredSize(
+        preferredSize: Size.fromHeight(85.0),
+        child: AppBar(
+          title: Text(title),
+          backgroundColor: Color(0xff377E62),
+          foregroundColor: Colors.white,
+          bottom: bottom,
+          actions: actions,
         ));
   }
 }

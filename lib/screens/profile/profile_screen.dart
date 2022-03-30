@@ -46,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         bloc: profileBloc,
         builder: (context, ProfileState state) {
           return CustomScaffold(
-              appBar: CustomAppBar.personalProficeAppBar(
+              appBar: CustomAppBar.personalProfileAppBar(
                 title: widget.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
                     screen: EditProfileScreen(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/all_badges_tab.dart';
+import 'package:spejder_app/screens/components/custom_app_bar.dart';
 
 import 'bloc/badges_bloc.dart';
 
@@ -39,33 +41,28 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
         child: BlocBuilder<BadgesBloc, BadgesState>(
           bloc: badgesBloc,
           builder: (context, state) {
-            return Scaffold(
-              backgroundColor: Color(0xff63A288),
-              appBar: AppBar(
-                foregroundColor: Colors.black,
-                backgroundColor: Color(0xff63A288),
+            return CustomScaffold(
+              //backgroundColor: Color(0xff63A288),
+              appBar: CustomAppBar.withTabBar(
                 bottom: TabBar(
                   controller: controller,
-                  indicatorColor: Colors.black,
-                  indicatorWeight: 3,
+                  indicatorColor: Colors.white,
+                  indicatorWeight: 2.5,
                   tabs: [
                     Tab(
                         child: Text('Alle mærker',
                             style:
-                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
                     Tab(
                         child: Text(
                             widget.userProfile.id == loggedInUser.id
                                 ? 'Mine mærker'
                                 : '${widget.userProfile.namePossessiveCase()} mærker',
                             style:
-                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.black))),
+                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
                   ],
                 ),
-                title: Text(
-                  'Mærke oversigt',
-                  style: theme.primaryTextTheme.headline1!.copyWith(color: Colors.black),
-                ),
+                title: 'Mærke oversigt',
               ),
               body: TabBarView(
                 controller: controller,
