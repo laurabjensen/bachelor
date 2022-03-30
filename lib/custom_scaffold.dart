@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:spejder_app/screens/components/custom_app_bar.dart';
 
 class CustomScaffold extends StatelessWidget {
   final Widget body;

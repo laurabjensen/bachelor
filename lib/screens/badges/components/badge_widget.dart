@@ -28,8 +28,8 @@ class BadgeWidget extends StatelessWidget {
     //Bool used to show if badge is registred or not
 
     bool isAccepted() {
-      var registration =
-          registrationList!.firstWhereOrNull((element) => element.badgeSpecific.rank == rank);
+      var registration = registrationList!.firstWhereOrNull((element) =>
+          element.badgeSpecific.rank == rank && element.badgeSpecific.badge.id == badge.id);
       if (registration != null) {
         return registration.getStatus() == BadgeRegistrationStatus.accepted;
       }

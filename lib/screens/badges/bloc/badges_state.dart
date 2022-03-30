@@ -8,6 +8,7 @@ class BadgesState extends Equatable {
   final List<Badge> allEngagementBadges;
   final List<BadgeRegistration> userChallengeBadges;
   final List<BadgeRegistration> userEngagementBadges;
+  final List<BadgeRegistration> approvedBadges;
   final List<BadgeRegistration> registrations;
   final bool isEditing;
 
@@ -17,6 +18,7 @@ class BadgesState extends Equatable {
       this.badgesStatus = BadgesStateStatus.loading,
       this.userChallengeBadges = const [],
       this.userEngagementBadges = const [],
+      this.approvedBadges = const [],
       this.registrations = const [],
       this.isEditing = false});
 
@@ -25,7 +27,8 @@ class BadgesState extends Equatable {
         badgesStatus,
         allChallengeBadges.length + allEngagementBadges.length,
         userChallengeBadges.length + userEngagementBadges.length,
-        registrations,
+        approvedBadges.length,
+        registrations.length,
         isEditing
       ];
 
@@ -35,6 +38,7 @@ class BadgesState extends Equatable {
       List<Badge>? allEngagementBadges,
       List<BadgeRegistration>? userChallengeBadges,
       List<BadgeRegistration>? userEngagementBadges,
+      List<BadgeRegistration>? approvedBadges,
       List<BadgeRegistration>? registrations,
       bool? isEditing}) {
     return BadgesState(
@@ -43,6 +47,7 @@ class BadgesState extends Equatable {
         allEngagementBadges: allEngagementBadges ?? this.allEngagementBadges,
         userChallengeBadges: userChallengeBadges ?? this.userChallengeBadges,
         userEngagementBadges: userEngagementBadges ?? this.userEngagementBadges,
+        approvedBadges: approvedBadges ?? this.approvedBadges,
         registrations: registrations ?? this.registrations,
         isEditing: isEditing ?? this.isEditing);
   }

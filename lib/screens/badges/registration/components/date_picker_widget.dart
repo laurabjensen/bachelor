@@ -44,12 +44,12 @@ class DatePickerWidget extends StatelessWidget {
                   fillColor: Colors.white,
                   errorStyle: theme.textTheme.bodyText2!.copyWith(height: 0),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+                    padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
                     child: Text(
                       date != null
                           ? '${DateFormat.d().format(date!)}. ${monthFormat.format(date!)} ${DateFormat.y().format(date!)}'
                           : 'Dato',
-                      style: theme.primaryTextTheme.bodyText1!.copyWith(fontSize: 20),
+                      style: theme.primaryTextTheme.bodyText1!.copyWith(fontSize: 16),
                     ),
                   ),
                   prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -59,7 +59,7 @@ class DatePickerWidget extends StatelessWidget {
                         onTap: () => datePicker(),
                         child: Text(
                           date != null ? 'Ændre' : 'Vælg',
-                          style: theme.primaryTextTheme.bodyText1!.copyWith(fontSize: 20),
+                          style: theme.primaryTextTheme.bodyText1!.copyWith(fontSize: 16),
                         ),
                       )),
                   suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),

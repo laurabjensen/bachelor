@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class ProfileFriendWidget extends StatelessWidget {

@@ -55,6 +55,22 @@ class BadgeRegistrationRepository {
     return badges;
   }
 
+  Future<List<BadgeRegistration>> getBadgeRegistrationsForUser(String userId) async {
+    var badges = <BadgeRegistration>[];
+    var snapshot = await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .where('user', isEqualTo: userId)
+        .get();
+    for (var snap in snapshot.docs) {
+      var badgeRegistration = BadgeRegistration.fromJson(snap);
+      //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
+      final badgeSpecific =
+          await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
+      badges.add(badgeRegistration.copyWith(badgeSpecific: badgeSpecific));
+    }
+    return badges;
+  }
+
   //TODO!: Hvorfor vil den ikke lave et index i firestore???
   Future<List<BadgeRegistration>> getBadgeRegistrationFromBadgeAndUser(
       Badge badge, UserProfile userProfile) async {

@@ -3,18 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
-import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
-import 'package:spejder_app/screens/friends/friends_screen.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
-import 'package:spejder_app/screens/profile/components/profile_badges_row_widget.dart';
-import 'package:spejder_app/screens/profile/components/profile_description_widget.dart';
-import 'package:spejder_app/screens/profile/components/profile_friends_row_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_info_widget.dart';
-import 'package:spejder_app/screens/profile/components/profile_navbar.dart';
 
 import '../edit_profile/bloc/editprofile_bloc.dart';
 import '../edit_profile/edit_profile_screen.dart';
@@ -87,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         indicatorColor: Colors.white,
                         labelColor: Colors.white,
                         labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
-                        tabs: [
+                        tabs: const [
                           Tab(
                             text: 'Aktivitet',
                           ),

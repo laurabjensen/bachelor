@@ -38,6 +38,7 @@ class AboutMeWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                 labelText: labelText,
                 hintText: hintText,
+                hintStyle: theme.primaryTextTheme.headline3!.copyWith(color: Colors.black87),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 labelStyle: theme.primaryTextTheme.headline3!.copyWith(height: 0)),
             keyboardType: TextInputType.multiline,

@@ -62,8 +62,6 @@ class BadgeInfoWidget extends StatelessWidget {
             ),
           ),
         ),
-        Text(badgeSpecific.badge.name,
-            style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 25)),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
           child:

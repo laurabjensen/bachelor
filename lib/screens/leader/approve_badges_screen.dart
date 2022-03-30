@@ -5,7 +5,6 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/navbar.dart';
-import 'package:spejder_app/screens/group/bloc/group_bloc.dart';
 import 'package:spejder_app/screens/leader/bloc/leader_bloc.dart';
 import 'package:spejder_app/screens/leader/components/approve_badge_widget.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';

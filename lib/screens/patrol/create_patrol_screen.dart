@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/patrol/bloc/create_patrol_bloc.dart';
 import 'package:spejder_app/screens/patrol/components/custom_selectable_grid.dart';
 import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
-import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/validators.dart';
 
 import '../../custom_scaffold.dart';

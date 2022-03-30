@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge_specific.dart';
-import 'package:spejder_app/model/user_profile.dart';
 
 enum BadgeRegistrationStatus { waitingOnLeader, denied, accepted }
 

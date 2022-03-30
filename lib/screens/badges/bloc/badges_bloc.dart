@@ -35,28 +35,39 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
 
     final badgeRegistrations =
         await badgeRegistrationRepository.getBadgeRegistrationsFromUserProfile(userProfile);
+    final allRegistrations =
+        await badgeRegistrationRepository.getBadgeRegistrationsForUser(userProfile.id);
     emit(state.copyWith(
         badgesStatus: BadgesStateStatus.loaded,
-        registrations: badgeRegistrations,
+        approvedBadges: badgeRegistrations,
         userChallengeBadges: badgeRegistrations
             .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
             .toList(),
         userEngagementBadges: badgeRegistrations
             .where((element) => element.badgeSpecific.badge.type == 'Engagement')
-            .toList()));
+            .toList(),
+        registrations: allRegistrations));
   }
 
   Future<void> _descriptionUpdated(
       BadgeRegistration? badgeRegistration, String description, Emitter<BadgesState> emit) async {
     badgeRegistration = await badgeRegistrationRepository.updateRegistrationDescription(
         badgeRegistration, description);
-    var registrations = state.registrations;
-    registrations.removeWhere((element) => element.id == badgeRegistration?.id);
-    registrations.add(badgeRegistration!);
-    emit(state.copyWith(registrations: registrations, isEditing: false));
+    var approvedBadges = state.approvedBadges;
+    approvedBadges.removeWhere((element) => element.id == badgeRegistration?.id);
+    approvedBadges.add(badgeRegistration!);
+    emit(state.copyWith(
+        approvedBadges: approvedBadges,
+        userChallengeBadges: approvedBadges
+            .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
+            .toList(),
+        userEngagementBadges: approvedBadges
+            .where((element) => element.badgeSpecific.badge.type == 'Engagement')
+            .toList(),
+        isEditing: false));
   }
 
   Future<void> _editingToggled(Emitter<BadgesState> emit) async {
-    emit(state.copyWith(isEditing: true));
+    emit(state.copyWith(isEditing: !state.isEditing));
   }
 }

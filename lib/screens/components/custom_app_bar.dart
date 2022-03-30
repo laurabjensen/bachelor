@@ -10,7 +10,7 @@ class CustomAppBar {
           leading: showBackButton
               ? Container()
               : IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios)),
-          actions: [],
+          actions: const [],
         ));
   }
 
@@ -20,7 +20,12 @@ class CustomAppBar {
         child: AppBar(
           title: Text(title),
           backgroundColor: Color(0xff377E62),
-          leading: IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios)),
+          leading: IconButton(
+              onPressed: onBack,
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
         ));
   }
 

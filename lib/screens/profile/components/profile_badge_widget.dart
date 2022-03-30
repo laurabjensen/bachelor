@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/app_routes.dart';
-import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
 
 class ProfileBadgeWidget extends StatelessWidget {
   final BadgeRegistration badgeRegistration;

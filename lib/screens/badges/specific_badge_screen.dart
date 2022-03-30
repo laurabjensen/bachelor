@@ -7,8 +7,6 @@ import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/repositories/badge_registration_repository.dart';
-import 'package:spejder_app/screens/app_routes.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/bloc/badges_bloc.dart';
 import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
@@ -16,7 +14,7 @@ import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
 import 'package:spejder_app/screens/badges/components/badge_row.dart';
 import 'package:spejder_app/screens/badges/registration/components/read_more_button.dart';
 import 'package:spejder_app/screens/badges/registration/register_badge_screen.dart';
-import 'package:spejder_app/screens/components/navbar.dart';
+import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:collection/collection.dart';
 
 class SpecificBadgeScreen extends StatefulWidget {
@@ -73,7 +71,8 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
         height: 51,
         child: ElevatedButton(
           onPressed: () => pushNewScreen(context,
-              screen: RegisterBadgeScreen(badgeSpecific: value), withNavBar: false),
+                  screen: RegisterBadgeScreen(badgeSpecific: value), withNavBar: false)
+              .then((value) => (value as bool) ? widget.badgesBloc.add(LoadAllBadges()) : null),
           style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
           child: Text(
             'Registrer mærke',
@@ -88,56 +87,65 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocProvider.value(
-      value: widget.badgesBloc,
-      child: BlocBuilder(
-          bloc: widget.badgesBloc,
-          builder: (context, BadgesState state) {
-            return ValueListenableBuilder(
-                valueListenable: badgeSpecific,
-                builder: (context, BadgeSpecific value, child) {
-                  var registration = state.registrations
-                      .firstWhereOrNull((element) => element.badgeSpecific == badgeSpecific.value);
-
-                  return CustomScaffold(
-                    body: SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(0, 60, 0, 40),
-                      child: CustomNavBar(
-                        padding: EdgeInsets.only(left: 10),
-                        widget: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            BadgeInfoWidget(
-                              badgeSpecific: value,
-                              registration: registration,
-                            ),
-                            BadgeRow(
-                              badge: badge,
-                              onChange: (newBadgeSpecific) {
-                                badgeSpecific.value = newBadgeSpecific;
-                              },
-                              registrationList: state.registrations,
-                              selectedBadge: badgeSpecific.value,
-                            ),
-                            BadgePanelList(
-                              badgeSpecific: badgeSpecific.value,
-                              isLeader: widget.userProfile.rank.title == 'Leder',
-                              registration: registration,
-                              onDescriptionSaved: (text) =>
-                                  widget.badgesBloc.add(DescriptionUpdated(registration!, text)),
-                            ),
-                            getButton(registration, value, theme),
-                            // Læs mere button med icon
-                            ReadMoreButton(
-                              badgeSpecific: badgeSpecific.value,
-                            )
-                          ],
+    return WillPopScope(
+        onWillPop: () async {
+          widget.badgesBloc.state.isEditing ? widget.badgesBloc.add(EditingToggled()) : null;
+          return true;
+        },
+        child: BlocProvider.value(
+          value: widget.badgesBloc,
+          child: BlocBuilder(
+              bloc: widget.badgesBloc,
+              builder: (context, BadgesState state) {
+                return ValueListenableBuilder(
+                    valueListenable: badgeSpecific,
+                    builder: (context, BadgeSpecific value, child) {
+                      var registration = state.registrations.firstWhereOrNull(
+                          (element) => element.badgeSpecific == badgeSpecific.value);
+                      return CustomScaffold(
+                        appBar: CustomAppBar.basicAppBarWithBackButton(
+                            title: badge.name,
+                            onBack: () {
+                              Navigator.pop(context);
+                              widget.badgesBloc.state.isEditing
+                                  ? widget.badgesBloc.add(EditingToggled())
+                                  : null;
+                            }),
+                        body: SingleChildScrollView(
+                          padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              BadgeInfoWidget(
+                                badgeSpecific: value,
+                                registration: registration,
+                              ),
+                              BadgeRow(
+                                badge: badge,
+                                onChange: (newBadgeSpecific) {
+                                  badgeSpecific.value = newBadgeSpecific;
+                                },
+                                registrationList: state.registrations,
+                                selectedBadge: badgeSpecific.value,
+                              ),
+                              BadgePanelList(
+                                badgeSpecific: badgeSpecific.value,
+                                isLeader: widget.userProfile.rank.title == 'Leder',
+                                registration: registration,
+                                onDescriptionSaved: (text) =>
+                                    widget.badgesBloc.add(DescriptionUpdated(registration!, text)),
+                              ),
+                              getButton(registration, value, theme),
+                              // Læs mere button med icon
+                              ReadMoreButton(
+                                badgeSpecific: badgeSpecific.value,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                });
-          }),
-    );
+                      );
+                    });
+              }),
+        ));
   }
 }

@@ -35,7 +35,7 @@ class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidge
               fillColor: Colors.white,
               filled: true,
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-              hintText: 'Skriv lidt om dit spejderliv',
+              hintText: 'Skriv om nogle af de oplevelser du har haft i forbindelse med mærket',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               labelStyle: theme.primaryTextTheme.headline3!.copyWith(height: 0)),
           keyboardType: TextInputType.multiline,
@@ -47,7 +47,7 @@ class _DescriptionBadgePanelWidgetState extends State<DescriptionBadgePanelWidge
           onPressed: () {
             widget.onDescriptionSaved(controller.text);
           },
-          child: Text('Gem'))
+          child: Text('Gem beskrivelse'))
     ]);
   }
 
