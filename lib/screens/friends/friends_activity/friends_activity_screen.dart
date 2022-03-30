@@ -33,9 +33,9 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
     final list = GetIt.instance.get<List<UserProfile>>();
 
     return CustomScaffold(
-      appBar: CustomAppBar.basicAppBar(
+      appBar: CustomAppBar.basicAppBarWithBackButton(
         title: 'Veninde aktivitet',
-        showBackButton: true,
+        onBack: () => Navigator.pop(context),
       ),
       body: Center(
         child: Column(
