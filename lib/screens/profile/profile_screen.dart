@@ -7,6 +7,8 @@ import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
+import 'package:spejder_app/screens/profile/components/profile_feed_tab.dart';
+import 'package:spejder_app/screens/profile/components/profile_tab.dart';
 import 'package:spejder_app/screens/profile/components/profile_info_widget.dart';
 
 import '../edit_profile/bloc/editprofile_bloc.dart';
@@ -20,9 +22,10 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
   late UserProfile currentUser;
   late ProfileBloc profileBloc;
+  late TabController controller;
   /*ProfileBloc(userProfile: ModalRoute.of(context)!.settings.arguments as UserProfile);*/
 
   @override
@@ -30,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     profileBloc = ProfileBloc(userProfile: widget.userProfile);
+    controller = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   void logout() async {
@@ -46,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         bloc: profileBloc,
         builder: (context, ProfileState state) {
           return CustomScaffold(
-              appBar: CustomAppBar.personalProfileAppBar(
+            appBar: CustomAppBar.personalProfileAppBar(
                 title: widget.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
                     screen: EditProfileScreen(
@@ -56,115 +60,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             profileBloc: profileBloc)),
                     withNavBar: false),
                 onLogoutPressed: () => logout(),
-              ),
-              body: DefaultTabController(
-                length: 3,
-                child: NestedScrollView(
-                  headerSliverBuilder: (context, value) {
-                    return [
-                      SliverList(
-                        delegate: SliverChildListDelegate([
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
-                            child: ProfileInfoWidget(
-                              userProfile: state.userProfile,
-                            ),
-                          )
-                        ]),
-                      ),
-                    ];
-                  },
-                  body: Column(
-                    children: <Widget>[
-                      TabBar(
-                        indicatorColor: Colors.white,
-                        labelColor: Colors.white,
-                        labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
-                        tabs: const [
-                          Tab(
-                            text: 'Aktivitet',
-                          ),
-                          Tab(
-                            text: 'Mærker',
-                          ),
-                          Tab(
-                            text: 'Veninder',
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [ListView(), ListView(), ListView()],
+                showActions: widget.userProfile.id == currentUser.id),
+            body: NestedScrollView(
+              headerSliverBuilder: (context, value) {
+                return [
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: ProfileInfoWidget(
+                          userProfile: state.userProfile,
+                          onBadgesTap: () => controller.index = 1,
+                          onFriendsTap: () => controller.index = 2,
                         ),
                       )
+                    ]),
+                  ),
+                ];
+              },
+              body: Column(
+                children: <Widget>[
+                  TabBar(
+                    controller: controller,
+                    indicatorColor: Colors.white,
+                    labelColor: Colors.white,
+                    labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
+                    tabs: const [
+                      Tab(
+                        text: 'Aktivitet',
+                      ),
+                      Tab(
+                        text: 'Mærker',
+                      ),
+                      Tab(
+                        text: 'Veninder',
+                      ),
                     ],
                   ),
-                ),
-              ));
+                  Expanded(
+                    child: TabBarView(
+                      controller: controller,
+                      children: [
+                        ProfileFeedTab(
+                            userProfile: widget.userProfile, approvedBadges: state.badges),
+                        ProfileTab(
+                          userProfile: widget.userProfile,
+                          approvedBadges: state.badges,
+                          friends: null,
+                        ),
+                        ProfileTab(
+                            userProfile: widget.userProfile,
+                            approvedBadges: null,
+                            friends: state.friends)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
         });
   }
 }
-
-/**
- * 
- * return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProfileInfoWidget(
-                  userProfile: state.userProfile,
-                ),
-                Divider(
-                  color: Color(0xff008060),
-                  thickness: 2,
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Om mig',
-                            style: theme.primaryTextTheme.headline1,
-                          ),
-                        ),
-                      ),
-                      ProfileDescriptionWidget(
-                        userProfile: state.userProfile,
-                      ),
-                      ProfileBadgesRow(
-                        //! TODO: Når man trykker her skal badge screen vælge 'mine mærker' tab automatisk
-                        onSeeAll: () => pushNewScreen(context,
-                            screen:
-                                BadgesScreen(userProfile: state.userProfile, initialTabIndex: 1),
-                            withNavBar: false),
-                        objects: state.badges,
-                        headlineText: state.userProfile.id == currentUser.id
-                            ? 'Mine mærker'
-                            : '${state.userProfile.namePossessiveCase()} mærker',
-                        noObjectsText: state.userProfile.id == currentUser.id
-                            ? 'Du har endnu ikke registreret nogen mærker'
-                            : '${state.userProfile.name} har endnu ikke registreret nogen mærker',
-                        userProfile: state.userProfile,
-                      ),
-                      ProfileFriendsRow(
-                        onSeeAll: () => pushNewScreen(context,
-                            screen:
-                                FriendsScreen(userProfile: state.userProfile, initialTabIndex: 1)),
-                        objects: state.friends,
-                        headlineText: state.userProfile.id == currentUser.id
-                            ? 'Mine veninder'
-                            : '${state.userProfile.namePossessiveCase()} veninder',
-                        noObjectsText: state.userProfile.id == currentUser.id
-                            ? 'Du har endnu ikke registreret nogen veninder'
-                            : '${state.userProfile.name} har endnu ikke registreret nogen veninder',
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
- */

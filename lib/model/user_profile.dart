@@ -112,7 +112,7 @@ class UserProfile {
   }
 
   String friendsCase() {
-    if ((badgeRegistrations.length == 1)) {
+    if ((friends.length == 1)) {
       return 'Veninde';
     }
     return 'Veninder';

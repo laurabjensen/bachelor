@@ -19,7 +19,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     on<DenyBadge>((event, emit) => _denyBadge(event.badgeRegistration, emit));
 */
     add(LoadFromFirebase());
-    emit(state.copyWith(loadStatus: GroupLoadStatus.loaded));
   }
 
   Future<List<UserProfile>> loadList() async {

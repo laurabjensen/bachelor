@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spejder_app/model/chatMessageModel.dart';
+import 'package:spejder_app/model/chat_message_model.dart';
 
 class ChatDetailPage extends StatefulWidget {
   @override
@@ -65,7 +65,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         height: 6,
                       ),
                       Text(
-                        "Online",
+                        ,
                         style: TextStyle(
                             color: Colors.grey.shade600, fontSize: 13),
                       ),

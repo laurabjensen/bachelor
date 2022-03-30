@@ -14,12 +14,10 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class LoggedInNavigationController extends StatefulWidget {
   @override
-  _LoggedInNavigationControllerState createState() =>
-      _LoggedInNavigationControllerState();
+  _LoggedInNavigationControllerState createState() => _LoggedInNavigationControllerState();
 }
 
-class _LoggedInNavigationControllerState
-    extends State<LoggedInNavigationController> {
+class _LoggedInNavigationControllerState extends State<LoggedInNavigationController> {
   late PersistentTabController _controller;
   late bool _hideNavBar;
   late UserProfile currentUser;
@@ -27,8 +25,7 @@ class _LoggedInNavigationControllerState
   @override
   void initState() {
     super.initState();
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     _controller = PersistentTabController(initialIndex: 2);
     _hideNavBar = false;
   }
@@ -40,9 +37,7 @@ class _LoggedInNavigationControllerState
         userProfile: currentUser,
         initialTabIndex: 0,
       ),
-      FeedScreen(
-        userProfile: currentUser,
-      ),
+      FeedScreen(),
       FriendsScreen(
         userProfile: currentUser,
         initialTabIndex: 0,
@@ -80,9 +75,9 @@ class _LoggedInNavigationControllerState
     return [
       TabItem<SvgPicture>(
           icon: SvgPicture.asset(
-            'assets/search.svg',
+            'assets/fire.svg',
           ),
-          title: 'Søg'),
+          title: 'Gruppe'),
       TabItem<SvgPicture>(
           icon: SvgPicture.asset(
             'assets/badges.svg',

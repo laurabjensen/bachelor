@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomAppBar {
   static basicAppBar({required String title, required bool showBackButton, Function()? onBack}) {
@@ -8,8 +9,8 @@ class CustomAppBar {
           title: Text(title),
           backgroundColor: Color(0xff377E62),
           leading: showBackButton
-              ? Container()
-              : IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios)),
+              ? IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios))
+              : Container(),
           actions: const [],
         ));
   }
@@ -32,20 +33,24 @@ class CustomAppBar {
   static personalProfileAppBar(
       {required String title,
       required Function() onEditProfilePressed,
-      required Function() onLogoutPressed}) {
+      required Function() onLogoutPressed,
+      required bool showActions}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
           title: Text(title),
           backgroundColor: Color(0xff377E62),
-          actions: [
-            IconButton(
-                onPressed: onEditProfilePressed,
-                icon: Icon(Icons.mode_edit_outline, color: Colors.white)),
-            IconButton(
-                onPressed: onLogoutPressed,
-                icon: (Icon(IconData(0xe3b3, fontFamily: 'MaterialIcons'), color: Colors.white))),
-          ],
+          actions: showActions
+              ? [
+                  IconButton(
+                      onPressed: onEditProfilePressed,
+                      icon: Icon(Icons.mode_edit_outline, color: Colors.white)),
+                  IconButton(
+                      onPressed: onLogoutPressed,
+                      icon: (Icon(IconData(0xe3b3, fontFamily: 'MaterialIcons'),
+                          color: Colors.white))),
+                ]
+              : [],
         ));
   }
 
@@ -59,6 +64,20 @@ class CustomAppBar {
           foregroundColor: Colors.white,
           bottom: bottom,
           actions: actions,
+        ));
+  }
+
+  static withLogo() {
+    return PreferredSize(
+        preferredSize: Size.fromHeight(45.0),
+        child: AppBar(
+          title: SvgPicture.asset(
+            'assets/logo-lille-hvid.svg',
+            color: Colors.white,
+            height: 35,
+          ),
+          backgroundColor: Color(0xff377E62),
+          foregroundColor: Colors.white,
         ));
   }
 }

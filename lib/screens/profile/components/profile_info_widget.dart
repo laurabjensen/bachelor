@@ -6,17 +6,17 @@ import 'package:spejder_app/screens/profile/components/profile_img_widget.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
   final UserProfile userProfile;
+  final Function() onBadgesTap;
+  final Function() onFriendsTap;
   const ProfileInfoWidget({
     required this.userProfile,
+    required this.onBadgesTap,
+    required this.onFriendsTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    Text text(String text) {
-      return Text(text, style: theme.primaryTextTheme.headline1);
-    }
 
     return Column(children: [
       Row(
@@ -31,26 +31,32 @@ class ProfileInfoWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      Text('${userProfile.badgeRegistrations.length}',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Text(userProfile.badgeCase(),
-                          style: theme.primaryTextTheme.headline1)
-                    ],
+                  GestureDetector(
+                    onTap: onBadgesTap,
+                    child: Column(
+                      children: [
+                        //Mærker
+                        Text('${userProfile.badgeRegistrations.length}',
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(fontWeight: FontWeight.bold)),
+                        Text(userProfile.badgeCase(), style: theme.primaryTextTheme.headline1)
+                      ],
+                    ),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    children: [
-                      Text('${userProfile.friends.length}',
-                          style: theme.primaryTextTheme.headline1!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Text(userProfile.friendsCase(),
-                          style: theme.primaryTextTheme.headline1)
-                    ],
+                  GestureDetector(
+                    onTap: onFriendsTap,
+                    child: Column(
+                      children: [
+                        // Veninder
+                        Text('${userProfile.friends.length}',
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(fontWeight: FontWeight.bold)),
+                        Text(userProfile.friendsCase(), style: theme.primaryTextTheme.headline1)
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -63,13 +69,11 @@ class ProfileInfoWidget extends StatelessWidget {
                   Flexible(
                       child: Text(
                     '${userProfile.group.name} gruppe',
-                    style: theme.primaryTextTheme.headline2!
-                        .copyWith(fontSize: 17),
+                    style: theme.primaryTextTheme.headline2!.copyWith(fontSize: 17),
                     textAlign: TextAlign.center,
                   )),
                   Text(userProfile.rank.title,
-                      style: theme.primaryTextTheme.headline2!
-                          .copyWith(fontSize: 17))
+                      style: theme.primaryTextTheme.headline2!.copyWith(fontSize: 17))
                 ],
               )
             ],

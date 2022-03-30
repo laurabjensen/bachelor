@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
@@ -30,8 +28,8 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       },
       //Circle og bubbles color er på animationen ved like
       circleColor: CircleColor(start: Colors.black, end: Colors.green),
-      bubblesColor: BubblesColor(
-          dotPrimaryColor: Colors.black, dotSecondaryColor: Colors.greenAccent),
+      bubblesColor:
+          BubblesColor(dotPrimaryColor: Colors.black, dotSecondaryColor: Colors.greenAccent),
 
       //Afstand mellem hjerte og likes
       likeCountPadding: EdgeInsets.only(left: 2),
@@ -39,8 +37,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       countBuilder: (count, isLiked, text) {
         final color = isLiked ? Colors.green : Colors.grey;
         return Text(text,
-            style: TextStyle(
-                color: color, fontSize: 15, fontWeight: FontWeight.bold));
+            style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold));
       },
       onTap: (isLiked) async {
         //Keep state of likes

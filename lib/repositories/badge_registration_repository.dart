@@ -5,6 +5,7 @@ import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
+import 'package:collection/collection.dart';
 
 class BadgeRegistrationRepository {
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
@@ -102,12 +103,13 @@ class BadgeRegistrationRepository {
 
   // Wating on leader = false now since the leader makes an action on the badge. Updates firebase values
   Future<void> approveBadgeRegistration(BadgeRegistration badgeRegistration) async {
-    badgeRegistration = badgeRegistration.copyWith(waitingOnLeader: false, denied: false);
+    badgeRegistration = badgeRegistration.copyWith(
+        waitingOnLeader: false, denied: false, approvedAt: DateTime.now());
     await FirebaseFirestore.instance
         .collection('badgeRegistrations')
         .doc(badgeRegistration.id)
         .update(badgeRegistration.toMap());
-    var path = FirebaseFirestore.instance.collection('users').doc(badgeRegistration.userProfile);
+    var path = FirebaseFirestore.instance.collection('users').doc(badgeRegistration.userProfileId);
     var list = (await path.get()).get('badges');
     list.add(badgeRegistration.id);
     await path.update({'badges': list});
@@ -132,5 +134,29 @@ class BadgeRegistrationRepository {
           .update({'description': description});
     }
     return badgeRegistration;
+  }
+
+  // Use for feed
+  Future<List<BadgeRegistration>> getRegistrationsForUserFriends(UserProfile userProfile) async {
+    var friends = userProfile.friends;
+    friends.add(userProfile.id);
+    var list = <BadgeRegistration>[];
+
+    var snapshot = await FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .orderBy('approvedAt')
+        .where('waitingOnLeader', isEqualTo: false)
+        .where('denied', isEqualTo: false)
+        .where('user', whereIn: friends)
+        .get();
+    for (var snap in snapshot.docs) {
+      var registration = await getBadgeRegistrationFromId(snap.id);
+      list.add(registration.copyWith(
+          userProfile: GetIt.instance
+                  .get<List<UserProfile>>()
+                  .firstWhereOrNull((element) => element.id == registration.userProfileId) ??
+              await userProfileRepository.getUserprofileFromId(registration.userProfileId)));
+    }
+    return list;
   }
 }
