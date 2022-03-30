@@ -83,9 +83,9 @@ class ProfileInfoWidget extends StatelessWidget {
           )
         ],
       ),
-      ProfileDescriptionWidget(
+      /*ProfileDescriptionWidget(
         userProfile: userProfile,
-      ),
+      ),*/
     ]);
   }
 }

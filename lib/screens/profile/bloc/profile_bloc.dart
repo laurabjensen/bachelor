@@ -8,6 +8,7 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/posts_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -20,23 +21,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
 
   ProfileBloc({required this.userProfile}) : super(ProfileState(userProfile: userProfile)) {
-    on<LoadObjects>((event, emit) => _loadObjects(emit));
-    on<UserUpdatedProfile>(((event, emit) => _userUpdated(event.userProfile, emit)));
+    on<StreamStarted>((event, emit) async {
+      await emit.onEach<UserProfile>(
+        GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
+        onData: (updatedUser) => add(Reload(updatedUser)),
+      );
+    }, transformer: restartable());
 
-    add(LoadObjects());
+    on<Reload>((event, emit) => _reload(event.userProfile, emit));
+
+    add(StreamStarted());
   }
 
-  Future<void> _loadObjects(Emitter<ProfileState> emit) async {
-    userProfile = await userProfileRepository.reloadUserprofile(userProfile);
+  Future<void> _reload(UserProfile user, Emitter<ProfileState> emit) async {
+    userProfile = await userProfileRepository.getUserprofileFromId(user.id);
     final friends = await userProfileRepository.getFriendUserProfilesForUser(userProfile.friends);
     final posts = await postsRepository.getPostsFromUserProfile(userProfile);
-    //await badgeRegistrationRepository.getBadgeRegistrationsFromUserProfile(userProfile);
-    emit(state.copyWith(posts: posts, friends: friends));
-  }
-
-  Future<void> _userUpdated(UserProfile userProfile, Emitter<ProfileState> emit) async {
-    if (state.userProfile.id == userProfile.id) {
-      emit(state.copyWith(userProfile: userProfile));
-    }
+    emit(state.copyWith(posts: posts, friends: friends, userProfile: userProfile));
   }
 }

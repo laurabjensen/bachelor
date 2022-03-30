@@ -48,29 +48,6 @@ class _LoggedInNavigationControllerState extends State<LoggedInNavigationControl
     ];
   }
 
-  List<PersistentBottomNavBarItem> _navBarItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.calendar_today),
-        title: '',
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.backpack_outlined),
-        title: '',
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.perm_identity),
-        title: '',
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
-      ),
-    ];
-  }
-
   items() {
     return [
       TabItem<SvgPicture>(

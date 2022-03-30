@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
-import 'package:spejder_app/repositories/posts_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 import 'package:collection/collection.dart';
 

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
+import 'package:spejder_app/repositories/userprofile_repository.dart';
 
 class UserProfile {
   final String id;

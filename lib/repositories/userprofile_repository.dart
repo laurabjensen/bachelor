@@ -18,6 +18,14 @@ class UserProfileRepository {
     );
   }
 
+  Stream<UserProfile> getUser(String userId) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) => UserProfile.fromJson(snapshot));
+  }
+
   Future<UserProfile> reloadUserprofile(UserProfile userprofile) async {
     final friends = await getFriendsForUser(userprofile.id);
     final posts = await getPostsForUser(userprofile.id);

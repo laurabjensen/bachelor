@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         builder: (context, ProfileState state) {
           return CustomScaffold(
             appBar: CustomAppBar.personalProfileAppBar(
-                title: widget.userProfile.name,
+                title: state.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
                     screen: EditProfileScreen(
                         userprofile: state.userProfile,
@@ -102,17 +102,17 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       controller: controller,
                       children: [
                         ProfileFeedTab(
-                          userProfile: widget.userProfile,
+                          userProfile: state.userProfile,
                           posts: state.posts,
                           currentUser: currentUser,
                         ),
                         ProfileTab(
-                          userProfile: widget.userProfile,
+                          userProfile: state.userProfile,
                           approvedBadges: state.posts.map((e) => e.badgeRegistration).toList(),
                           friends: null,
                         ),
                         ProfileTab(
-                            userProfile: widget.userProfile,
+                            userProfile: state.userProfile,
                             approvedBadges: null,
                             friends: state.friends)
                       ],

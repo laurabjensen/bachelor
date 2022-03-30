@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 class CustomAppBar {
   static basicAppBar({required String title, required bool showBackButton, Function()? onBack}) {
     return PreferredSize(
-        preferredSize: Size.fromHeight(45.0), // here the desired height
+        preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
           title: Text(title),
           backgroundColor: Color(0xff377E62),
@@ -69,7 +69,7 @@ class CustomAppBar {
 
   static withLogo() {
     return PreferredSize(
-        preferredSize: Size.fromHeight(45.0),
+        preferredSize: Size.fromHeight(40.0),
         child: AppBar(
           title: SvgPicture.asset(
             'assets/logo-lille-hvid.svg',

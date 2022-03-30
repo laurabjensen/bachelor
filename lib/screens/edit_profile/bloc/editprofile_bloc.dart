@@ -107,8 +107,8 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     await groupRepository.updateGroupSingleton(userprofile.group);
     updatedUserprofile = updatedUserprofile.copyWith(group: updatedGroup);
     await userProfileRepository.updateUserprofile(updatedUserprofile);
-    authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
-    profileBloc.add(UserUpdatedProfile(updatedUserprofile));
+    //authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
+    //profileBloc.add(UserUpdatedProfile(updatedUserprofile));
     emit(state.copyWith(
         editprofileStatus: EditprofileStateStatus.success, userprofile: updatedUserprofile));
   }

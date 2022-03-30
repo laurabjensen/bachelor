@@ -7,12 +7,12 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadObjects extends ProfileEvent {
-  const LoadObjects();
+class StreamStarted extends ProfileEvent {
+  const StreamStarted();
 }
 
-class UserUpdatedProfile extends ProfileEvent {
+class Reload extends ProfileEvent {
   final UserProfile userProfile;
 
-  const UserUpdatedProfile(this.userProfile);
+  const Reload(this.userProfile);
 }
