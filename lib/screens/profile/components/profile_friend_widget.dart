@@ -79,10 +79,13 @@ class ProfileFriendWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                userProfile.name,
-                textAlign: TextAlign.center,
-                style: theme.primaryTextTheme.headline3,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  userProfile.name,
+                  textAlign: TextAlign.center,
+                  style: theme.primaryTextTheme.headline3,
+                ),
               ),
             ],
           ),
