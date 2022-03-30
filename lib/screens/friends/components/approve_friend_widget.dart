@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/leader/components/button_row.dart';
+import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class ApproveFriendWidget extends StatelessWidget {
   final UserProfile userProfile;
@@ -60,35 +62,41 @@ class ApproveFriendWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Stack(
-                            children: [
-                              userProfile.imageUrl.isNotEmpty
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.network(
-                                        userProfile.imageUrl,
-                                        width: 90,
-                                        height: 90,
-                                        fit: BoxFit.fitHeight,
-                                      ))
-                                  : noImageWidget(),
-                              // Range picture
-                              Positioned(
-                                top: 60,
-                                left: 0,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(60),
-                                      color: Colors.white,
-                                      image: DecorationImage(
-                                          image: Image.network(
-                                                  userProfile.rank.imageUrl)
-                                              .image)),
+                          GestureDetector(
+                            onTap: () => pushNewScreen(context,
+                                screen: ProfileScreen(userProfile: userProfile),
+                                withNavBar: false),
+                            child: Stack(
+                              children: [
+                                userProfile.imageUrl.isNotEmpty
+                                    ? ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Image.network(
+                                          userProfile.imageUrl,
+                                          width: 90,
+                                          height: 90,
+                                          fit: BoxFit.fitHeight,
+                                        ))
+                                    : noImageWidget(),
+                                // Range picture
+                                Positioned(
+                                  top: 60,
+                                  left: 0,
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(60),
+                                        color: Colors.white,
+                                        image: DecorationImage(
+                                            image: Image.network(
+                                                    userProfile.rank.imageUrl)
+                                                .image)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Text(userProfile.name,
                               style: theme.primaryTextTheme.headline3!.copyWith(
