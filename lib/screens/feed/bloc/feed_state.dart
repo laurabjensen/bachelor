@@ -14,5 +14,5 @@ class FeedState extends Equatable {
   }
 
   @override
-  List<Object> get props => [posts];
+  List<Object> get props => [posts.length];
 }

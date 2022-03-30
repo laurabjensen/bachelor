@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/feed/feed_widget.dart';
+import 'package:spejder_app/screens/feed/post/feed_widget.dart';
 
 class ProfileFeedTab extends StatelessWidget {
   final List<Post> posts;

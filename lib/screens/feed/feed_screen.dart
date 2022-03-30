@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loadmore/loadmore.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/feed/bloc/feed_bloc.dart';
-import 'package:spejder_app/screens/feed/feed_widget.dart';
+import 'package:spejder_app/screens/feed/post/feed_widget.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({
@@ -37,17 +38,20 @@ class _FeedScreenState extends State<FeedScreen> {
           return CustomScaffold(
             appBar: CustomAppBar.withLogo(),
             body: Expanded(
-              child: ListView.builder(
-                shrinkWrap: false,
-                itemCount: state.posts.length,
-                itemBuilder: (context, index) {
-                  return FeedWidget(
-                    userProfile: state.posts[index].badgeRegistration.userProfile!,
-                    post: state.posts[index],
-                    currentUser: currentUser,
-                    onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
-                  );
-                },
+              child: RefreshIndicator(
+                onRefresh: () async => feedBloc.add(LoadInitialFeed()),
+                child: ListView.builder(
+                  shrinkWrap: false,
+                  itemCount: state.posts.length,
+                  itemBuilder: (context, index) {
+                    return FeedWidget(
+                      userProfile: state.posts[index].badgeRegistration.userProfile!,
+                      post: state.posts[index],
+                      currentUser: currentUser,
+                      onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
+                    );
+                  },
+                ),
               ),
             ),
           );

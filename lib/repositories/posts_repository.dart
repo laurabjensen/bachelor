@@ -23,11 +23,32 @@ class PostsRepository {
     return snap.id;
   }
 
+  Stream<Post> getPost(String postId) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .snapshots()
+        .map((snapshot) => Post.fromJson(snapshot));
+  }
+
   Future<Post> getPostFromId(String postId) async {
     var snap = await FirebaseFirestore.instance.collection('posts').doc(postId).get();
     var post = Post.fromJson(snap);
     final badgeRegistration =
         await badgeRegistrationRepository.getBadgeRegistrationFromId(snap.get('badgeRegistration'));
+    return post.copyWith(badgeRegistration: badgeRegistration);
+  }
+
+  Future<Post> getPostFromSnapshotAndUserProfile(
+      QueryDocumentSnapshot<Map<String, dynamic>> snap, UserProfile userProfile) async {
+    var post = Post.fromJson(snap);
+    var badgeRegistration =
+        await badgeRegistrationRepository.getBadgeRegistrationFromId(snap.get('badgeRegistration'));
+    badgeRegistration = badgeRegistration.copyWith(
+        userProfile: GetIt.instance
+                .get<List<UserProfile>>()
+                .firstWhereOrNull((element) => element.id == badgeRegistration.userProfileId) ??
+            await userProfileRepository.getUserprofileFromId(badgeRegistration.userProfileId));
     return post.copyWith(badgeRegistration: badgeRegistration);
   }
 
@@ -47,7 +68,7 @@ class PostsRepository {
 
     var snapshot = await FirebaseFirestore.instance
         .collection('posts')
-        .orderBy('approvedAt')
+        .orderBy('approvedAt', descending: true)
         .where('user', whereIn: friendList)
         .get();
     for (var snap in snapshot.docs) {
@@ -61,6 +82,19 @@ class PostsRepository {
     }
     //friends.remove(userProfile.id);
     return list;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getFeedSnapshotsForUser(
+      UserProfile userProfile) async {
+    var friendList = userProfile.friends.toList();
+    friendList.add(userProfile.id);
+
+    return (await FirebaseFirestore.instance
+            .collection('posts')
+            .orderBy('approvedAt', descending: true)
+            .where('user', whereIn: friendList)
+            .get())
+        .docs;
   }
 
   Future<Post> toggleLikesForPost(bool isLiked, Post post, String userId) async {
