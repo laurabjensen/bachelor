@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
+import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/edit_profile/bloc/editprofile_bloc.dart';
 import 'package:spejder_app/screens/edit_profile/components/about_widget.dart';
@@ -56,13 +57,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  void onDeleteUserPressed() async {
+    if (await customDialog(context,
+        'Er du sikker på, at du ønsker at slette din bruger og alle data tilknyttet denne? Det vil ikke være muligt at genskabe den igen')) {
+      () => null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     return CustomScaffold(
       appBar: CustomAppBar.appbarWithDelete(
         title: 'Rediger profil',
-        onDelete: () => Navigator.pop(context),
+        onDelete: () => onDeleteUserPressed(),
       ),
       body: BlocListener(
           bloc: widget.editprofileBloc,
