@@ -28,7 +28,8 @@ class FeedWidget extends StatelessWidget {
         child: Container(
           height: 300,
           width: 325,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -46,61 +47,72 @@ class FeedWidget extends StatelessWidget {
                   height: 150,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image:
-                              Image.network(post.badgeRegistration.badgeSpecific.imageUrl).image)),
+                          image: Image.network(
+                                  post.badgeRegistration.badgeSpecific.imageUrl)
+                              .image)),
                 ),
               ),
-              Container(
-                height: 60,
-                width: 325,
-                decoration: BoxDecoration(
-                    color: Color(0xffEDF1F2),
-                    border: Border.all(
-                      color: Color(0xffDADEDF),
-                    ),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 2, 0, 0),
-                      child: Text(
-                        'Har taget mærket',
-                        style: theme.primaryTextTheme.headline3!.copyWith(
-                          fontSize: 18,
+              Expanded(
+                flex: 2,
+                child: Container(
+                  height: 60,
+                  width: 325,
+                  decoration: BoxDecoration(
+                      color: Color(0xffEDF1F2),
+                      border: Border.all(
+                        color: Color(0xffDADEDF),
+                      ),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 2, 0, 0),
+                        child: Text(
+                          'Har opnået mærket: ' +
+                              post.badgeRegistration.badgeSpecific.badge.name,
+                          style: theme.primaryTextTheme.headline3!.copyWith(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          LikeButtonWidget(
-                            currentUser: currentUser,
-                            likeList: post.likes,
-                            onTap: onTap,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            child: Icon(
-                              Icons.messenger_outline,
-                              color: Colors.black,
-                              size: 20.0,
+                      //Likes & Comments
+
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Likes
+                            LikeButtonWidget(
+                              currentUser: currentUser,
+                              likeList: post.likes,
+                              onTap: onTap,
                             ),
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return ChatDetailPage();
-                              }));
-                            },
-                          ),
-                        ],
+                            SizedBox(
+                              width: 10,
+                            ),
+                            //Comments
+                            GestureDetector(
+                              child: Icon(
+                                Icons.messenger_outline,
+                                color: Colors.black,
+                                size: 20.0,
+                              ),
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return ChatDetailPage();
+                                }));
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

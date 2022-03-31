@@ -22,7 +22,8 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   late UserProfile currentUser;
   late ProfileBloc profileBloc;
   late TabController controller;
@@ -31,13 +32,15 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     profileBloc = ProfileBloc(userProfile: widget.userProfile);
     controller = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   void logout() async {
-    if (await customDialog(context, 'Er du sikker på, at du ønsker at logge ud?')) {
+    if (await customDialog(
+        context, 'Er du sikker på, at du ønsker at logge ud?')) {
       Navigator.pop(context);
       BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
     }
@@ -49,17 +52,20 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     return BlocBuilder(
         bloc: profileBloc,
         builder: (context, ProfileState state) {
-          return CustomScaffold(
+          return Scaffold(
+            backgroundColor: Color(0xff71A08A),
             appBar: CustomAppBar.personalProfileAppBar(
                 title: widget.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
                     screen: EditProfileScreen(
                         userprofile: state.userProfile,
                         editprofileBloc: EditprofileBloc(state.userProfile,
-                            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+                            authenticationBloc:
+                                BlocProvider.of<AuthenticationBloc>(context),
                             profileBloc: profileBloc)),
                     withNavBar: false),
                 onLogoutPressed: () => logout(),
+                //Vis kun edit profil hvis man er på sin egen profil
                 showActions: widget.userProfile.id == currentUser.id),
             body: NestedScrollView(
               headerSliverBuilder: (context, value) {
@@ -84,7 +90,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     controller: controller,
                     indicatorColor: Colors.white,
                     labelColor: Colors.white,
-                    labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
+                    labelStyle: theme.primaryTextTheme.headline1!
+                        .copyWith(color: Colors.white),
                     tabs: const [
                       Tab(
                         text: 'Aktivitet',
@@ -108,7 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         ),
                         ProfileTab(
                           userProfile: widget.userProfile,
-                          approvedBadges: state.posts.map((e) => e.badgeRegistration).toList(),
+                          approvedBadges: state.posts
+                              .map((e) => e.badgeRegistration)
+                              .toList(),
                           friends: null,
                         ),
                         ProfileTab(
