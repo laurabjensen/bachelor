@@ -38,7 +38,8 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
         return Icon(icon, color: color, size: sizeOfHeart);
       },
       //Circle og bubbles color er på animationen ved like
-      circleColor: CircleColor(start: Colors.black, end: Colors.green),
+      circleColor:
+          CircleColor(start: Colors.yellowAccent, end: Colors.pinkAccent),
       bubblesColor: BubblesColor(
           dotPrimaryColor: Colors.redAccent,
           dotSecondaryColor: Colors.greenAccent,
