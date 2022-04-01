@@ -31,9 +31,9 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   Future<void> _loadFeed(Emitter<FeedState> emit) async {
     var list = state.posts.toList();
-    var index = list.length;
-    for (int i = index; i < snapshots.length && i < index + 10; i++) {
-      list.add(await postsRepository.getPostFromSnapshotAndUserProfile(snapshots[i], userProfile));
+
+    for (var snap in snapshots) {
+      list.add(await postsRepository.getPostFromSnapshotAndUserProfile(snap, userProfile));
     }
     emit(state.copyWith(posts: list));
   }

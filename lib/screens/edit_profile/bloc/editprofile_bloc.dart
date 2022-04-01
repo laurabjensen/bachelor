@@ -74,7 +74,7 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
       group = await groupRepository.addLeaderToGroup(updated.group, updated.id);
     }
     // Hvis man opdateres til at blive leder
-    else if (updated.rank.title == 'Leder') {
+    else if (updated.rank.title == 'Leder' && old.rank.title != 'Leder') {
       group = await groupRepository.addLeaderToGroup(updated.group, updated.id);
     }
     // Hvis man var leder men ikke er leder længere
