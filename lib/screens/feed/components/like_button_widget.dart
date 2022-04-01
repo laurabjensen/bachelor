@@ -7,7 +7,10 @@ class LikeButtonWidget extends StatefulWidget {
   final List<String> likeList;
   final Function(bool isLiked) onTap;
   const LikeButtonWidget(
-      {Key? key, required this.currentUser, required this.likeList, required this.onTap})
+      {Key? key,
+      required this.currentUser,
+      required this.likeList,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -22,7 +25,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const double sizeOfHeart = 20;
+    const double sizeOfHeart = 25;
 
     return LikeButton(
       size: sizeOfHeart,
@@ -31,13 +34,17 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       // Få farve på hjerte til at ændre sig
       likeBuilder: (isLiked) {
         final color = isLiked ? Colors.green : Colors.grey;
-        final icon = isLiked ? Icons.favorite : Icons.add_reaction_outlined;
+        final icon = isLiked ? Icons.favorite : Icons.favorite_outline;
         return Icon(icon, color: color, size: sizeOfHeart);
       },
       //Circle og bubbles color er på animationen ved like
-      circleColor: CircleColor(start: Colors.black, end: Colors.green),
-      bubblesColor:
-          BubblesColor(dotPrimaryColor: Colors.black, dotSecondaryColor: Colors.greenAccent),
+      circleColor:
+          CircleColor(start: Colors.yellowAccent, end: Colors.pinkAccent),
+      bubblesColor: BubblesColor(
+          dotPrimaryColor: Colors.redAccent,
+          dotSecondaryColor: Colors.greenAccent,
+          dotThirdColor: Colors.orangeAccent,
+          dotLastColor: Colors.purpleAccent),
 
       //Afstand mellem hjerte og likes
       likeCountPadding: EdgeInsets.only(left: 2),
@@ -45,7 +52,8 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       countBuilder: (count, isLiked, text) {
         final color = isLiked ? Colors.green : Colors.grey;
         return Text(text,
-            style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold));
+            style: TextStyle(
+                color: color, fontSize: 15, fontWeight: FontWeight.bold));
       },
       onTap: (isLiked) async {
         widget.onTap(!isLiked);

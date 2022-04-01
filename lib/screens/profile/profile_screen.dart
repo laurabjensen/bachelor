@@ -49,7 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     return BlocBuilder(
         bloc: profileBloc,
         builder: (context, ProfileState state) {
-          return CustomScaffold(
+          return Scaffold(
+            backgroundColor: Color(0xff71A08A),
             appBar: CustomAppBar.personalProfileAppBar(
                 title: state.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
@@ -60,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             profileBloc: profileBloc)),
                     withNavBar: false),
                 onLogoutPressed: () => logout(),
+                //Vis kun edit profil hvis man er på sin egen profil
                 showActions: widget.userProfile.id == currentUser.id),
             body: NestedScrollView(
               headerSliverBuilder: (context, value) {

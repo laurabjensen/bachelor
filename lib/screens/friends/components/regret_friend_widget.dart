@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/friends/friends_activity/regret_button_row.dart';
+import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class RegretFriendWidget extends StatelessWidget {
   final UserProfile userProfile;
@@ -38,24 +40,29 @@ class RegretFriendWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Stack(
-                            children: [
-                              Container(
-                                  height: 90,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Color(0xff037B55),
-                                  )),
-                              Positioned(
-                                  top: 5,
-                                  left: 5,
-                                  child: SvgPicture.asset(
-                                    'assets/tørklæde_rød.svg',
-                                    width: 80,
-                                    height: 80,
-                                  ))
-                            ],
+                          GestureDetector(
+                            onTap: () => pushNewScreen(context,
+                                screen: ProfileScreen(userProfile: userProfile),
+                                withNavBar: false),
+                            child: Stack(
+                              children: [
+                                Container(
+                                    height: 90,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Color(0xff037B55),
+                                    )),
+                                Positioned(
+                                    top: 5,
+                                    left: 5,
+                                    child: SvgPicture.asset(
+                                      'assets/tørklæde_rød.svg',
+                                      width: 80,
+                                      height: 80,
+                                    ))
+                              ],
+                            ),
                           ),
                           Text('Navn',
                               style: theme.primaryTextTheme.headline3!

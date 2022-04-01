@@ -15,10 +15,12 @@ class ProfileDescriptionWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Scrollbar(
         controller: controller,
-        isAlwaysShown: true,
+        trackVisibility: true,
         child: Container(
           height: 140,
-          decoration: BoxDecoration(color: Color(0xff377E62)),
+          decoration: BoxDecoration(
+              color: Color.fromARGB(255, 46, 147, 128),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           width: MediaQuery.of(context).size.width,
           child: Flex(
             direction: Axis.vertical,

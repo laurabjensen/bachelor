@@ -5,6 +5,8 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
+import 'package:spejder_app/screens/group/group_members_screen.dart';
+import 'package:spejder_app/screens/group/members_screen.dart';
 import 'package:spejder_app/screens/leader/leader_screen.dart';
 
 import 'bloc/group_bloc.dart';
@@ -20,7 +22,8 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   void initState() {
-    userProfile = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    userProfile =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     groupBloc = GroupBloc(userProfile: userProfile);
 
     super.initState();
@@ -53,21 +56,26 @@ class _GroupScreenState extends State<GroupScreen> {
                                   width: 336,
                                   child: GestureDetector(
                                     onTap: () => pushNewScreen(context,
-                                        screen: LeaderScreen(), withNavBar: false),
+                                        screen: LeaderScreen(),
+                                        withNavBar: false),
                                     child: Card(
                                       elevation: 10,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                       color: Colors.white,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 20, right: 20),
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               'Leder',
-                                              style: theme.primaryTextTheme.headline3!
+                                              style: theme
+                                                  .primaryTextTheme.headline3!
                                                   .copyWith(fontSize: 20),
                                             ),
                                             Icon(
@@ -96,9 +104,11 @@ class _GroupScreenState extends State<GroupScreen> {
                                 ),
                                 color: Colors.white,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Se patruljer',
@@ -122,7 +132,11 @@ class _GroupScreenState extends State<GroupScreen> {
                             height: 70,
                             width: 336,
                             child: GestureDetector(
-                              onTap: () => null,
+                              onTap: () => pushNewScreen(context,
+                                  screen: MembersScreen(
+                                    withNavBar: false,
+                                  ),
+                                  withNavBar: false),
                               child: Card(
                                 elevation: 10,
                                 shape: RoundedRectangleBorder(
@@ -130,9 +144,11 @@ class _GroupScreenState extends State<GroupScreen> {
                                 ),
                                 color: Colors.white,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Se gruppemedlemmer',
