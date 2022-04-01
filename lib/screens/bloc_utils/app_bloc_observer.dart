@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spejder_app/screens/feed/post/bloc/post_bloc.dart';
 
 import '../../logger.dart';
 
@@ -6,7 +7,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    logger.d('onChange($bloc, $change)');
+    bloc is PostBloc ? null : logger.d('onChange($bloc, $change)');
   }
 
   @override

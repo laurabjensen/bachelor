@@ -17,6 +17,13 @@ class BadgeRepository {
     return badges;
   }
 
+  Stream<List<Badge>> getAllBadgesStream() {
+    return FirebaseFirestore.instance
+        .collection('badges')
+        .snapshots()
+        .map((event) => event.docs.map((e) => Badge.fromJson(e)).toList());
+  }
+
   Future<Badge> getBadge(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) async {
     var badge = Badge.fromJson(snapshot);
     var levelsCollection = await FirebaseFirestore.instance

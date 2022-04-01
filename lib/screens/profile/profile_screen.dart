@@ -49,8 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     return BlocBuilder(
         bloc: profileBloc,
         builder: (context, ProfileState state) {
-          return Scaffold(
-            backgroundColor: Color(0xff71A08A),
+          return CustomScaffold(
+            //backgroundColor: Color(0xff71A08A),
             appBar: CustomAppBar.personalProfileAppBar(
                 title: state.userProfile.name,
                 onEditProfilePressed: () => pushNewScreen(context,
@@ -68,36 +68,41 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 return [
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: ProfileInfoWidget(
-                          userProfile: state.userProfile,
-                          onBadgesTap: () => controller.index = 1,
-                          onFriendsTap: () => controller.index = 2,
-                        ),
-                      )
+                      Container(
+                          color: Color(0xff377E62),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: ProfileInfoWidget(
+                              userProfile: state.userProfile,
+                              onBadgesTap: () => controller.index = 1,
+                              onFriendsTap: () => controller.index = 2,
+                            ),
+                          ))
                     ]),
                   ),
                 ];
               },
               body: Column(
                 children: <Widget>[
-                  TabBar(
-                    controller: controller,
-                    indicatorColor: Colors.white,
-                    labelColor: Colors.white,
-                    labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
-                    tabs: const [
-                      Tab(
-                        text: 'Aktivitet',
-                      ),
-                      Tab(
-                        text: 'Mærker',
-                      ),
-                      Tab(
-                        text: 'Veninder',
-                      ),
-                    ],
+                  Container(
+                    color: Color(0xff377E62),
+                    child: TabBar(
+                      controller: controller,
+                      indicatorColor: Colors.white,
+                      labelColor: Colors.white,
+                      labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
+                      tabs: const [
+                        Tab(
+                          text: 'Aktivitet',
+                        ),
+                        Tab(
+                          text: 'Mærker',
+                        ),
+                        Tab(
+                          text: 'Veninder',
+                        ),
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: TabBarView(

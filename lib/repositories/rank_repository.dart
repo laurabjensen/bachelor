@@ -6,4 +6,11 @@ class RankRepository {
     var snapshot = await FirebaseFirestore.instance.collection('ranks').get();
     return snapshot.docs.map((e) => Rank.fromJson(e)).toList();
   }
+
+  Stream<List<Rank>> getRanksStream() {
+    return FirebaseFirestore.instance
+        .collection('ranks')
+        .snapshots()
+        .map((event) => event.docs.map((e) => Rank.fromJson(e)).toList());
+  }
 }

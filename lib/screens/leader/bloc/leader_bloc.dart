@@ -42,8 +42,7 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
     emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
     badgeRegistration =
         await badgeRegistrationRepository.approveBadgeRegistration(badgeRegistration);
-    var postId = await postsRepository.createPost(badgeRegistration);
-    await userProfileRepository.updateUserBadgeList(badgeRegistration.userProfileId, postId);
+    await postsRepository.createPost(badgeRegistration);
     emit(state.copyWith(
         badgeRegistrations: await loadList(),
         registrationStatus: LeaderBadgeRegistrationStatus.finished));

@@ -102,13 +102,11 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
     }
     var updatedUserprofile =
         userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
-    var updatedGroup = await updateLeaderLists(userprofile, updatedUserprofile);
-    updatedGroup = await updateGroupMembersLists(userprofile, updatedUserprofile);
-    await groupRepository.updateGroupSingleton(userprofile.group);
-    updatedUserprofile = updatedUserprofile.copyWith(group: updatedGroup);
+    await updateLeaderLists(userprofile, updatedUserprofile);
+    await updateGroupMembersLists(userprofile, updatedUserprofile);
+    updatedUserprofile = updatedUserprofile.copyWith(
+        group: groupRepository.getGroupFromConstant(updatedUserprofile.group.id));
     await userProfileRepository.updateUserprofile(updatedUserprofile);
-    //authenticationBloc.add(UserUpdatedAuthentication(updatedUserprofile));
-    //profileBloc.add(UserUpdatedProfile(updatedUserprofile));
     emit(state.copyWith(
         editprofileStatus: EditprofileStateStatus.success, userprofile: updatedUserprofile));
   }

@@ -86,9 +86,9 @@ class _FeedWidgetState extends State<FeedWidget> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 2, 0, 0),
                             child: Text(
-                              'Har taget mærket',
+                              'Har opnået mærket: ${state.post.badgeRegistration.badgeSpecific.badge.name}',
                               style: theme.primaryTextTheme.headline3!.copyWith(
-                                fontSize: 18,
+                                fontSize: 15,
                               ),
                             ),
                           ),

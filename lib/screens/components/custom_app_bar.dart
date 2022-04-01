@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomAppBar {
-  static basicAppBar(
-      {required String title,
-      required bool showBackButton,
-      Function()? onBack}) {
+  static basicAppBar({required String title, required bool showBackButton, Function()? onBack}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
           title: Text(title),
           backgroundColor: Color(0xff377E62),
           leading: showBackButton
-              ? IconButton(
-                  onPressed: onBack,
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white))
+              ? IconButton(onPressed: onBack, icon: Icon(Icons.arrow_back_ios, color: Colors.white))
               : Container(),
           actions: const [],
         ));
@@ -27,15 +22,12 @@ class CustomAppBar {
           title: Text(title),
           backgroundColor: Color(0xff377E62),
           actions: [
-            IconButton(
-                onPressed: onDelete,
-                icon: Icon(Icons.delete_outline, color: Colors.white))
+            IconButton(onPressed: onDelete, icon: Icon(Icons.delete_outline, color: Colors.white))
           ],
         ));
   }
 
-  static basicAppBarWithBackButton(
-      {required String title, Function()? onBack}) {
+  static basicAppBarWithBackButton({required String title, Function()? onBack}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
@@ -58,6 +50,7 @@ class CustomAppBar {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
+          elevation: 0,
           title: Text(title),
           backgroundColor: Color(0xff377E62),
           actions: showActions
@@ -75,9 +68,7 @@ class CustomAppBar {
   }
 
   static withTabBar(
-      {required String title,
-      required PreferredSizeWidget bottom,
-      List<Widget>? actions}) {
+      {required String title, required PreferredSizeWidget bottom, List<Widget>? actions}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(85.0),
         child: AppBar(
@@ -89,14 +80,17 @@ class CustomAppBar {
         ));
   }
 
-  static withLogo() {
+  static withLogo({required Function() onTap}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0),
         child: AppBar(
-          title: SvgPicture.asset(
-            'assets/logo-lille-hvid.svg',
-            color: Colors.white,
-            height: 35,
+          title: GestureDetector(
+            onTap: onTap,
+            child: SvgPicture.asset(
+              'assets/logo-lille-hvid.svg',
+              color: Colors.white,
+              height: 35,
+            ),
           ),
           backgroundColor: Color(0xff377E62),
           foregroundColor: Colors.white,

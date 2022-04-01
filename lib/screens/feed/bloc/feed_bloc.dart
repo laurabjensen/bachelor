@@ -25,7 +25,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   Future<void> _loadInitialFeed(Emitter<FeedState> emit) async {
     snapshots = await postsRepository.getFeedSnapshotsForUser(userProfile);
-    emit(state.copyWith(posts: []));
+    emit(state.copyWith(posts: [], status: FeedStateLoadingStatus.loading));
     await _loadFeed(emit);
   }
 
@@ -35,7 +35,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     for (var snap in snapshots) {
       list.add(await postsRepository.getPostFromSnapshotAndUserProfile(snap, userProfile));
     }
-    emit(state.copyWith(posts: list));
+    emit(state.copyWith(posts: list, status: FeedStateLoadingStatus.loaded));
   }
 
   Future<void> _likeToggled(bool isLiked, Post post, Emitter<FeedState> emit) async {
