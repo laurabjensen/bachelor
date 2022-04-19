@@ -10,8 +10,8 @@ import '../custom_exception.dart';
 class AuthenticationRepository {
   Future<User> createUserFromSignupState(SignupState state) async {
     try {
-      final user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: state.email, password: state.password))
+      final user = (await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: state.email, password: state.password))
           .user;
       if (user != null) {
         return user;
@@ -32,8 +32,7 @@ class AuthenticationRepository {
   }
 
   //TODO: age ikke lavet rigtigt
-  Future<void> addUserToFirebaseFromSignupState(
-      User user, SignupState state) async {
+  Future<void> addUserToFirebaseFromSignupState(User user, SignupState state) async {
     final userProfile = UserProfile(
         id: user.uid,
         age: 0,
@@ -45,18 +44,13 @@ class AuthenticationRepository {
         description: '',
         imageUrl: '',
         posts: [],
-        friends: []);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .set(userProfile.toJson());
-    await GetIt.instance
-        .get<GroupRepository>()
-        .addMemberToGroup(state.group, user.uid);
+        friends: [],
+        friendRequestsSend: [],
+        friendRequestsReceived: []);
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userProfile.toJson());
+    await GetIt.instance.get<GroupRepository>().addMemberToGroup(state.group, user.uid);
     state.rank.title == 'Leder'
-        ? await GetIt.instance
-            .get<GroupRepository>()
-            .addLeaderToGroup(state.group, user.uid)
+        ? await GetIt.instance.get<GroupRepository>().addLeaderToGroup(state.group, user.uid)
         : null;
   }
 

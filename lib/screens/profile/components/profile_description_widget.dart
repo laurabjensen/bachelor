@@ -11,35 +11,60 @@ class ProfileDescriptionWidget extends StatelessWidget {
     final controller = ScrollController();
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Scrollbar(
-        controller: controller,
-        trackVisibility: true,
-        child: Container(
-          height: 140,
-          decoration: BoxDecoration(
-              color: Color.fromARGB(255, 46, 147, 128),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          width: MediaQuery.of(context).size.width,
-          child: Flex(
-            direction: Axis.vertical,
-            children: [
-              Flexible(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    controller: controller,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(userProfile.description,
-                          style: theme.primaryTextTheme.headline3!
-                              .copyWith(height: 1.4, color: Colors.white)),
+    return Builder(builder: (context) {
+      if (userProfile.description.isEmpty) {
+        return Container();
+      } else if (userProfile.description.length < 200) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: Scrollbar(
+                controller: controller,
+                trackVisibility: true,
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      userProfile.description,
+                      style: theme.primaryTextTheme.headline3!
+                          .copyWith(height: 1.4, color: Colors.white),
+                      textAlign: TextAlign.left,
                     ),
-                  )),
-            ],
+                  ),
+                )),
           ),
-        ),
-      ),
-    );
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          child: Scrollbar(
+            controller: controller,
+            trackVisibility: true,
+            child: SizedBox(
+              height: 140,
+              width: MediaQuery.of(context).size.width,
+              child: Flex(
+                direction: Axis.vertical,
+                children: [
+                  Flexible(
+                      flex: 1,
+                      child: SingleChildScrollView(
+                        controller: controller,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(userProfile.description,
+                              style: theme.primaryTextTheme.headline3!
+                                  .copyWith(height: 1.4, color: Colors.white)),
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+    });
   }
 }

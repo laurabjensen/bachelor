@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/custom_exception.dart';
 import 'package:spejder_app/repositories/login_repository.dart';
 
 part 'login_event.dart';
@@ -27,7 +28,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   _loginPressed(Emitter<LoginState> emit) async {
     emit(state.copyWith(loginStateStatus: LoginStateStatus.loading));
-    await loginRepository.signinUser(state.email, state.password);
+    try {
+      await loginRepository.signinUser(state.email, state.password);
+    } on CustomException catch (e) {
+      emit(state.copyWith(
+        loginStateStatus: LoginStateStatus.failure,
+        failureMessage: e.message,
+      ));
+      return emit(state.copyWith(
+        loginStateStatus: LoginStateStatus.initial,
+        failureMessage: '',
+      ));
+    }
     emit(state.copyWith(loginStateStatus: LoginStateStatus.success));
   }
 

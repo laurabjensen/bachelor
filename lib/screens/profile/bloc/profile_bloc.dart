@@ -9,6 +9,7 @@ import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/posts_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -27,15 +28,44 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         onData: (updatedUser) => add(Reload(updatedUser)),
       );
     }, transformer: restartable());
+    on<SendFriendRequestPressed>(
+        (event, emit) => _sendFriendRequestPressed(event.currentUser, emit));
+    on<CancelFriendRequest>((event, emit) => _cancelFriendRequest(event.currentUser, emit));
+    on<DeleteFriendPressed>((event, emit) => _deleteFriendPressed(event.currentUser, emit));
+    on<AcceptFriendRequestPressed>((event, emit) => _acceptFriendRequest(event.currentUser, emit));
+    on<RejectFriendRequestPressed>((event, emit) => _rejectFriendRequest(event.currentUser, emit));
 
     on<Reload>((event, emit) => _reload(event.userProfile, emit));
 
     add(StreamStarted());
   }
 
+  Future<void> _sendFriendRequestPressed(
+      UserProfile currentUser, Emitter<ProfileState> emit) async {
+    await userProfileRepository.sendFriendRequest(sender: currentUser, receiver: userProfile);
+  }
+
+  Future<void> _cancelFriendRequest(UserProfile currentUser, Emitter<ProfileState> emit) async {
+    await userProfileRepository.cancelFriendRequest(sender: currentUser, receiver: userProfile);
+  }
+
+  Future<void> _acceptFriendRequest(UserProfile currentUser, Emitter<ProfileState> emit) async {
+    await userProfileRepository.acceptFriendRequest(sender: userProfile, receiver: currentUser);
+  }
+
+  Future<void> _rejectFriendRequest(UserProfile currentUser, Emitter<ProfileState> emit) async {
+    await userProfileRepository.cancelFriendRequest(sender: userProfile, receiver: currentUser);
+  }
+
+  Future<void> _deleteFriendPressed(UserProfile currentUser, Emitter<ProfileState> emit) async {
+    await userProfileRepository.deleteFriend(userProfile: userProfile, currentUser: currentUser);
+  }
+
   Future<void> _reload(UserProfile user, Emitter<ProfileState> emit) async {
     userProfile = await userProfileRepository.getUserprofileFromId(user.id);
-    final friends = await userProfileRepository.getFriendUserProfilesForUser(userProfile.friends);
+    final friends = (await userProfileRepository.getUserprofilesFromList(userProfile.friends))
+        .sortedBy((element) => element.name);
+
     final posts = await postsRepository.getPostsFromUserProfile(userProfile);
     emit(state.copyWith(posts: posts, friends: friends, userProfile: userProfile));
   }

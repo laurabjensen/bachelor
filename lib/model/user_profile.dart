@@ -16,20 +16,23 @@ class UserProfile {
   final String imageUrl;
   final List<String> posts;
   final List<String> friends;
+  final List<String> friendRequestsSend;
+  final List<String> friendRequestsReceived;
 
-  const UserProfile({
-    required this.id,
-    required this.age,
-    required this.email,
-    required this.name,
-    required this.group,
-    required this.rank,
-    required this.seniority,
-    required this.description,
-    required this.imageUrl,
-    required this.posts,
-    required this.friends,
-  });
+  const UserProfile(
+      {required this.id,
+      required this.age,
+      required this.email,
+      required this.name,
+      required this.group,
+      required this.rank,
+      required this.seniority,
+      required this.description,
+      required this.imageUrl,
+      required this.posts,
+      required this.friends,
+      required this.friendRequestsSend,
+      required this.friendRequestsReceived});
 
   UserProfile copyWith(
       {String? id,
@@ -42,7 +45,9 @@ class UserProfile {
       String? description,
       String? imageUrl,
       List<String>? posts,
-      List<String>? friends}) {
+      List<String>? friends,
+      List<String>? friendRequestsSend,
+      List<String>? friendRequestsReceived}) {
     return UserProfile(
         id: id ?? this.id,
         age: age ?? this.age,
@@ -54,7 +59,9 @@ class UserProfile {
         description: description ?? this.description,
         imageUrl: imageUrl ?? this.imageUrl,
         posts: posts ?? this.posts,
-        friends: friends ?? this.friends);
+        friends: friends ?? this.friends,
+        friendRequestsSend: friendRequestsSend ?? this.friendRequestsSend,
+        friendRequestsReceived: friendRequestsReceived ?? this.friendRequestsReceived);
   }
 
   UserProfile.fromJson(DocumentSnapshot<Map<String, Object?>> json)
@@ -69,7 +76,9 @@ class UserProfile {
             description: json['description'].toString(),
             imageUrl: json['imageUrl'].toString(),
             posts: List<String>.from(json['badges']),
-            friends: List<String>.from(json['friends']));
+            friends: List<String>.from(json['friends']),
+            friendRequestsSend: List<String>.from(json['friendRequestsSend']),
+            friendRequestsReceived: List<String>.from(json['friendRequestsReceived']));
 
   Map<String, Object?> toJson() {
     return {
@@ -83,6 +92,8 @@ class UserProfile {
       'imageUrl': imageUrl,
       'friends': friends,
       'badges': posts,
+      'friendRequestsSend': friendRequestsSend,
+      'friendRequestsReceived': friendRequestsReceived,
     };
   }
 
@@ -97,7 +108,9 @@ class UserProfile {
       description: '',
       imageUrl: '',
       posts: [],
-      friends: []);
+      friends: [],
+      friendRequestsSend: [],
+      friendRequestsReceived: []);
 
   String namePossessiveCase() {
     if (name.endsWith('s') || name.endsWith('x') || name.endsWith('z')) {

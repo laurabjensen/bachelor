@@ -7,6 +7,15 @@ abstract class FriendsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends FriendsEvent {
+  const StreamStarted();
+}
+
+class Reload extends FriendsEvent {
+  final UserProfile userProfile;
+  const Reload(this.userProfile);
+}
+
 class LoadFriends extends FriendsEvent {
   const LoadFriends();
 }

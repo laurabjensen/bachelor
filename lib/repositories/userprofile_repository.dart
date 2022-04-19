@@ -7,6 +7,12 @@ import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:collection/collection.dart';
 
 class UserProfileRepository {
+  UserProfile? getUserFromConstant(String id) {
+    return GetIt.instance.isRegistered<List<UserProfile>>()
+        ? GetIt.instance.get<List<UserProfile>>().firstWhereOrNull((element) => element.id == id)
+        : null;
+  }
+
   Future<UserProfile> getUserprofile(UserProfile userprofile) async {
     final group = await getGroupForUserprofile(userprofile.id);
     final rank = await getRankForUserprofile(userprofile.id);
@@ -35,7 +41,8 @@ class UserProfileRepository {
     var snapshot = await FirebaseFirestore.instance.collection('users').get();
     var users = <UserProfile>[];
     for (var snap in snapshot.docs) {
-      users.add(await getUserprofileFromDocSnapshot(snap));
+      var user = getUserFromConstant(snap.id);
+      user != null ? users.add(user) : users.add(await getUserprofileFromDocSnapshot(snap));
     }
     return users;
   }
@@ -66,12 +73,13 @@ class UserProfileRepository {
     return GetIt.instance.get<List<Rank>>().firstWhere((element) => element.id == rankId);
   }
 
-  Future<List<UserProfile>> getFriendUserProfilesForUser(List<String> friends) async {
+  Future<List<UserProfile>> getUserprofilesFromList(List<String> idList) async {
     var userProfiles = <UserProfile>[];
-    for (var friend in friends) {
-      userProfiles.add(await getUserprofileFromId(friend));
+    for (var id in idList) {
+      var user = getUserFromConstant(id);
+      user != null ? userProfiles.add(user) : userProfiles.add(await getUserprofileFromId(id));
     }
-    return userProfiles.sortedBy((element) => element.name);
+    return userProfiles;
   }
 
 // TODO: FIKS HER
@@ -96,5 +104,89 @@ class UserProfileRepository {
       }
     }
     return members;
+  }
+
+  Future<void> sendFriendRequest(
+      {required UserProfile sender, required UserProfile receiver}) async {
+    var updatedSender = getUserFromConstant(sender.id);
+    var updatedReceiver = getUserFromConstant(receiver.id);
+    if (updatedSender != null && updatedReceiver != null) {
+      var sendList = updatedSender.friendRequestsSend + [updatedReceiver.id];
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedSender.id)
+          .update({'friendRequestsSend': sendList});
+
+      var receivedList = updatedReceiver.friendRequestsReceived + [updatedSender.id];
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedReceiver.id)
+          .update({'friendRequestsReceived': receivedList});
+    }
+  }
+
+  Future<void> cancelFriendRequest(
+      {required UserProfile sender, required UserProfile receiver}) async {
+    var updatedSender = getUserFromConstant(sender.id);
+    var updatedReceiver = getUserFromConstant(receiver.id);
+    if (updatedSender != null && updatedReceiver != null) {
+      var sendList = updatedSender.friendRequestsSend;
+      sendList.remove(updatedReceiver.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedSender.id)
+          .update({'friendRequestsSend': sendList});
+
+      var receivedList = updatedReceiver.friendRequestsReceived;
+      receivedList.remove(updatedSender.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedReceiver.id)
+          .update({'friendRequestsReceived': receivedList});
+    }
+  }
+
+  Future<void> acceptFriendRequest(
+      {required UserProfile sender, required UserProfile receiver}) async {
+    var updatedSender = getUserFromConstant(sender.id);
+    var updatedReceiver = getUserFromConstant(receiver.id);
+    if (updatedSender != null && updatedReceiver != null) {
+      var senderFriendList = updatedSender.friends + [updatedReceiver.id];
+      var senderRequestList = updatedSender.friendRequestsSend;
+      senderRequestList.remove(updatedReceiver.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedSender.id)
+          .update({'friends': senderFriendList, 'friendRequestsSend': senderRequestList});
+
+      var receiverFriendList = updatedReceiver.friends + [updatedSender.id];
+      var receiverRequestList = updatedReceiver.friendRequestsReceived;
+      receiverRequestList.remove(updatedSender.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedReceiver.id)
+          .update({'friends': receiverFriendList, 'friendRequestsReceived': receiverRequestList});
+    }
+  }
+
+  Future<void> deleteFriend(
+      {required UserProfile userProfile, required UserProfile currentUser}) async {
+    var updatedUserProfile = getUserFromConstant(userProfile.id);
+    var updatedCurrentUser = getUserFromConstant(currentUser.id);
+    if (updatedUserProfile != null && updatedCurrentUser != null) {
+      var userProfileFriendList = updatedUserProfile.friends;
+      userProfileFriendList.remove(updatedCurrentUser.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedUserProfile.id)
+          .update({'friends': userProfileFriendList});
+
+      var currentUserFriendList = updatedCurrentUser.friends;
+      currentUserFriendList.remove(updatedUserProfile.id);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(updatedCurrentUser.id)
+          .update({'friends': currentUserFriendList});
+    }
   }
 }

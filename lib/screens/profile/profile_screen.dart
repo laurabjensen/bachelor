@@ -7,6 +7,7 @@ import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
+import 'package:spejder_app/screens/profile/components/friend_button.dart';
 import 'package:spejder_app/screens/profile/components/profile_feed_tab.dart';
 import 'package:spejder_app/screens/profile/components/profile_tab.dart';
 import 'package:spejder_app/screens/profile/components/profile_info_widget.dart';
@@ -69,15 +70,36 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   SliverList(
                     delegate: SliverChildListDelegate([
                       Container(
-                          color: Color(0xff377E62),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
-                            child: ProfileInfoWidget(
-                              userProfile: state.userProfile,
-                              onBadgesTap: () => controller.index = 1,
-                              onFriendsTap: () => controller.index = 2,
-                            ),
-                          ))
+                        color: Color(0xff377E62),
+                        child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(top: 12.0),
+                                child: ProfileInfoWidget(
+                                  userProfile: state.userProfile,
+                                  onBadgesTap: () => controller.index = 1,
+                                  onFriendsTap: () => controller.index = 2,
+                                )),
+                            state.userProfile.id == currentUser.id
+                                ? Container()
+                                : FriendButton(
+                                    userProfile: state.userProfile,
+                                    currentUser: currentUser,
+                                    onSendFriendRequest: () =>
+                                        profileBloc.add(SendFriendRequestPressed(currentUser)),
+                                    onCancelFriendRequest: () =>
+                                        profileBloc.add(CancelFriendRequest(currentUser)),
+                                    onAcceptsFriendRequest: () =>
+                                        profileBloc.add(AcceptFriendRequestPressed(currentUser)),
+                                    onRejectFriendRequest: () => profileBloc.add(
+                                      RejectFriendRequestPressed(currentUser),
+                                    ),
+                                    onDeleteFriend: () =>
+                                        profileBloc.add(DeleteFriendPressed(currentUser)),
+                                  )
+                          ],
+                        ),
+                      )
                     ]),
                   ),
                 ];

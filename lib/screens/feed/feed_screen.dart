@@ -51,29 +51,26 @@ class _FeedScreenState extends State<FeedScreen> {
                 feedBloc.add(LoadInitialFeed());
               },
             ),
-            body: Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async => feedBloc.add(LoadInitialFeed()),
-                child: Builder(builder: (context) {
-                  if (state.posts.isNotEmpty) {
-                    return ListView.builder(
-                      controller: _scrollController,
-                      shrinkWrap: false,
-                      itemCount: state.posts.length,
-                      itemBuilder: (context, index) {
-                        return FeedWidget(
-                          userProfile: state.posts[index].badgeRegistration.userProfile!,
-                          post: state.posts[index],
-                          currentUser: currentUser,
-                          onTap: (isLiked) =>
-                              feedBloc.add(LikeToggled(state.posts[index], isLiked)),
-                        );
-                      },
-                    );
-                  }
-                  return Container();
-                }),
-              ),
+            body: RefreshIndicator(
+              onRefresh: () async => feedBloc.add(LoadInitialFeed()),
+              child: Builder(builder: (context) {
+                if (state.posts.isNotEmpty) {
+                  return ListView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemCount: state.posts.length,
+                    itemBuilder: (context, index) {
+                      return FeedWidget(
+                        userProfile: state.posts[index].badgeRegistration.userProfile!,
+                        post: state.posts[index],
+                        currentUser: currentUser,
+                        onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
+                      );
+                    },
+                  );
+                }
+                return Container();
+              }),
             ),
           );
         });

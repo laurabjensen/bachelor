@@ -7,10 +7,7 @@ class LikeButtonWidget extends StatefulWidget {
   final List<String> likeList;
   final Function(bool isLiked) onTap;
   const LikeButtonWidget(
-      {Key? key,
-      required this.currentUser,
-      required this.likeList,
-      required this.onTap})
+      {Key? key, required this.currentUser, required this.likeList, required this.onTap})
       : super(key: key);
 
   @override
@@ -38,8 +35,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
         return Icon(icon, color: color, size: sizeOfHeart);
       },
       //Circle og bubbles color er på animationen ved like
-      circleColor:
-          CircleColor(start: Colors.yellowAccent, end: Colors.pinkAccent),
+      circleColor: CircleColor(start: Colors.yellowAccent, end: Colors.pinkAccent),
       bubblesColor: BubblesColor(
           dotPrimaryColor: Colors.redAccent,
           dotSecondaryColor: Colors.greenAccent,
@@ -52,8 +48,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       countBuilder: (count, isLiked, text) {
         final color = isLiked ? Colors.green : Colors.grey;
         return Text(text,
-            style: TextStyle(
-                color: color, fontSize: 15, fontWeight: FontWeight.bold));
+            style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold));
       },
       onTap: (isLiked) async {
         widget.onTap(!isLiked);

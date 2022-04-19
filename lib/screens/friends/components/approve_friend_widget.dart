@@ -8,8 +8,14 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class ApproveFriendWidget extends StatelessWidget {
   final UserProfile userProfile;
+  final Function() onAcceptFriend;
+  final Function() onRejectFriend;
 
-  const ApproveFriendWidget({Key? key, required this.userProfile})
+  const ApproveFriendWidget(
+      {Key? key,
+      required this.userProfile,
+      required this.onAcceptFriend,
+      required this.onRejectFriend})
       : super(key: key);
 
   @override
@@ -43,73 +49,68 @@ class ApproveFriendWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: 280,
+          height: 290,
           width: 336,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Profil
-              SizedBox(
-                height: 168,
-                width: 200,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () => pushNewScreen(context,
-                                screen: ProfileScreen(userProfile: userProfile),
-                                withNavBar: false),
-                            child: Stack(
-                              children: [
-                                userProfile.imageUrl.isNotEmpty
-                                    ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: Image.network(
-                                          userProfile.imageUrl,
-                                          width: 90,
-                                          height: 90,
-                                          fit: BoxFit.fitHeight,
-                                        ))
-                                    : noImageWidget(),
-                                // Range picture
-                                Positioned(
-                                  top: 60,
-                                  left: 0,
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(60),
-                                        color: Colors.white,
-                                        image: DecorationImage(
-                                            image: Image.network(
-                                                    userProfile.rank.imageUrl)
-                                                .image)),
-                                  ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => pushNewScreen(context,
+                              screen: ProfileScreen(userProfile: userProfile), withNavBar: false),
+                          child: Stack(
+                            children: [
+                              userProfile.imageUrl.isNotEmpty
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image.network(
+                                        userProfile.imageUrl,
+                                        width: 90,
+                                        height: 90,
+                                        fit: BoxFit.fitHeight,
+                                      ))
+                                  : noImageWidget(),
+                              // Range picture
+                              Positioned(
+                                top: 60,
+                                left: 0,
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(60),
+                                      color: Colors.white,
+                                      image: DecorationImage(
+                                          image: Image.network(userProfile.rank.imageUrl).image)),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Text(userProfile.name,
-                              style: theme.primaryTextTheme.headline3!.copyWith(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(userProfile.rank.title,
-                              style: theme.primaryTextTheme.headline1!
-                                  .copyWith(color: Colors.black, fontSize: 18)),
-                        ],
-                      ),
+                        ),
+                        Text(userProfile.name,
+                            style: theme.primaryTextTheme.headline3!
+                                .copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text(userProfile.rank.title,
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(color: Colors.black, fontSize: 18)),
+                        Text(userProfile.group.name,
+                            style: theme.primaryTextTheme.headline1!
+                                .copyWith(color: Colors.black, fontSize: 18)),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+
               Text(
                 'Vil gerne være spejderveninde med dig!',
                 style: theme.primaryTextTheme.headline3!.copyWith(
@@ -119,8 +120,8 @@ class ApproveFriendWidget extends StatelessWidget {
               ),
               // Annuller
               ApproveBadgeButtonRow(
-                onAccept: () => null,
-                onDeny: () => null,
+                onAccept: onAcceptFriend,
+                onDeny: onRejectFriend,
               ),
             ],
           ),

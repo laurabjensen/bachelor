@@ -13,15 +13,13 @@ class FriendsScreen extends StatefulWidget {
   final UserProfile userProfile;
   final int initialTabIndex;
 
-  const FriendsScreen(
-      {Key? key, required this.userProfile, required this.initialTabIndex})
+  const FriendsScreen({Key? key, required this.userProfile, required this.initialTabIndex})
       : super(key: key);
   @override
   _FriendsScreenState createState() => _FriendsScreenState();
 }
 
-class _FriendsScreenState extends State<FriendsScreen>
-    with TickerProviderStateMixin {
+class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateMixin {
   late UserProfile currentUser;
 
   late FriendsBloc friendsBloc;
@@ -30,12 +28,9 @@ class _FriendsScreenState extends State<FriendsScreen>
   @override
   void initState() {
     super.initState();
-
     friendsBloc = FriendsBloc(userProfile: widget.userProfile);
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    controller = TabController(
-        length: 2, vsync: this, initialIndex: widget.initialTabIndex);
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    controller = TabController(length: 2, vsync: this, initialIndex: widget.initialTabIndex);
   }
 
   @override
@@ -50,20 +45,23 @@ class _FriendsScreenState extends State<FriendsScreen>
             actions: <Widget>[
               Stack(
                 children: [
-                  Stack(
-                    children: [
-                      Icon(Icons.circle, size: 25, color: Colors.red),
-                      Positioned(
-                        left: 10,
-                        top: 3,
-                        child: Text('1', //TODO! FIX HER SÅ DET IK ER HARDCODED
-                            style: theme.primaryTextTheme.headline1!.copyWith(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  ),
+                  state.userProfile.friendRequestsReceived.isNotEmpty
+                      ? Stack(
+                          children: [
+                            Icon(Icons.circle, size: 25, color: Colors.red),
+                            Positioned(
+                              left: 10,
+                              top: 3,
+                              child: Text(
+                                  '${state.userProfile.friendRequestsReceived.length}', //TODO! FIX HER SÅ DET IK ER HARDCODED
+                                  style: theme.primaryTextTheme.headline1!.copyWith(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        )
+                      : Container(),
                   IconButton(
                       tooltip: 'Se veninde aktivitet',
                       icon: Icon(
@@ -72,7 +70,7 @@ class _FriendsScreenState extends State<FriendsScreen>
                       ),
                       onPressed: () => pushNewScreen(context,
                           screen: FriendsActivityScreen(
-                            userProfile: widget.userProfile,
+                            userProfile: state.userProfile,
                           ),
                           withNavBar: false)),
                 ],
@@ -85,15 +83,13 @@ class _FriendsScreenState extends State<FriendsScreen>
               tabs: [
                 Tab(
                     child: Text('Alle brugere',
-                        style: theme.primaryTextTheme.headline2!
-                            .copyWith(color: Colors.white))),
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
                 Tab(
                     child: Text(
                         widget.userProfile.id == currentUser.id
                             ? 'Mine veninder'
                             : '${widget.userProfile.namePossessiveCase()} veninder',
-                        style: theme.primaryTextTheme.headline2!
-                            .copyWith(color: Colors.white))),
+                        style: theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
               ],
             ),
             title: 'Veninder oversigt',
