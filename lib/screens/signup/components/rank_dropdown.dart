@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spejder_app/model/rank.dart';
+import 'package:spejder_app/validators.dart';
 
 class RankDropdown extends StatelessWidget {
   final List<Rank> ranks;
@@ -26,6 +27,7 @@ class RankDropdown extends StatelessWidget {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField(
+                    validator: Validators.validateRankNotNull,
                     value: initialValue,
                     decoration: InputDecoration(
                         hintText: 'Rang',
@@ -35,7 +37,6 @@ class RankDropdown extends StatelessWidget {
                         contentPadding: initialValue != null
                             ? EdgeInsets.fromLTRB(0, 5, 0, 5)
                             : EdgeInsets.fromLTRB(10, 5, 0, 5),
-                        errorStyle: TextStyle(height: 0, fontSize: 16),
                         suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         fillColor: Colors.white,
                         filled: true,

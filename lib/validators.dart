@@ -1,3 +1,5 @@
+import 'package:spejder_app/model/group.dart';
+import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 
 class Validators {
@@ -32,6 +34,20 @@ class Validators {
       } else if (password1 != password2) {
         return 'Kodeord ikke identiske';
       }
+    }
+    return null;
+  }
+
+  static String? validateRankNotNull(Rank? field) {
+    if (field == null || field.id.isEmpty) {
+      return 'Vælg venligst';
+    }
+    return null;
+  }
+
+  static String? validateGroupNotNull(String? field) {
+    if (field == null || field.isEmpty) {
+      return 'Vælg venligst';
     }
     return null;
   }
