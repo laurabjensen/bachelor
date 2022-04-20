@@ -14,6 +14,9 @@ class ProfileTab extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    approvedBadges
+        ?.sort((a, b) => a.badgeSpecific.badge.name.compareTo(b.badgeSpecific.badge.name));
+
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: ListView(

@@ -44,7 +44,7 @@ class _FeedWidgetState extends State<FeedWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 300,
+                //height: 300,
                 width: 325,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
@@ -71,7 +71,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                       ),
                     ),
                     Container(
-                      height: 60,
+                      //height: 60,
                       width: 325,
                       decoration: BoxDecoration(
                           color: Color(0xffEDF1F2),

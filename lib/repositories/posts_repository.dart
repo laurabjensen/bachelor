@@ -39,8 +39,7 @@ class PostsRepository {
     return post.copyWith(badgeRegistration: badgeRegistration);
   }
 
-  Future<Post> getPostFromSnapshotAndUserProfile(
-      QueryDocumentSnapshot<Map<String, dynamic>> snap, UserProfile userProfile) async {
+  Future<Post> getPostFromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
     var post = Post.fromJson(snap);
     var badgeRegistration =
         await badgeRegistrationRepository.getBadgeRegistrationFromId(snap.get('badgeRegistration'));
@@ -57,7 +56,8 @@ class PostsRepository {
     for (var post in userProfile.posts) {
       posts.add(await getPostFromId(post));
     }
-    posts.sortBy((element) => element.badgeRegistration.badgeSpecific.badge.name);
+    posts
+        .sort((a, b) => b.badgeRegistration.approvedAt!.compareTo(a.badgeRegistration.approvedAt!));
     return posts;
   }
 

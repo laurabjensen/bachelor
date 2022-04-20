@@ -7,9 +7,14 @@ class ProfileFeedTab extends StatelessWidget {
   final List<Post> posts;
   final UserProfile userProfile;
   final UserProfile currentUser;
+  final Function(bool isLiked, Post post) onTap;
 
   const ProfileFeedTab(
-      {Key? key, required this.posts, required this.userProfile, required this.currentUser})
+      {Key? key,
+      required this.posts,
+      required this.userProfile,
+      required this.currentUser,
+      required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class ProfileFeedTab extends StatelessWidget {
           userProfile: userProfile,
           post: posts[index],
           currentUser: currentUser,
-          onTap: (isLiked) => null,
+          onTap: (isLiked) => onTap(isLiked, posts[index]),
         );
       },
     );

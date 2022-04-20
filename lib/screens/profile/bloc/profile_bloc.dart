@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -34,7 +35,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<DeleteFriendPressed>((event, emit) => _deleteFriendPressed(event.currentUser, emit));
     on<AcceptFriendRequestPressed>((event, emit) => _acceptFriendRequest(event.currentUser, emit));
     on<RejectFriendRequestPressed>((event, emit) => _rejectFriendRequest(event.currentUser, emit));
-
+    on<LikePostPressed>(
+        (event, emit) => _likePostPressed(event.currentUser, event.post, event.isLiked, emit));
     on<Reload>((event, emit) => _reload(event.userProfile, emit));
 
     add(StreamStarted());
@@ -59,6 +61,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _deleteFriendPressed(UserProfile currentUser, Emitter<ProfileState> emit) async {
     await userProfileRepository.deleteFriend(userProfile: userProfile, currentUser: currentUser);
+  }
+
+  Future<void> _likePostPressed(
+      UserProfile currentUser, Post post, bool isLiked, Emitter<ProfileState> emit) async {
+    await postsRepository.toggleLikesForPost(isLiked, post, currentUser.id);
   }
 
   Future<void> _reload(UserProfile user, Emitter<ProfileState> emit) async {

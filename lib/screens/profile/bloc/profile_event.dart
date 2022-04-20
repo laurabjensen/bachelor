@@ -41,3 +41,10 @@ class RejectFriendRequestPressed extends ProfileEvent {
   final UserProfile currentUser;
   const RejectFriendRequestPressed(this.currentUser);
 }
+
+class LikePostPressed extends ProfileEvent {
+  final UserProfile currentUser;
+  final Post post;
+  final bool isLiked;
+  const LikePostPressed(this.currentUser, this.post, this.isLiked);
+}

@@ -7,6 +7,10 @@ abstract class FeedEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends FeedEvent {
+  const StreamStarted();
+}
+
 class LoadInitialFeed extends FeedEvent {
   const LoadInitialFeed();
 }

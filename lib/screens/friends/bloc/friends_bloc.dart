@@ -32,7 +32,10 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
 
   Future<void> _reload(UserProfile user, Emitter<FriendsState> emit) async {
     userProfile = await userProfileRepository.getUserprofileFromId(user.id);
+
     final allUsers = GetIt.instance.get<List<UserProfile>>();
+    allUsers.removeWhere((element) => element.id == userProfile.id);
+
     final allUserFriends = (await friendsRepository.getUserprofilesFromList(userProfile.friends))
         .sortedBy((element) => element.name);
 

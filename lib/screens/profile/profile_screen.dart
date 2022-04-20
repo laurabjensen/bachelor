@@ -134,6 +134,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           userProfile: state.userProfile,
                           posts: state.posts,
                           currentUser: currentUser,
+                          onTap: (isLiked, post) =>
+                              profileBloc.add(LikePostPressed(currentUser, post, isLiked)),
                         ),
                         ProfileTab(
                           userProfile: state.userProfile,
