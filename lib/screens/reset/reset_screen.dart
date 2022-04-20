@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
 import 'package:spejder_app/validators.dart';
@@ -24,8 +25,7 @@ class _ResetScreenState extends State<ResetScreen> {
   Widget build(BuildContext context) {
     theme = Theme.of(context);
 
-    return Scaffold(
-      backgroundColor: Color(0xff63A288),
+    return CustomScaffold(
       body: Center(
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 0, 20, 0),

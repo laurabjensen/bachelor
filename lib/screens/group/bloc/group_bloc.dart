@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -10,15 +11,24 @@ part 'group_state.dart';
 
 class GroupBloc extends Bloc<GroupEvent, GroupState> {
   //GroupBloc() : super(GroupInitial());
-  final UserProfile userProfile;
+  UserProfile userProfile;
   final userProfileRepository = GetIt.instance.get<UserProfileRepository>();
 
-  GroupBloc({required this.userProfile}) : super(GroupState()) {
+  GroupBloc({required this.userProfile}) : super(GroupState(userProfile: userProfile)) {
+    on<StreamStarted>((event, emit) async {
+      await emit
+          .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
+              onData: (updatedUser) {
+        userProfile = updatedUser;
+        add(LoadFromFirebase());
+      });
+    }, transformer: restartable());
+
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
     /*  on<ApproveBadge>((event, emit) => _approveBadge(event.badgeRegistration, emit));
     on<DenyBadge>((event, emit) => _denyBadge(event.badgeRegistration, emit));
 */
-    add(LoadFromFirebase());
+    add(StreamStarted());
   }
 
   Future<List<UserProfile>> loadList() async {
@@ -27,7 +37,9 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   Future<void> _loadFromFirebase(Emitter<GroupState> emit) async {
+    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
     var groupMembers = await loadList();
-    emit(state.copyWith(loadStatus: GroupLoadStatus.loaded, groupMembers: groupMembers));
+    emit(state.copyWith(
+        loadStatus: GroupLoadStatus.loaded, groupMembers: groupMembers, userProfile: userProfile));
   }
 }

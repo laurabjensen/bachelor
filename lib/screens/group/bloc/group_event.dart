@@ -7,6 +7,10 @@ abstract class GroupEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends GroupEvent {
+  const StreamStarted();
+}
+
 class LoadFromFirebase extends GroupEvent {
   const LoadFromFirebase();
 }

@@ -8,6 +8,7 @@ import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/group/group_members_screen.dart';
 import 'package:spejder_app/screens/group/members_screen.dart';
 import 'package:spejder_app/screens/leader/leader_screen.dart';
+import 'package:spejder_app/screens/patrol/all_patrols_screen.dart';
 
 import 'bloc/group_bloc.dart';
 
@@ -47,7 +48,7 @@ class _GroupScreenState extends State<GroupScreen> {
                   if (state.loadStatus == GroupLoadStatus.loaded) {
                     return Column(
                       children: [
-                        userProfile.rank.title == 'Leder'
+                        state.userProfile.rank.title == 'Leder'
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
@@ -90,7 +91,8 @@ class _GroupScreenState extends State<GroupScreen> {
                             height: 70,
                             width: 336,
                             child: GestureDetector(
-                              onTap: () => null,
+                              onTap: () => pushNewScreen(context,
+                                  screen: AllPatrolsScreen(), withNavBar: false),
                               child: Card(
                                 elevation: 10,
                                 shape: RoundedRectangleBorder(
