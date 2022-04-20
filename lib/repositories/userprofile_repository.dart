@@ -206,4 +206,18 @@ class UserProfileRepository {
           .update({'friends': currentUserFriendList});
     }
   }
+
+  Future<List<UserProfile>> getMembersNotInPatrol(Group group) async {
+    var members = <UserProfile>[];
+    final updatedGroup = GetIt.instance.get<GroupRepository>().getGroupFromConstant(group.id);
+    if (updatedGroup != null) {
+      var groupMembers = await getGroupUsersFromGroup(group);
+      for (var member in groupMembers) {
+        if (member.patrolId.isEmpty) {
+          members.add(member);
+        }
+      }
+    }
+    return members;
+  }
 }

@@ -18,6 +18,7 @@ class UserProfile {
   final List<String> friends;
   final List<String> friendRequestsSend;
   final List<String> friendRequestsReceived;
+  final String patrolId;
 
   const UserProfile(
       {required this.id,
@@ -32,7 +33,8 @@ class UserProfile {
       required this.posts,
       required this.friends,
       required this.friendRequestsSend,
-      required this.friendRequestsReceived});
+      required this.friendRequestsReceived,
+      required this.patrolId});
 
   UserProfile copyWith(
       {String? id,
@@ -47,7 +49,8 @@ class UserProfile {
       List<String>? posts,
       List<String>? friends,
       List<String>? friendRequestsSend,
-      List<String>? friendRequestsReceived}) {
+      List<String>? friendRequestsReceived,
+      String? patrolId}) {
     return UserProfile(
         id: id ?? this.id,
         age: age ?? this.age,
@@ -61,7 +64,8 @@ class UserProfile {
         posts: posts ?? this.posts,
         friends: friends ?? this.friends,
         friendRequestsSend: friendRequestsSend ?? this.friendRequestsSend,
-        friendRequestsReceived: friendRequestsReceived ?? this.friendRequestsReceived);
+        friendRequestsReceived: friendRequestsReceived ?? this.friendRequestsReceived,
+        patrolId: patrolId ?? this.patrolId);
   }
 
   UserProfile.fromJson(DocumentSnapshot<Map<String, Object?>> json)
@@ -78,7 +82,8 @@ class UserProfile {
             posts: List<String>.from(json['badges']),
             friends: List<String>.from(json['friends']),
             friendRequestsSend: List<String>.from(json['friendRequestsSend']),
-            friendRequestsReceived: List<String>.from(json['friendRequestsReceived']));
+            friendRequestsReceived: List<String>.from(json['friendRequestsReceived']),
+            patrolId: json.data()?.containsKey('patrol') ?? false ? json['patrol'].toString() : '');
 
   Map<String, Object?> toJson() {
     return {
@@ -94,6 +99,7 @@ class UserProfile {
       'badges': posts,
       'friendRequestsSend': friendRequestsSend,
       'friendRequestsReceived': friendRequestsReceived,
+      'patrol': patrolId
     };
   }
 
@@ -110,7 +116,8 @@ class UserProfile {
       posts: [],
       friends: [],
       friendRequestsSend: [],
-      friendRequestsReceived: []);
+      friendRequestsReceived: [],
+      patrolId: '');
 
   String namePossessiveCase() {
     if (name.endsWith('s') || name.endsWith('x') || name.endsWith('z')) {

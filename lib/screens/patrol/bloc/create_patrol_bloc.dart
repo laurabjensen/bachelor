@@ -2,8 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
+import 'package:spejder_app/repositories/group_repository.dart';
 import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
@@ -11,27 +13,43 @@ part 'create_patrol_event.dart';
 part 'create_patrol_state.dart';
 
 class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
-  final RankRepository rankRepository = GetIt.instance.get<RankRepository>();
+  final Group group;
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
+  final GroupRepository groupRepository = GetIt.instance.get<GroupRepository>();
 
-  CreatePatrolBloc() : super(CreatePatrolState()) {
+  CreatePatrolBloc({required this.group}) : super(CreatePatrolState()) {
     //on<CreatePatrolEvent>((event, emit));
-    on<RankChanged>((event, emit) => _rankChanged(event.rank, emit));
-    on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
-    add(LoadFromFirebase());
+
+    on<LoadUserProfiles>((event, emit) => _loadUserProfiles(emit));
+    on<ToggleSelectedUserProfile>(
+        (event, emit) => _toggleSelectedUserProfile(event.userProfile, emit));
+    on<CreatePatrol>((event, emit) => _createPatrol(event.name, event.selectedUserProfiles, emit));
+
+    add(LoadUserProfiles());
   }
 
   //Henter userprofile for brugeren der er logget ind
-  Future<void> _loadFromFirebase(Emitter<CreatePatrolState> emit) async {
-    final ranks = GetIt.instance.get<List<Rank>>();
-    emit(state.copyWith(ranks: ranks));
+
+  Future<void> _loadUserProfiles(Emitter<CreatePatrolState> emit) async {
+    final userProfiles = await userProfileRepository.getMembersNotInPatrol(group);
+    emit(state.copyWith(userProfiles: userProfiles));
   }
 
-  Future<void> _rankChanged(Rank? rank, Emitter<CreatePatrolState> emit) async {
-    if (rank == null) {
-      emit(state.copyWith(rank: Rank.empty));
+  Future<void> _toggleSelectedUserProfile(
+      UserProfile userProfile, Emitter<CreatePatrolState> emit) async {
+    if (state.selectedUserProfiles.contains(userProfile)) {
+      emit(state.copyWith(
+          selectedUserProfiles:
+              state.selectedUserProfiles.where((u) => u != userProfile).toList()));
     } else {
-      emit(state.copyWith(rank: rank));
+      emit(state.copyWith(selectedUserProfiles: state.selectedUserProfiles + [userProfile]));
     }
+  }
+
+  Future<void> _createPatrol(
+      String name, List<UserProfile> selectedUserProfiles, Emitter<CreatePatrolState> emit) async {
+    emit(state.copyWith(createPatrolStatus: CreatePatrolStateStatus.loading));
+    final patrol = await groupRepository.createPatrol(group, name, selectedUserProfiles);
+    emit(state.copyWith(createPatrolStatus: CreatePatrolStateStatus.success));
   }
 }

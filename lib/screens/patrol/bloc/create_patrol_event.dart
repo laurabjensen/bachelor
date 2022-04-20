@@ -7,14 +7,8 @@ abstract class CreatePatrolEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadFromFirebase extends CreatePatrolEvent {
-  const LoadFromFirebase();
-}
-
-class RankChanged extends CreatePatrolEvent {
-  final Rank? rank;
-
-  const RankChanged(this.rank);
+class LoadUserProfiles extends CreatePatrolEvent {
+  const LoadUserProfiles();
 }
 
 //TODO! DO we need this?
@@ -22,4 +16,17 @@ class UpdateFailure extends CreatePatrolEvent {
   final String failureMessage;
 
   const UpdateFailure(this.failureMessage);
+}
+
+class ToggleSelectedUserProfile extends CreatePatrolEvent {
+  final UserProfile userProfile;
+
+  const ToggleSelectedUserProfile(this.userProfile);
+}
+
+class CreatePatrol extends CreatePatrolEvent {
+  final String name;
+  final List<UserProfile> selectedUserProfiles;
+
+  const CreatePatrol(this.name, this.selectedUserProfiles);
 }

@@ -32,8 +32,7 @@ class ProfileFriendsRow extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: onSeeAll,
-                  child:
-                      Text('Se alle', style: theme.primaryTextTheme.headline2),
+                  child: Text('Se alle', style: theme.primaryTextTheme.headline2),
                 ),
               ],
             ),
@@ -46,8 +45,7 @@ class ProfileFriendsRow extends StatelessWidget {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemCount: objects.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ProfileFriendWidget(
+                        itemBuilder: (BuildContext context, int index) => ProfileFriendWidget(
                           userProfile: objects[index] as UserProfile,
                         ),
                       ),
@@ -55,8 +53,7 @@ class ProfileFriendsRow extends StatelessWidget {
                 : SizedBox(
                     height: 100,
                     child: Center(
-                      child: Text(noObjectsText,
-                          style: theme.primaryTextTheme.bodyText2),
+                      child: Text(noObjectsText, style: theme.primaryTextTheme.bodyText2),
                     ))
           ],
         ));

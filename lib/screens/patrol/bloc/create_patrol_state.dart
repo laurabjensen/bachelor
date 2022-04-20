@@ -5,30 +5,27 @@ enum CreatePatrolStateStatus { initial, loading, success, failure }
 @immutable
 class CreatePatrolState extends Equatable {
   final CreatePatrolStateStatus createPatrolStatus;
-  final Rank? rank;
-  final List<Rank> ranks;
+  final List<UserProfile> userProfiles;
+  final List<UserProfile> selectedUserProfiles;
 
   const CreatePatrolState({
     this.createPatrolStatus = CreatePatrolStateStatus.initial,
-    this.rank,
-    this.ranks = const <Rank>[],
+    this.userProfiles = const [],
+    this.selectedUserProfiles = const [],
   });
 
-  CreatePatrolState copyWith(
-      {CreatePatrolStateStatus? createPatrolStatus,
-      Rank? rank,
-      List<Rank>? ranks,
-      UserProfile? userprofile}) {
+  CreatePatrolState copyWith({
+    CreatePatrolStateStatus? createPatrolStatus,
+    List<UserProfile>? userProfiles,
+    List<UserProfile>? selectedUserProfiles,
+  }) {
     return CreatePatrolState(
       createPatrolStatus: createPatrolStatus ?? this.createPatrolStatus,
-      rank: rank ?? this.rank,
-      ranks: ranks ?? this.ranks,
+      userProfiles: userProfiles ?? this.userProfiles,
+      selectedUserProfiles: selectedUserProfiles ?? this.selectedUserProfiles,
     );
   }
 
   @override
-  List<Object> get props => [
-        createPatrolStatus,
-        rank?.title ?? '',
-      ];
+  List<Object> get props => [createPatrolStatus, userProfiles, selectedUserProfiles];
 }

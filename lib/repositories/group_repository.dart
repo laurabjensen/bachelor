@@ -110,4 +110,20 @@ class GroupRepository {
 
     return group.copyWith(members: members);
   }
+
+  Future<void> createPatrol(
+      Group group, String name, List<UserProfile> selectedUserProfiles) async {
+    final map = {'name': name, 'members': selectedUserProfiles.map((e) => e.id).toList()};
+    var snap = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .collection('patrols')
+        .add(map);
+    for (var member in selectedUserProfiles) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(member.id)
+          .update({'patrol': snap.id});
+    }
+  }
 }

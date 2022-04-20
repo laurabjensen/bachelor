@@ -6,8 +6,9 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 
 class ProfileFriendWidget extends StatelessWidget {
   final UserProfile userProfile;
+  final Function()? secondaryOnTap;
 
-  const ProfileFriendWidget({Key? key, required this.userProfile})
+  const ProfileFriendWidget({Key? key, required this.userProfile, this.secondaryOnTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -37,16 +38,21 @@ class ProfileFriendWidget extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () => pushNewScreen(context,
-          screen: ProfileScreen(userProfile: userProfile), withNavBar: false),
+      onTap: () {
+        if (secondaryOnTap == null) {
+          pushNewScreen(context,
+              screen: ProfileScreen(userProfile: userProfile), withNavBar: false);
+        } else {
+          secondaryOnTap!();
+        }
+      },
       child: Card(
         elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         child: Container(
           height: 110,
           width: 110,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -73,8 +79,7 @@ class ProfileFriendWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(60),
                           color: Colors.white,
                           image: DecorationImage(
-                              image: Image.network(userProfile.rank.imageUrl)
-                                  .image)),
+                              image: Image.network(userProfile.rank.imageUrl).image)),
                     ),
                   ),
                 ],
