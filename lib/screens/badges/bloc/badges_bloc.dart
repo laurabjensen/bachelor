@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
@@ -9,6 +10,7 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
 import 'package:spejder_app/repositories/posts_repository.dart';
+import 'package:spejder_app/repositories/userprofile_repository.dart';
 
 part 'badges_event.dart';
 part 'badges_state.dart';
@@ -17,13 +19,29 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   final badgeRepository = GetIt.instance.get<BadgeRepository>();
   final badgeRegistrationRepository = GetIt.instance.get<BadgeRegistrationRepository>();
   final postRepository = GetIt.instance.get<PostsRepository>();
-  final UserProfile userProfile;
+  UserProfile userProfile;
 
   BadgesBloc({required this.userProfile}) : super(BadgesState()) {
+    on<StreamStarted>((event, emit) async {
+      await emit
+          .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
+              onData: (updatedUser) {
+        userProfile = updatedUser;
+        add(LoadUserBadges());
+      });
+      await emit.onEach<List<BadgeRegistration>>(
+          badgeRegistrationRepository.streamBadgeRegistrationForUser(userProfile.id),
+          onData: (updatedList) {
+        add(LoadUserBadges());
+      });
+    }, transformer: restartable());
     on<LoadAllBadges>((event, emit) => _loadAllBadges(emit));
+    on<LoadUserBadges>((event, emit) => _loadAllUserBadges(emit));
     on<DescriptionUpdated>(
         (event, emit) => _descriptionUpdated(event.badgeRegistration, event.description, emit));
     on<EditingToggled>((event, emit) => _editingToggled(emit));
+
+    add(StreamStarted());
     add(LoadAllBadges());
   }
 
@@ -35,6 +53,9 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
       allChallengeBadges: allChallengeBadges,
       allEngagementBadges: allEngagementBadges,
     ));
+  }
+
+  Future<void> _loadAllUserBadges(Emitter<BadgesState> emit) async {
     final posts = await postRepository.getPostsFromUserProfile(userProfile);
     final allRegistrations =
         await badgeRegistrationRepository.getBadgeRegistrationsForUser(userProfile.id);

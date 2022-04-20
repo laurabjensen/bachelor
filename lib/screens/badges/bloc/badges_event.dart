@@ -7,6 +7,10 @@ abstract class BadgesEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends BadgesEvent {
+  const StreamStarted();
+}
+
 class LoadAllBadges extends BadgesEvent {
   const LoadAllBadges();
 }

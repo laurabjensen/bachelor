@@ -7,6 +7,10 @@ abstract class LeaderEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends LeaderEvent {
+  const StreamStarted();
+}
+
 class LoadFromFirebase extends LeaderEvent {
   const LoadFromFirebase();
 }

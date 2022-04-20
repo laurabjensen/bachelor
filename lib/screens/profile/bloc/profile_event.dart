@@ -12,9 +12,7 @@ class StreamStarted extends ProfileEvent {
 }
 
 class Reload extends ProfileEvent {
-  final UserProfile userProfile;
-
-  const Reload(this.userProfile);
+  const Reload();
 }
 
 class SendFriendRequestPressed extends ProfileEvent {

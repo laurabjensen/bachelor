@@ -72,7 +72,7 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
         child: ElevatedButton(
           onPressed: () => pushNewScreen(context,
                   screen: RegisterBadgeScreen(badgeSpecific: value), withNavBar: false)
-              .then((value) => (value as bool) ? widget.badgesBloc.add(LoadAllBadges()) : null),
+              .then((value) => (value as bool) ? widget.badgesBloc.add(LoadUserBadges()) : null),
           style: ElevatedButton.styleFrom(primary: Color(0xff377E62)),
           child: Text(
             'Registrer mærke',

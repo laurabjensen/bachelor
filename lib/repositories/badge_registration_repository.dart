@@ -28,6 +28,22 @@ class BadgeRegistrationRepository {
     return badgeRegistration.copyWith(badgeSpecific: badgeSpecific);
   }
 
+  Stream<List<BadgeRegistration>> streamBadgeRegistrationForLeader(String leaderId) {
+    return FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .where('leader', isEqualTo: leaderId)
+        .snapshots()
+        .map((event) => event.docs.map((e) => BadgeRegistration.fromJson(e)).toList());
+  }
+
+  Stream<List<BadgeRegistration>> streamBadgeRegistrationForUser(String userId) {
+    return FirebaseFirestore.instance
+        .collection('badgeRegistrations')
+        .where('user', isEqualTo: userId)
+        .snapshots()
+        .map((event) => event.docs.map((e) => BadgeRegistration.fromJson(e)).toList());
+  }
+
   /*Future<BadgeRegistration> getBadgeRegistrationFromIdWithUser(
       String badgeRegistrationId, UserProfile userProfile) async {
     var snap = await FirebaseFirestore.instance
@@ -114,7 +130,6 @@ class BadgeRegistrationRepository {
         .collection('badgeRegistrations')
         .doc(badgeRegistration.id)
         .update(badgeRegistration.toMap());
-
     return badgeRegistration;
   }
 

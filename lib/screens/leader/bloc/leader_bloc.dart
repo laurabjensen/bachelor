@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -18,14 +19,20 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
       GetIt.instance.get<BadgeRegistrationRepository>();
   final PostsRepository postsRepository = GetIt.instance.get<PostsRepository>();
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
-
   final UserProfile userProfile;
+
   LeaderBloc({required this.userProfile}) : super(LeaderState()) {
+    on<StreamStarted>((event, emit) async {
+      await emit.onEach<List<BadgeRegistration>>(
+        badgeRegistrationRepository.streamBadgeRegistrationForLeader(userProfile.id),
+        onData: (updatedList) => add(LoadFromFirebase()),
+      );
+    }, transformer: restartable());
     on<LoadFromFirebase>((event, emit) => _loadFromFirebase(emit));
     on<ApproveBadge>((event, emit) => _approveBadge(event.badgeRegistration, emit));
     on<DenyBadge>((event, emit) => _denyBadge(event.badgeRegistration, emit));
 
-    add(LoadFromFirebase());
+    add(StreamStarted());
   }
 
   Future<List<BadgeRegistration>> loadList() async {
@@ -42,7 +49,8 @@ class LeaderBloc extends Bloc<LeaderEvent, LeaderState> {
     emit(state.copyWith(registrationStatus: LeaderBadgeRegistrationStatus.loading));
     badgeRegistration =
         await badgeRegistrationRepository.approveBadgeRegistration(badgeRegistration);
-    await postsRepository.createPost(badgeRegistration);
+    final postId = await postsRepository.createPost(badgeRegistration);
+    await userProfileRepository.updateUserWithPost(badgeRegistration.userProfile?.id, postId);
     emit(state.copyWith(
         badgeRegistrations: await loadList(),
         registrationStatus: LeaderBadgeRegistrationStatus.finished));

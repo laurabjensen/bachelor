@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/group.dart';
+import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
@@ -33,6 +34,14 @@ class UserProfileRepository {
   Stream<List<UserProfile>> getAllUsersStream() {
     return FirebaseFirestore.instance
         .collection('users')
+        .snapshots()
+        .map((event) => event.docs.map((e) => UserProfile.fromJson(e)).toList());
+  }
+
+  Stream<List<UserProfile>> getUsersFromListStream(List<String> idList) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .where('id', whereIn: idList)
         .snapshots()
         .map((event) => event.docs.map((e) => UserProfile.fromJson(e)).toList());
   }
@@ -104,6 +113,14 @@ class UserProfileRepository {
       }
     }
     return members;
+  }
+
+  Future<void> updateUserWithPost(String? userId, String postId) async {
+    final userProfile = getUserFromConstant(userId ?? '');
+    if (userProfile != null) {
+      final posts = userProfile.posts + [postId];
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({'badges': posts});
+    }
   }
 
   Future<void> sendFriendRequest(

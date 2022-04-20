@@ -24,11 +24,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileBloc({required this.userProfile}) : super(ProfileState(userProfile: userProfile)) {
     on<StreamStarted>((event, emit) async {
-      await emit.onEach<UserProfile>(
-        GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
-        onData: (updatedUser) => add(Reload(updatedUser)),
+      await emit
+          .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
+              onData: (updatedUser) {
+        userProfile = updatedUser;
+        add(Reload());
+      });
+      await emit.onEach<List<UserProfile>>(
+        GetIt.instance.get<UserProfileRepository>().getUsersFromListStream(userProfile.friends),
+        onData: (updatedList) => add(Reload()),
       );
     }, transformer: restartable());
+
     on<SendFriendRequestPressed>(
         (event, emit) => _sendFriendRequestPressed(event.currentUser, emit));
     on<CancelFriendRequest>((event, emit) => _cancelFriendRequest(event.currentUser, emit));
@@ -37,7 +44,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<RejectFriendRequestPressed>((event, emit) => _rejectFriendRequest(event.currentUser, emit));
     on<LikePostPressed>(
         (event, emit) => _likePostPressed(event.currentUser, event.post, event.isLiked, emit));
-    on<Reload>((event, emit) => _reload(event.userProfile, emit));
+    on<Reload>((event, emit) => _reload(emit));
 
     add(StreamStarted());
   }
@@ -68,8 +75,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     await postsRepository.toggleLikesForPost(isLiked, post, currentUser.id);
   }
 
-  Future<void> _reload(UserProfile user, Emitter<ProfileState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(user.id);
+  Future<void> _reload(Emitter<ProfileState> emit) async {
+    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
     final friends = (await userProfileRepository.getUserprofilesFromList(userProfile.friends))
         .sortedBy((element) => element.name);
 
