@@ -100,18 +100,21 @@ class FriendButton extends StatelessWidget {
     Widget isFriends() {
       return Row(
         children: [
-          ElevatedButton(
-            onPressed: null,
-            style: ElevatedButton.styleFrom(primary: Color(0xffc7101f)),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text('Veninder',
-                  style: theme.primaryTextTheme.headline1!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center),
+          GestureDetector(
+            onTap: onDeleteFriend,
+            child: ElevatedButton(
+              onPressed: null,
+              style: ElevatedButton.styleFrom(primary: Color(0xff377E62), elevation: 0),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text('Veninder',
+                    style: theme.primaryTextTheme.headline1!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center),
+              ),
             ),
           ),
-          SizedBox(
+          /*SizedBox(
             width: 10,
           ),
           ElevatedButton(
@@ -124,7 +127,7 @@ class FriendButton extends StatelessWidget {
                       .copyWith(fontSize: 18, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center),
             ),
-          ),
+          ),*/
         ],
       );
     }

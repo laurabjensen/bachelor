@@ -12,8 +12,7 @@ class StreamStarted extends FriendsEvent {
 }
 
 class Reload extends FriendsEvent {
-  final UserProfile userProfile;
-  const Reload(this.userProfile);
+  const Reload();
 }
 
 class LoadFriends extends FriendsEvent {

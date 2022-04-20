@@ -52,8 +52,7 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
                             Positioned(
                               left: 10,
                               top: 3,
-                              child: Text(
-                                  '${state.userProfile.friendRequestsReceived.length}', //TODO! FIX HER SÅ DET IK ER HARDCODED
+                              child: Text('${state.userProfile.friendRequestsReceived.length}',
                                   style: theme.primaryTextTheme.headline1!.copyWith(
                                       fontSize: 16,
                                       color: Colors.black,

@@ -19,19 +19,24 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
 
   FriendsBloc({required this.userProfile}) : super(FriendsState(userProfile: userProfile)) {
     on<StreamStarted>((event, emit) async {
-      await emit.onEach<UserProfile>(
-        userProfileRepository.getUser(userProfile.id),
-        onData: (updatedUser) => add(Reload(updatedUser)),
-      );
+      await emit.onEach<UserProfile>(userProfileRepository.getUser(userProfile.id),
+          onData: (updatedUser) {
+        userProfile = updatedUser;
+        add(Reload());
+      });
+      await emit.onEach<List<UserProfile>>(userProfileRepository.getAllUsersStream(),
+          onData: (updatedList) {
+        add(Reload());
+      });
     }, transformer: restartable());
 
-    on<Reload>((event, emit) => _reload(event.userProfile, emit));
+    on<Reload>((event, emit) => _reload(emit));
 
     add(StreamStarted());
   }
 
-  Future<void> _reload(UserProfile user, Emitter<FriendsState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(user.id);
+  Future<void> _reload(Emitter<FriendsState> emit) async {
+    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
 
     final allUsers = GetIt.instance.get<List<UserProfile>>().toList();
     allUsers.removeWhere((element) => element.id == userProfile.id);

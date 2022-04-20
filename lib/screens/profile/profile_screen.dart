@@ -44,6 +44,13 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     }
   }
 
+  void deleteFriend(ProfileBloc bloc) async {
+    if (await customDialog(
+        context, 'Er du sikker på at du vil fjerne ${bloc.state.userProfile.name} som veninde?')) {
+      bloc.add(DeleteFriendPressed(currentUser));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -94,8 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                     onRejectFriendRequest: () => profileBloc.add(
                                       RejectFriendRequestPressed(currentUser),
                                     ),
-                                    onDeleteFriend: () =>
-                                        profileBloc.add(DeleteFriendPressed(currentUser)),
+                                    onDeleteFriend: () => deleteFriend(profileBloc),
                                   )
                           ],
                         ),
