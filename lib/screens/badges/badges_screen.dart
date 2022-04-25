@@ -12,13 +12,15 @@ class BadgesScreen extends StatefulWidget {
   final UserProfile userProfile;
   final int initialTabIndex;
 
-  const BadgesScreen({Key? key, required this.userProfile, required this.initialTabIndex})
+  const BadgesScreen(
+      {Key? key, required this.userProfile, required this.initialTabIndex})
       : super(key: key);
   @override
   _BadgesScreenState createState() => _BadgesScreenState();
 }
 
-class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMixin {
+class _BadgesScreenState extends State<BadgesScreen>
+    with TickerProviderStateMixin {
   late UserProfile loggedInUser;
   late BadgesBloc badgesBloc;
   late TabController controller;
@@ -26,8 +28,10 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
   @override
   void initState() {
     badgesBloc = BadgesBloc(userProfile: widget.userProfile);
-    loggedInUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
-    controller = TabController(length: 2, vsync: this, initialIndex: widget.initialTabIndex);
+    loggedInUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    controller = TabController(
+        length: 2, vsync: this, initialIndex: widget.initialTabIndex);
 
     super.initState();
   }
@@ -51,15 +55,15 @@ class _BadgesScreenState extends State<BadgesScreen> with TickerProviderStateMix
                   tabs: [
                     Tab(
                         child: Text('Alle mærker',
-                            style:
-                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
+                            style: theme.primaryTextTheme.headline2!
+                                .copyWith(color: Colors.white))),
                     Tab(
                         child: Text(
                             widget.userProfile.id == loggedInUser.id
                                 ? 'Mine mærker'
                                 : '${widget.userProfile.namePossessiveCase()} mærker',
-                            style:
-                                theme.primaryTextTheme.headline2!.copyWith(color: Colors.white))),
+                            style: theme.primaryTextTheme.headline2!
+                                .copyWith(color: Colors.white))),
                   ],
                 ),
                 title: 'Mærke oversigt',

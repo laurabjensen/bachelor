@@ -76,10 +76,15 @@ class _FeedScreenState extends State<FeedScreen> {
                 }
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Ingen aktivitet at vise på nuværende tidspunkt',
-                    style: theme.primaryTextTheme.headline1,
-                    textAlign: TextAlign.center,
+                  child: Center(
+                    heightFactor: 2,
+                    child: Text(
+                      'Ingen aktivitet at vise på nuværende tidspunkt',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .headline2!
+                          .copyWith(fontSize: 16),
+                    ),
                   ),
                 );
               }),

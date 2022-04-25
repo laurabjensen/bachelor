@@ -17,7 +17,8 @@ import '../components/navbar.dart';
 class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
@@ -38,8 +39,16 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
 
   void createPatrolPressed() {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
-      createPatrolBloc
-          .add(CreatePatrol(nameController.text, createPatrolBloc.state.selectedUserProfiles));
+      createPatrolBloc.add(CreatePatrol(
+          nameController.text, createPatrolBloc.state.selectedUserProfiles));
+    }
+  }
+
+  String spejderOrspejdere() {
+    if (createPatrolBloc.state.selectedUserProfiles.length == 1) {
+      return 'Opret patrulje med ${createPatrolBloc.state.selectedUserProfiles.length} spejder';
+    } else {
+      return 'Opret patrulje med ${createPatrolBloc.state.selectedUserProfiles.length} spejdere';
     }
   }
 
@@ -58,7 +67,8 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
             if (state.createPatrolStatus == CreatePatrolStateStatus.success) {
               EasyLoading.showSuccess('Patrulje oprettet');
               Navigator.pop(context);
-            } else if (state.createPatrolStatus == CreatePatrolStateStatus.loading) {
+            } else if (state.createPatrolStatus ==
+                CreatePatrolStateStatus.loading) {
               EasyLoading.show();
             }
           },
@@ -69,7 +79,8 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                 children: [
                   Text(
                     widget.userProfile.group.name,
-                    style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 24),
+                    style: theme.primaryTextTheme.headline1!
+                        .copyWith(fontSize: 24),
                   ),
                   state.userProfiles.isNotEmpty
                       ? Expanded(
@@ -77,11 +88,14 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(25, 20, 0, 4),
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 20, 0, 4),
                                 child: Text(
                                   'Tilføj patrulje navn',
                                   style: theme.primaryTextTheme.headline1!
-                                      .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                                      .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
 
                                   // Date picker
                                 ),
@@ -89,7 +103,8 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                               Form(
                                 key: formKey,
                                 child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 10),
                                   child: LoginTextFormField(
                                       controller: nameController,
                                       labelText: '',
@@ -103,35 +118,42 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(25, 10, 0, 4),
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 10, 0, 4),
                                 child: Text(
                                   'Vælg patrulje medlemmer',
                                   style: theme.primaryTextTheme.headline1!
-                                      .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                                      .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
 
                                   // Date picker
                                 ),
                               ),
                               CustomSelectableGrid(
                                 userProfiles: state.userProfiles,
-                                selectedUserProfiles: state.selectedUserProfiles,
-                                onTap: (user) =>
-                                    createPatrolBloc.add(ToggleSelectedUserProfile(user)),
+                                selectedUserProfiles:
+                                    state.selectedUserProfiles,
+                                onTap: (user) => createPatrolBloc
+                                    .add(ToggleSelectedUserProfile(user)),
                               ),
                               state.selectedUserProfiles.isNotEmpty
                                   ? Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                                      padding:
+                                          EdgeInsets.fromLTRB(0, 10, 0, 30),
                                       child: Center(
                                         child: SizedBox(
                                           width: 200,
                                           height: 60,
                                           child: ElevatedButton(
-                                            onPressed: () => createPatrolPressed(),
+                                            onPressed: () =>
+                                                createPatrolPressed(),
                                             style: ElevatedButton.styleFrom(
                                                 primary: Color(0xff377E62)),
                                             child: Text(
-                                              'Opret patrulje med ${state.selectedUserProfiles.length} spejdere', // ${selectedList.length}
-                                              style: theme.primaryTextTheme.headline1,
+                                              spejderOrspejdere(), // Makes sure to spell right acording to the number of selected users
+                                              style: theme
+                                                  .primaryTextTheme.headline1,
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
