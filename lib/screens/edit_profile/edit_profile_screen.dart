@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
@@ -35,6 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController;
   late TextEditingController ageController;
+  late TextEditingController seniorityController;
   late TextEditingController descriptionController;
 
   @override
@@ -43,6 +45,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     nameController = TextEditingController(text: widget.userprofile.name);
     ageController =
         TextEditingController(text: widget.userprofile.age.toString());
+    seniorityController =
+        TextEditingController(text: widget.userprofile.seniority.toString());
     descriptionController =
         TextEditingController(text: widget.userprofile.description);
   }
@@ -53,6 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       widget.editprofileBloc.add(UpdatePressed(widget.userprofile.copyWith(
           name: nameController.text,
           age: int.parse(ageController.text),
+          seniority: int.parse(seniorityController.text),
           description: descriptionController.text)));
     }
   }
@@ -93,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         Container(
                             margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
-                            height: 700,
+                            height: 750,
                             decoration: BoxDecoration(
                                 color: Color(0xffEEF2F3),
                                 borderRadius: BorderRadius.circular(15)),
@@ -122,6 +127,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     obscureText: false,
                                     validator: Validators.validateNotNull,
                                     onChanged: (age) => null,
+                                    /*onChanged: (age) => widget.userprofile
+                                              .copyWith(age: int.parse(age!)),*/
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  LoginTextFormField(
+                                    controller: seniorityController,
+                                    labelText: 'Antal årsstjerner',
+                                    value: null,
+                                    obscureText: false,
+                                    validator: Validators.validateNotNull,
+                                    onChanged: (senority) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
                                     keyboardType: TextInputType.number,
