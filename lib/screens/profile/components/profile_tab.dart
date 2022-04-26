@@ -10,26 +10,32 @@ class ProfileTab extends StatelessWidget {
   final List<UserProfile>? friends;
 
   const ProfileTab(
-      {Key? key, required this.userProfile, required this.approvedBadges, required this.friends})
+      {Key? key,
+      required this.userProfile,
+      required this.approvedBadges,
+      required this.friends})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    approvedBadges
-        ?.sort((a, b) => a.badgeSpecific.badge.name.compareTo(b.badgeSpecific.badge.name));
+    approvedBadges?.sort((a, b) =>
+        a.badgeSpecific.badge.name.compareTo(b.badgeSpecific.badge.name));
 
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: ListView(
-        physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+        physics:
+            NeverScrollableScrollPhysics(), // to disable GridView's scrolling
         shrinkWrap: true,
         children: [
           GridView.count(
-            physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+            physics:
+                NeverScrollableScrollPhysics(), // to disable GridView's scrolling
             shrinkWrap: true,
             mainAxisSpacing: 15,
             crossAxisSpacing: 15,
             crossAxisCount: 2,
-            children: List.generate(approvedBadges?.length ?? friends?.length ?? 0, (index) {
+            children: List.generate(
+                approvedBadges?.length ?? friends?.length ?? 0, (index) {
               if (approvedBadges != null && approvedBadges!.isNotEmpty) {
                 return ProfileBadgeWidget(
                   badge: null,

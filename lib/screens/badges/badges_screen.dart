@@ -36,7 +36,6 @@ class _BadgesScreenState extends State<BadgesScreen>
     super.initState();
   }
 
-  // TODO! Find ud af hvad vi skal gøre med background svg her!!!
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -8,7 +8,8 @@ class BadgeInfoWidget extends StatelessWidget {
   final BadgeSpecific badgeSpecific;
   final BadgeRegistration? registration;
 
-  const BadgeInfoWidget({Key? key, required this.badgeSpecific, this.registration})
+  const BadgeInfoWidget(
+      {Key? key, required this.badgeSpecific, this.registration})
       : super(key: key);
 
   @override
@@ -58,14 +59,15 @@ class BadgeInfoWidget extends StatelessWidget {
             height: 170,
             width: 200,
             decoration: BoxDecoration(
-              image: DecorationImage(image: Image.network(badgeSpecific.imageUrl).image),
+              image: DecorationImage(
+                  image: Image.network(badgeSpecific.imageUrl).image),
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-          child:
-              Text(badgeSpecific.rank.title.capitalize(), style: theme.primaryTextTheme.headline1),
+          child: Text(badgeSpecific.rank.title.capitalize(),
+              style: theme.primaryTextTheme.headline1),
         ),
         status()
       ],

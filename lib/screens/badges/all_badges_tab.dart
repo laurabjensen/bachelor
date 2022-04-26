@@ -59,7 +59,19 @@ class BadgesTab extends StatelessWidget {
         );
       }
 
-      return Container();
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          heightFactor: 2,
+          child: Text(
+            'Intet at vise',
+            style: Theme.of(context)
+                .primaryTextTheme
+                .headline2!
+                .copyWith(fontSize: 16),
+          ),
+        ),
+      );
     }
 
     Widget getEngagementBadges() {
@@ -109,7 +121,15 @@ class BadgesTab extends StatelessWidget {
                 engagementBadges.isEmpty
             ? Center(child: CircularProgressIndicator())
             : ListView(
-                children: [getChallengeBadges(), getEngagementBadges()],
+                children: [
+                  getChallengeBadges(),
+                  getEngagementBadges(),
+                  //Sizedbox makes sure there is a bit of space in the bottom of the screen,
+                  // so badges dont hide behind the navbar
+                  SizedBox(
+                    height: 25,
+                  ),
+                ],
               ));
   }
 }
