@@ -35,6 +35,9 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   }
 
   Future<void> _loadInitialFeed(Emitter<FeedState> emit) async {
+    if (state.status == FeedStateLoadingStatus.loaded) {
+      emit(state.copyWith(status: FeedStateLoadingStatus.loading));
+    }
     snapshots = await postsRepository.getFeedSnapshotsForUser(userProfile);
     emit(state.copyWith(posts: [], status: FeedStateLoadingStatus.loading));
     await _loadFeed(emit);

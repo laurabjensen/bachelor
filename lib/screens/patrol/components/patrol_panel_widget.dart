@@ -95,7 +95,7 @@ class PatrolPanelWidget extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 0),
                       child: Expandable(
                         collapsed: collapsed,
                         expanded: expanded,

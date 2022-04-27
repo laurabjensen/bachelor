@@ -25,8 +25,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    currentUser =
-        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     feedBloc = FeedBloc(userProfile: currentUser);
   }
 
@@ -45,10 +44,8 @@ class _FeedScreenState extends State<FeedScreen> {
                 await Future.delayed(const Duration(milliseconds: 200));
                 SchedulerBinding.instance?.addPostFrameCallback(
                   (_) {
-                    _scrollController.animateTo(
-                        _scrollController.position.minScrollExtent,
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.fastOutSlowIn);
+                    _scrollController.animateTo(_scrollController.position.minScrollExtent,
+                        duration: const Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
                   },
                 );
                 feedBloc.add(LoadInitialFeed());
@@ -64,28 +61,42 @@ class _FeedScreenState extends State<FeedScreen> {
                     itemCount: state.posts.length,
                     itemBuilder: (context, index) {
                       return FeedWidget(
-                        userProfile:
-                            state.posts[index].badgeRegistration.userProfile!,
+                        userProfile: state.posts[index].badgeRegistration.userProfile!,
                         post: state.posts[index],
                         currentUser: currentUser,
-                        onTap: (isLiked) => feedBloc
-                            .add(LikeToggled(state.posts[index], isLiked)),
+                        onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
                       );
                     },
                   );
+                } else if (state.status == FeedStateLoadingStatus.loading) {
+                  return Column(
+                    children: [
+                      ListView(
+                        shrinkWrap: true,
+                        controller: _scrollController,
+                      ),
+                      SizedBox(height: 40),
+                      CircularProgressIndicator()
+                    ],
+                  );
                 }
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    heightFactor: 2,
-                    child: Text(
-                      'Ingen aktivitet at vise på nuværende tidspunkt',
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .headline2!
-                          .copyWith(fontSize: 16),
-                    ),
-                  ),
+                return ListView.builder(
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  itemCount: 1,
+                  itemBuilder: (context, _) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        heightFactor: 2,
+                        child: Text(
+                          'Ingen aktivitet at vise på nuværende tidspunkt',
+                          style:
+                              Theme.of(context).primaryTextTheme.headline2!.copyWith(fontSize: 16),
+                        ),
+                      ),
+                    );
+                  },
                 );
               }),
             ),
