@@ -70,10 +70,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     return CustomScaffold(
-      appBar: CustomAppBar.appbarWithDelete(
+      /*appBar: CustomAppBar.appbarWithDelete(
         title: 'Rediger profil',
         onDelete: () => onDeleteUserPressed(),
-      ),
+      ),*/
+      appBar: CustomAppBar.basicAppBar(title: 'Rediger profil', showBackButton: false),
       body: BlocListener(
           bloc: widget.editprofileBloc,
           listener: (context, EditprofileState state) {

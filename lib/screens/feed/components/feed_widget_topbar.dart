@@ -43,7 +43,7 @@ class FeedWidgetTopbar extends StatelessWidget {
         //Sikre at dots kører til højre
         Expanded(child: SizedBox()),
         //Dots
-        GestureDetector(
+        /*GestureDetector(
           child: Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Icon(
@@ -57,7 +57,7 @@ class FeedWidgetTopbar extends StatelessWidget {
               return ChatDetailPage();
             }));
           },
-        ),
+        ),*/
       ],
     );
   }

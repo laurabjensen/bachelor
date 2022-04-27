@@ -105,7 +105,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                GestureDetector(
+                                /*GestureDetector(
                                   child: Icon(
                                     Icons.messenger_outline,
                                     color: Colors.black,
@@ -116,7 +116,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                       return ChatDetailPage();
                                     }));
                                   },
-                                ),
+                                ),*/
                               ],
                             ),
                           ),
