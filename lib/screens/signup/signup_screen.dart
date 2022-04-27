@@ -114,7 +114,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                           ? ''
                                           : state.age.toString(),
                                       obscureText: false,
-                                      validator: Validators.validateNotNull,
+                                      validator: Validators
+                                          .validateIsOnlyIntAndNotNull,
                                       onChanged: (age) => signupBloc
                                           .add(AgeChanged(int.parse(age!))),
                                       keyboardType: TextInputType.number,

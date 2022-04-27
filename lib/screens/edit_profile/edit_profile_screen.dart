@@ -126,7 +126,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     labelText: 'Alder',
                                     value: null,
                                     obscureText: false,
-                                    validator: Validators.validateNotNull,
+                                    validator:
+                                        Validators.validateIsOnlyIntAndNotNull,
                                     onChanged: (age) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
@@ -137,7 +138,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     labelText: 'Antal årsstjerner',
                                     value: null,
                                     obscureText: false,
-                                    validator: Validators.validateNotNull,
+                                    validator:
+                                        Validators.validateIsOnlyIntAndNotNull,
                                     onChanged: (senority) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
