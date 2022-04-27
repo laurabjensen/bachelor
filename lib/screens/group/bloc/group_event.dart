@@ -11,6 +11,18 @@ class StreamStarted extends GroupEvent {
   const StreamStarted();
 }
 
+class UserStreamStarted extends GroupEvent {
+  const UserStreamStarted();
+}
+
+class GroupStreamStarted extends GroupEvent {
+  const GroupStreamStarted();
+}
+
+class PatrolStreamStarted extends GroupEvent {
+  const PatrolStreamStarted();
+}
+
 class LoadFromFirebase extends GroupEvent {
   const LoadFromFirebase();
 }

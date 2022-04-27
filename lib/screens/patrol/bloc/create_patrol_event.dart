@@ -30,3 +30,16 @@ class CreatePatrol extends CreatePatrolEvent {
 
   const CreatePatrol(this.name, this.selectedUserProfiles);
 }
+
+class UpdatePatrol extends CreatePatrolEvent {
+  final String name;
+  final Patrol patrol;
+
+  const UpdatePatrol(this.name, this.patrol);
+}
+
+class DeletePatrol extends CreatePatrolEvent {
+  final Patrol patrol;
+
+  const DeletePatrol(this.patrol);
+}

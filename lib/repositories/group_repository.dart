@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/group.dart';
+import 'package:spejder_app/model/patrol.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 import 'package:collection/collection.dart';
@@ -30,6 +31,24 @@ class GroupRepository {
         .orderBy('name', descending: false)
         .snapshots()
         .map((event) => event.docs.map((e) => Group.fromJson(e)).toList());
+  }
+
+  Stream<Group> streamGroup(String groupId) {
+    return FirebaseFirestore.instance
+        .collection('groups')
+        .doc(groupId)
+        .snapshots()
+        .map((snapshot) => Group.fromJson(snapshot));
+  }
+
+  Stream<List<Patrol>> streamPatrolsForGroup(String groupId) {
+    return FirebaseFirestore.instance
+        .collection('groups')
+        .doc(groupId)
+        .collection('patrols')
+        .orderBy('name', descending: false)
+        .snapshots()
+        .map((event) => event.docs.map((e) => Patrol.fromJson(e)).toList());
   }
 
   /*Future<List<String>> getLeadersForGroup(dynamic snapshot) async {
@@ -124,6 +143,59 @@ class GroupRepository {
           .collection('users')
           .doc(member.id)
           .update({'patrol': snap.id});
+    }
+  }
+
+  Future<void> updatePatrol(Group group, Patrol patrol, List<UserProfile> selectedUserProfiles,
+      List<UserProfile> newMembers, List<UserProfile> oldMembers) async {
+    final map = {'name': patrol.name, 'members': selectedUserProfiles.map((e) => e.id).toList()};
+    await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .collection('patrols')
+        .doc(patrol.id)
+        .update(map);
+    for (var member in newMembers) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(member.id)
+          .update({'patrol': patrol.id});
+    }
+    for (var member in oldMembers) {
+      await FirebaseFirestore.instance.collection('users').doc(member.id).update({'patrol': ''});
+    }
+  }
+
+  Future<List<Patrol>> getPatrolsForGroup(Group group, List<UserProfile> groupMembers) async {
+    final patrols = <Patrol>[];
+    var snapshot = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .collection('patrols')
+        .get();
+    for (var snap in snapshot.docs) {
+      var patrol = Patrol.fromJson(snap);
+      var memberIds = snap.get('members') as List<dynamic>;
+      var members = <UserProfile>[];
+      for (var id in memberIds) {
+        final member = groupMembers.firstWhere((element) => element.id == id);
+        members.add(member);
+      }
+      patrol = patrol.copyWith(members: members);
+      patrols.add(patrol);
+    }
+    return patrols;
+  }
+
+  Future<void> deletePatrol(Group group, Patrol patrol) async {
+    await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(group.id)
+        .collection('patrols')
+        .doc(patrol.id)
+        .delete();
+    for (var member in patrol.members) {
+      await FirebaseFirestore.instance.collection('users').doc(member.id).update({'patrol': ''});
     }
   }
 }

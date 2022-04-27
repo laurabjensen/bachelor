@@ -101,17 +101,16 @@ class UserProfileRepository {
 
   Future<List<UserProfile>> getGroupUsersFromGroup(Group group) async {
     var members = <UserProfile>[];
-    final updatedGroup =
-        GetIt.instance.get<List<Group>>().firstWhereOrNull((element) => element.id == group.id);
-    if (updatedGroup != null) {
-      var allUsers = GetIt.instance.get<List<UserProfile>>();
-      for (var member in group.members) {
-        var temp = allUsers.firstWhereOrNull((element) => element.id == member);
-        if (temp != null) {
-          members.add(temp);
-        }
+    var groupMembers =
+        (await FirebaseFirestore.instance.collection('groups').doc(group.id).get()).get('members');
+    var allUsers = GetIt.instance.get<List<UserProfile>>();
+    for (var member in groupMembers) {
+      var temp = allUsers.firstWhereOrNull((element) => element.id == member);
+      if (temp != null) {
+        members.add(temp);
       }
     }
+
     return members;
   }
 
@@ -209,15 +208,13 @@ class UserProfileRepository {
 
   Future<List<UserProfile>> getMembersNotInPatrol(Group group) async {
     var members = <UserProfile>[];
-    final updatedGroup = GetIt.instance.get<GroupRepository>().getGroupFromConstant(group.id);
-    if (updatedGroup != null) {
-      var groupMembers = await getGroupUsersFromGroup(group);
-      for (var member in groupMembers) {
-        if (member.patrolId.isEmpty) {
-          members.add(member);
-        }
+    var groupMembers = await getGroupUsersFromGroup(group);
+    for (var member in groupMembers) {
+      if (member.patrolId.isEmpty) {
+        members.add(member);
       }
     }
+
     return members;
   }
 }

@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spejder_app/custom_scaffold.dart';
+import 'package:spejder_app/model/patrol.dart';
 import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
+import 'package:spejder_app/screens/components/custom_dialog.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/patrol/bloc/create_patrol_bloc.dart';
 import 'package:spejder_app/screens/patrol/components/custom_selectable_grid.dart';
-import 'package:spejder_app/screens/signup/components/rank_dropdown.dart';
-import 'package:spejder_app/validators.dart';
 
-import '../../custom_scaffold.dart';
-import '../components/navbar.dart';
+import 'package:spejder_app/validators.dart';
 
 class CreatePatrolScreen extends StatefulWidget {
   final UserProfile userProfile;
+  final Patrol? patrol;
 
-  const CreatePatrolScreen({Key? key, required this.userProfile}) : super(key: key);
+  const CreatePatrolScreen({Key? key, required this.userProfile, this.patrol}) : super(key: key);
 
   @override
   State<CreatePatrolScreen> createState() => _CreatePatrolScreenState();
@@ -28,18 +29,28 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController nameController;
   late CreatePatrolBloc createPatrolBloc;
+  late bool isEditing;
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: '');
-    createPatrolBloc = CreatePatrolBloc(group: widget.userProfile.group);
+    createPatrolBloc = CreatePatrolBloc(group: widget.userProfile.group, patrol: widget.patrol);
+    isEditing = widget.patrol != null;
+    nameController = TextEditingController(text: isEditing ? widget.patrol?.name : '');
   }
 
   void createPatrolPressed() {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
-      createPatrolBloc
-          .add(CreatePatrol(nameController.text, createPatrolBloc.state.selectedUserProfiles));
+      isEditing
+          ? createPatrolBloc.add(UpdatePatrol(nameController.text, widget.patrol!))
+          : createPatrolBloc
+              .add(CreatePatrol(nameController.text, createPatrolBloc.state.selectedUserProfiles));
+    }
+  }
+
+  void deletePatrolPressed() async {
+    if (await customDialog(context, 'Sikker på, at du vil slette patruljen?')) {
+      createPatrolBloc.add(DeletePatrol(widget.patrol!));
     }
   }
 
@@ -49,14 +60,21 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
 
     return CustomScaffold(
       appBar: CustomAppBar.basicAppBarWithBackButton(
-        title: 'Opret ny patrulje',
+        title: isEditing ? 'Rediger patrulje' : 'Opret ny patrulje',
         onBack: () => Navigator.pop(context),
+        actions: isEditing
+            ? [
+                IconButton(
+                    icon: Icon(Icons.delete_outline, color: Colors.white),
+                    onPressed: () => deletePatrolPressed()),
+              ]
+            : [],
       ),
       body: BlocConsumer(
           bloc: createPatrolBloc,
           listener: (context, CreatePatrolState state) {
             if (state.createPatrolStatus == CreatePatrolStateStatus.success) {
-              EasyLoading.showSuccess('Patrulje oprettet');
+              EasyLoading.showSuccess(state.createPatrolStatusMessage);
               Navigator.pop(context);
             } else if (state.createPatrolStatus == CreatePatrolStateStatus.loading) {
               EasyLoading.show();
@@ -79,7 +97,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(25, 20, 0, 4),
                                 child: Text(
-                                  'Tilføj patrulje navn',
+                                  isEditing ? 'Patrulje navn' : 'Tilføj patrulje navn',
                                   style: theme.primaryTextTheme.headline1!
                                       .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
 
@@ -105,7 +123,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(25, 10, 0, 4),
                                 child: Text(
-                                  'Vælg patrulje medlemmer',
+                                  isEditing ? 'Patrulje medlemmer' : 'Vælg patrulje medlemmer',
                                   style: theme.primaryTextTheme.headline1!
                                       .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
 
@@ -130,7 +148,9 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                                             style: ElevatedButton.styleFrom(
                                                 primary: Color(0xff377E62)),
                                             child: Text(
-                                              'Opret patrulje med ${state.selectedUserProfiles.length} spejdere', // ${selectedList.length}
+                                              isEditing
+                                                  ? 'Opdater patrulje med ${state.selectedUserProfiles.length} spejdere'
+                                                  : 'Opret patrulje med ${state.selectedUserProfiles.length} spejdere', // ${selectedList.length}
                                               style: theme.primaryTextTheme.headline1,
                                               textAlign: TextAlign.center,
                                             ),
@@ -151,9 +171,6 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                 ],
               ),
             );
-
-            /*Skal sættes på ellers brokker Ranks dropdown 
-               sig grundet manglende elementer der ikke når at blive loadet*/
           }),
     );
   }

@@ -27,7 +27,8 @@ class CustomAppBar {
         ));
   }
 
-  static basicAppBarWithBackButton({required String title, Function()? onBack}) {
+  static basicAppBarWithBackButton(
+      {required String title, Function()? onBack, List<Widget>? actions}) {
     return PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
@@ -39,6 +40,7 @@ class CustomAppBar {
                 Icons.arrow_back_ios,
                 color: Colors.white,
               )),
+          actions: actions,
         ));
   }
 
@@ -60,7 +62,7 @@ class CustomAppBar {
                       icon: Icon(Icons.mode_edit_outline, color: Colors.white)),
                   IconButton(
                       onPressed: onLogoutPressed,
-                      icon: (Icon(IconData(0xe3b3, fontFamily: 'MaterialIcons'),
+                      icon: (Icon(const IconData(0xe3b3, fontFamily: 'MaterialIcons'),
                           color: Colors.white))),
                 ]
               : [],

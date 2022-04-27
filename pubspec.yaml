@@ -45,7 +45,7 @@ dependencies:
   path_provider: ^2.0.1
   google_fonts: ^2.1.0
   image_picker: ^0.8.4
-  image_cropper: ^1.4.1
+  image_cropper: ^1.5.0
   dropdown_formfield: ^0.1.4
   expandable: ^5.0.1
   flutter_localizations:
