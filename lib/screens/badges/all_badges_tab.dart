@@ -25,8 +25,7 @@ class BadgesTab extends StatelessWidget {
     Widget getChallengeBadges() {
       if (challengeBadges.isNotEmpty) {
         return ListView(
-          physics:
-              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
@@ -37,21 +36,17 @@ class BadgesTab extends StatelessWidget {
               ),
             ),
             GridView.count(
-                physics:
-                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(challengeBadges.length, (index) {
                   return ProfileBadgeWidget(
-                    badge: challengeBadges is List<Badge>
-                        ? challengeBadges[index] as Badge
+                    badge: challengeBadges is List<Badge> ? challengeBadges[index] as Badge : null,
+                    badgeRegistration: challengeBadges is List<BadgeRegistration>
+                        ? challengeBadges[index] as BadgeRegistration
                         : null,
-                    badgeRegistration:
-                        challengeBadges is List<BadgeRegistration>
-                            ? challengeBadges[index] as BadgeRegistration
-                            : null,
                     userProfile: userProfile,
                   );
                 })),
@@ -65,10 +60,7 @@ class BadgesTab extends StatelessWidget {
           heightFactor: 2,
           child: Text(
             'Intet at vise',
-            style: Theme.of(context)
-                .primaryTextTheme
-                .headline2!
-                .copyWith(fontSize: 16),
+            style: Theme.of(context).primaryTextTheme.headline2!.copyWith(fontSize: 16),
           ),
         ),
       );
@@ -77,8 +69,7 @@ class BadgesTab extends StatelessWidget {
     Widget getEngagementBadges() {
       if (engagementBadges.isNotEmpty) {
         return ListView(
-          physics:
-              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
@@ -89,21 +80,18 @@ class BadgesTab extends StatelessWidget {
               ),
             ),
             GridView.count(
-                physics:
-                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(engagementBadges.length, (index) {
                   return ProfileBadgeWidget(
-                    badge: engagementBadges is List<Badge>
-                        ? engagementBadges[index] as Badge
+                    badge:
+                        engagementBadges is List<Badge> ? engagementBadges[index] as Badge : null,
+                    badgeRegistration: engagementBadges is List<BadgeRegistration>
+                        ? engagementBadges[index] as BadgeRegistration
                         : null,
-                    badgeRegistration:
-                        engagementBadges is List<BadgeRegistration>
-                            ? engagementBadges[index] as BadgeRegistration
-                            : null,
                     userProfile: userProfile,
                   );
                 }))
@@ -116,9 +104,8 @@ class BadgesTab extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         // If badges are not yet loaded show an animation to the user
-        child: status == BadgesStateStatus.loading &&
-                challengeBadges.isEmpty &&
-                engagementBadges.isEmpty
+        child: status == BadgesStateStatus.loading ||
+                (challengeBadges.isEmpty && engagementBadges.isEmpty)
             ? Center(child: CircularProgressIndicator())
             : ListView(
                 children: [

@@ -7,6 +7,10 @@ abstract class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends AuthenticationEvent {
+  const StreamStarted();
+}
+
 class AppStarted extends AuthenticationEvent {
   const AppStarted();
 }

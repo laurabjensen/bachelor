@@ -130,6 +130,30 @@ class GroupRepository {
     return group.copyWith(members: members);
   }
 
+  Future<void> removeUserFromPatrol(Group group, String patrolId, UserProfile userProfile) async {
+    if (patrolId.isNotEmpty) {
+      final path = FirebaseFirestore.instance
+          .collection('groups')
+          .doc(group.id)
+          .collection('patrols')
+          .doc(patrolId);
+      var snap = await path.get();
+      if (snap.exists) {
+        final members = snap.get('members');
+        members.remove(userProfile.id);
+        if (members.isEmpty) {
+          await path.delete();
+        } else {
+          await path.update({'members': members});
+        }
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userProfile.id)
+            .update({'patrol': ''});
+      }
+    }
+  }
+
   Future<void> createPatrol(
       Group group, String name, List<UserProfile> selectedUserProfiles) async {
     final map = {'name': name, 'members': selectedUserProfiles.map((e) => e.id).toList()};
@@ -178,7 +202,7 @@ class GroupRepository {
       var memberIds = snap.get('members') as List<dynamic>;
       var members = <UserProfile>[];
       for (var id in memberIds) {
-        final member = groupMembers.firstWhere((element) => element.id == id);
+        final member = await GetIt.instance.get<UserProfileRepository>().getUserprofileFromId(id);
         members.add(member);
       }
       patrol = patrol.copyWith(members: members);

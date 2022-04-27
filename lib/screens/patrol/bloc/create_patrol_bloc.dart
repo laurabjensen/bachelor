@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -14,13 +15,21 @@ part 'create_patrol_event.dart';
 part 'create_patrol_state.dart';
 
 class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
-  final Group group;
+  UserProfile userProfile;
+  //final Group group;
   final Patrol? patrol;
   final UserProfileRepository userProfileRepository = GetIt.instance.get<UserProfileRepository>();
   final GroupRepository groupRepository = GetIt.instance.get<GroupRepository>();
 
-  CreatePatrolBloc({required this.group, this.patrol}) : super(CreatePatrolState()) {
-    //on<CreatePatrolEvent>((event, emit));
+  CreatePatrolBloc({required this.userProfile, required this.patrol})
+      : super(CreatePatrolState(userProfile: userProfile)) {
+    on<StreamStarted>((event, emit) async {
+      await emit.onEach<UserProfile>(userProfileRepository.getUser(userProfile.id),
+          onData: (updatedUserProfile) {
+        userProfile = updatedUserProfile;
+        add(LoadUserProfiles());
+      });
+    }, transformer: restartable());
 
     on<LoadUserProfiles>((event, emit) => _loadUserProfiles(emit));
     on<ToggleSelectedUserProfile>(
@@ -29,16 +38,19 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
     on<UpdatePatrol>((event, emit) => _updatePatrol(event.name, event.patrol, emit));
     on<DeletePatrol>((event, emit) => _deletePatrol(event.patrol, emit));
 
-    add(LoadUserProfiles());
+    add(StreamStarted());
   }
 
   //Henter userprofile for brugeren der er logget ind
 
   Future<void> _loadUserProfiles(Emitter<CreatePatrolState> emit) async {
-    final userProfiles = await userProfileRepository.getMembersNotInPatrol(group);
+    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    final userProfiles = await userProfileRepository.getMembersNotInPatrol(userProfile.group);
     if (patrol != null) {
       return emit(state.copyWith(
-          userProfiles: patrol!.members + userProfiles, selectedUserProfiles: patrol!.members));
+          userProfile: userProfile,
+          userProfiles: patrol!.members + userProfiles,
+          selectedUserProfiles: patrol!.members));
     }
     emit(state.copyWith(userProfiles: userProfiles));
   }
@@ -57,7 +69,8 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
   Future<void> _createPatrol(
       String name, List<UserProfile> selectedUserProfiles, Emitter<CreatePatrolState> emit) async {
     emit(state.copyWith(createPatrolStatus: CreatePatrolStateStatus.loading));
-    final patrol = await groupRepository.createPatrol(group, name, selectedUserProfiles);
+    final patrol =
+        await groupRepository.createPatrol(userProfile.group, name, selectedUserProfiles);
     emit(state.copyWith(
         createPatrolStatus: CreatePatrolStateStatus.success,
         createPatrolStatusMessage: 'Patrulje oprettet'));
@@ -69,8 +82,8 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
         state.selectedUserProfiles.where((element) => !patrol.members.contains(element)).toList();
     final oldMembers =
         patrol.members.where((element) => !state.selectedUserProfiles.contains(element)).toList();
-    await groupRepository.updatePatrol(
-        group, patrol.copyWith(name: name), state.selectedUserProfiles, newMembers, oldMembers);
+    await groupRepository.updatePatrol(userProfile.group, patrol.copyWith(name: name),
+        state.selectedUserProfiles, newMembers, oldMembers);
     emit(state.copyWith(
         createPatrolStatus: CreatePatrolStateStatus.success,
         createPatrolStatusMessage: 'Patrulje opdateret'));
@@ -78,7 +91,7 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
 
   Future<void> _deletePatrol(Patrol patrol, Emitter<CreatePatrolState> emit) async {
     emit(state.copyWith(createPatrolStatus: CreatePatrolStateStatus.loading));
-    await groupRepository.deletePatrol(group, patrol);
+    await groupRepository.deletePatrol(userProfile.group, patrol);
     emit(state.copyWith(
         createPatrolStatus: CreatePatrolStateStatus.success,
         createPatrolStatusMessage: 'Patrulje slettet'));

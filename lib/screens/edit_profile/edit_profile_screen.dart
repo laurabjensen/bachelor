@@ -23,8 +23,7 @@ class EditProfileScreen extends StatefulWidget {
   final UserProfile userprofile;
   final EditprofileBloc editprofileBloc;
 
-  const EditProfileScreen(
-      {Key? key, required this.userprofile, required this.editprofileBloc})
+  const EditProfileScreen({Key? key, required this.userprofile, required this.editprofileBloc})
       : super(key: key);
 
   @override
@@ -44,12 +43,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.userprofile.name);
-    ageController =
-        TextEditingController(text: widget.userprofile.age.toString());
-    seniorityController =
-        TextEditingController(text: widget.userprofile.seniority.toString());
-    descriptionController =
-        TextEditingController(text: widget.userprofile.description);
+    ageController = TextEditingController(text: widget.userprofile.age.toString());
+    seniorityController = TextEditingController(text: widget.userprofile.seniority.toString());
+    descriptionController = TextEditingController(text: widget.userprofile.description);
   }
 
   void onUpdateButtonPress() {
@@ -83,8 +79,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           listener: (context, EditprofileState state) {
             if (state.editprofileStatus == EditprofileStateStatus.loading) {
               EasyLoading.show();
-            } else if (state.editprofileStatus ==
-                EditprofileStateStatus.success) {
+            } else if (state.editprofileStatus == EditprofileStateStatus.success) {
               EasyLoading.showSuccess('Bruger opdateret');
               Navigator.pop(context, state.userprofile);
             }
@@ -101,8 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
                             height: 750,
                             decoration: BoxDecoration(
-                                color: Color(0xffEEF2F3),
-                                borderRadius: BorderRadius.circular(15)),
+                                color: Color(0xffEEF2F3), borderRadius: BorderRadius.circular(15)),
                             child: Form(
                               key: formKey,
                               child: Column(
@@ -126,8 +120,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     labelText: 'Alder',
                                     value: null,
                                     obscureText: false,
-                                    validator:
-                                        Validators.validateIsOnlyIntAndNotNull,
+                                    validator: Validators.validateIsOnlyIntAndNotNull,
                                     onChanged: (age) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
@@ -138,8 +131,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     labelText: 'Antal årsstjerner',
                                     value: null,
                                     obscureText: false,
-                                    validator: Validators
-                                        .validateIsOnlyIntAndNotNullAndOnlyMax2Chars,
+                                    validator:
+                                        Validators.validateIsOnlyIntAndNotNullAndOnlyMax2Chars,
                                     onChanged: (senority) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
@@ -148,43 +141,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   AboutMeWidget(
                                       controller: descriptionController,
                                       onChanged: (description) => null,
-                                      validator: Validators.validateNotNull,
+                                      validator: null,
                                       labelText: 'Om mig', // TODO: STYLE
-                                      hintText:
-                                          'Skriv lidt om dit spejderliv' // TODO: STYLE,
+                                      hintText: 'Skriv lidt om dit spejderliv' // TODO: STYLE,
                                       ),
                                   GroupDropDown(
                                     groups: state.groups,
-                                    selectedGroup:
-                                        state.group ?? widget.userprofile.group,
-                                    onChanged: (group) => widget.editprofileBloc
-                                        .add(GroupChanged(group)),
+                                    selectedGroup: state.group ?? widget.userprofile.group,
+                                    onChanged: (group) =>
+                                        widget.editprofileBloc.add(GroupChanged(group)),
                                   ),
                                   RankDropdown(
                                       ranks: state.ranks,
-                                      rank:
-                                          state.rank ?? widget.userprofile.rank,
-                                      onChanged: (rank) => widget
-                                          .editprofileBloc
-                                          .add(RankChanged(rank))),
+                                      rank: state.rank ?? widget.userprofile.rank,
+                                      onChanged: (rank) =>
+                                          widget.editprofileBloc.add(RankChanged(rank))),
                                   Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(0, 30, 0, 10),
+                                      padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
                                       child: SizedBox(
                                           width: 169,
                                           height: 51,
                                           child: ElevatedButton(
-                                            onPressed: () =>
-                                                onUpdateButtonPress(),
+                                            onPressed: () => onUpdateButtonPress(),
                                             style: ElevatedButton.styleFrom(
                                                 primary: Color(0xff377E62)),
                                             child: Text('Gem ændringer',
-                                                style: theme.primaryTextTheme
-                                                    .headline1),
+                                                style: theme.primaryTextTheme.headline1),
                                           ))),
                                   TextButton(
-                                      onPressed: () => Navigator.pop(
-                                          context, state.userprofile),
+                                      onPressed: () => Navigator.pop(context, state.userprofile),
                                       child: Text(
                                         'Fortryd',
                                         style: theme.primaryTextTheme.headline1!
@@ -195,20 +180,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             )),
                         Positioned(
                           top: 0,
-                          left: (MediaQuery.of(context).size.width / 2) -
-                              (160 / 2),
+                          left: (MediaQuery.of(context).size.width / 2) - (160 / 2),
                           child: UserImageWidget(
                               imageFile: state.imageFile,
                               imageUrl: widget.userprofile.imageUrl,
                               onPressed: () => imagePickerModal<File>(
                                           context: context,
-                                          imageSelected:
-                                              state.imageFile != null ||
-                                                  widget.userprofile.imageUrl
-                                                      .isNotEmpty)
+                                          imageSelected: state.imageFile != null ||
+                                              widget.userprofile.imageUrl.isNotEmpty)
                                       .then((value) {
-                                    widget.editprofileBloc
-                                        .add(NewImageFile(value));
+                                    widget.editprofileBloc.add(NewImageFile(value));
                                   })),
                         ),
                       ],

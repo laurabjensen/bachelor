@@ -55,18 +55,24 @@ class _FeedScreenState extends State<FeedScreen> {
               onRefresh: () async => feedBloc.add(LoadInitialFeed()),
               child: Builder(builder: (context) {
                 if (state.posts.isNotEmpty) {
-                  return ListView.builder(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    itemCount: state.posts.length,
-                    itemBuilder: (context, index) {
-                      return FeedWidget(
-                        userProfile: state.posts[index].badgeRegistration.userProfile!,
-                        post: state.posts[index],
-                        currentUser: currentUser,
-                        onTap: (isLiked) => feedBloc.add(LikeToggled(state.posts[index], isLiked)),
-                      );
-                    },
+                  return ListView(
+                    children: [
+                      ListView.builder(
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        itemCount: state.posts.length,
+                        itemBuilder: (context, index) {
+                          return FeedWidget(
+                            userProfile: state.posts[index].badgeRegistration.userProfile!,
+                            post: state.posts[index],
+                            currentUser: currentUser,
+                            onTap: (isLiked) =>
+                                feedBloc.add(LikeToggled(state.posts[index], isLiked)),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 25),
+                    ],
                   );
                 } else if (state.status == FeedStateLoadingStatus.loading) {
                   return Column(

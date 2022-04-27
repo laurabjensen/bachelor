@@ -7,6 +7,10 @@ abstract class CreatePatrolEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StreamStarted extends CreatePatrolEvent {
+  const StreamStarted();
+}
+
 class LoadUserProfiles extends CreatePatrolEvent {
   const LoadUserProfiles();
 }

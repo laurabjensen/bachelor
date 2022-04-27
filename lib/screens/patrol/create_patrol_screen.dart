@@ -34,7 +34,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
   @override
   void initState() {
     super.initState();
-    createPatrolBloc = CreatePatrolBloc(group: widget.userProfile.group, patrol: widget.patrol);
+    createPatrolBloc = CreatePatrolBloc(userProfile: widget.userProfile, patrol: widget.patrol);
     isEditing = widget.patrol != null;
     nameController = TextEditingController(text: isEditing ? widget.patrol?.name : '');
   }
@@ -94,7 +94,7 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
               child: Column(
                 children: [
                   Text(
-                    widget.userProfile.group.name,
+                    state.userProfile.group.name,
                     style: theme.primaryTextTheme.headline1!.copyWith(fontSize: 24),
                   ),
                   state.userProfiles.isNotEmpty

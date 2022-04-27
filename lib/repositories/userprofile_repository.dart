@@ -23,7 +23,7 @@ class UserProfileRepository {
     );
   }
 
-  Stream<UserProfile> getUser(String userId) {
+  Stream<UserProfile> getUser(String? userId) {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
@@ -127,17 +127,19 @@ class UserProfileRepository {
     var updatedSender = getUserFromConstant(sender.id);
     var updatedReceiver = getUserFromConstant(receiver.id);
     if (updatedSender != null && updatedReceiver != null) {
-      var sendList = updatedSender.friendRequestsSend + [updatedReceiver.id];
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(updatedSender.id)
-          .update({'friendRequestsSend': sendList});
+      if (!updatedSender.friendRequestsSend.contains(updatedReceiver.id)) {
+        var sendList = updatedSender.friendRequestsSend + [updatedReceiver.id];
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(updatedSender.id)
+            .update({'friendRequestsSend': sendList});
 
-      var receivedList = updatedReceiver.friendRequestsReceived + [updatedSender.id];
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(updatedReceiver.id)
-          .update({'friendRequestsReceived': receivedList});
+        var receivedList = updatedReceiver.friendRequestsReceived + [updatedSender.id];
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(updatedReceiver.id)
+            .update({'friendRequestsReceived': receivedList});
+      }
     }
   }
 
@@ -208,10 +210,14 @@ class UserProfileRepository {
 
   Future<List<UserProfile>> getMembersNotInPatrol(Group group) async {
     var members = <UserProfile>[];
-    var groupMembers = await getGroupUsersFromGroup(group);
+    var groupMembers =
+        (await FirebaseFirestore.instance.collection('groups').doc(group.id).get()).get('members');
     for (var member in groupMembers) {
-      if (member.patrolId.isEmpty) {
-        members.add(member);
+      var hasNoPatrol = ((await FirebaseFirestore.instance.collection('users').doc(member).get())
+              .get('patrol') as String)
+          .isEmpty;
+      if (hasNoPatrol) {
+        members.add(getUserFromConstant(member as String)!);
       }
     }
 

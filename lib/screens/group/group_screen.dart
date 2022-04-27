@@ -33,21 +33,26 @@ class _GroupScreenState extends State<GroupScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CustomScaffold(
-      appBar: CustomAppBar.basicAppBar(
-        title: userProfile.group.name,
-        showBackButton: false,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              BlocBuilder(
-                bloc: groupBloc,
-                builder: (context, GroupState state) {
-                  if (state.loadStatus == GroupLoadStatus.loaded) {
-                    return Column(
+    return BlocConsumer(
+        bloc: groupBloc,
+        listener: (context, GroupState state) {
+          if (state.loadStatus == GroupLoadStatus.loaded) {
+            if (userProfile != state.userProfile) {
+              userProfile = state.userProfile;
+            }
+          }
+        },
+        builder: (context, GroupState state) {
+          if (state.loadStatus == GroupLoadStatus.loaded) {
+            return CustomScaffold(
+                appBar: CustomAppBar.basicAppBar(
+                  title: userProfile.group.name,
+                  showBackButton: false,
+                ),
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Column(
                       children: [
                         state.userProfile.rank.title == 'Leder'
                             ? CustomTabCard(
@@ -109,21 +114,24 @@ class _GroupScreenState extends State<GroupScreen> {
                           ),
                         ),
                       ],
-                    );
-                  }
-                  // Used to make time to load amount of user requests
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: CircularProgressIndicator(),
+
+                      // Used to make time to load amount of user requests
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  ),
+                ));
+          } else {
+            return CustomScaffold(
+                appBar: CustomAppBar.basicAppBar(
+                  title: 'Gruppe',
+                  showBackButton: false,
+                ),
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                ));
+          }
+        });
   }
 }

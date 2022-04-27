@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/authentication_repository.dart';
 import 'package:spejder_app/repositories/repository.dart';
@@ -17,6 +19,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   AuthenticationBloc(this.authenticationRepository, this.userProfileRepository)
       : super(AuthenticationState()) {
+    on<StreamStarted>((event, emit) async {
+      await emit
+          .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(state.user?.uid),
+              onData: (updatedUser) {
+        add(UserUpdatedAuthentication(updatedUser));
+      });
+    }, transformer: restartable());
     on<AppStarted>((event, emit) => _appStarted(emit));
     on<LoggedIn>((event, emit) => _loggedIn(emit));
     on<LoggedOut>((event, emit) => _loggedOut(emit));
@@ -35,6 +44,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         final userProfile = await userProfileRepository.getUserprofileFromId(user!.uid);
         emit(state.copyWith(
             status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
+        add(StreamStarted());
       } else {
         emit(AuthenticationState());
       }
@@ -56,6 +66,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _userUpdated(UserProfile userProfile, Emitter<AuthenticationState> emit) async {
+    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
     emit(state.copyWith(userProfile: userProfile));
   }
 }

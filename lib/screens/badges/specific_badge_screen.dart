@@ -61,8 +61,6 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
           registration.getStatus() == BadgeRegistrationStatus.accepted) {
         return Container();
       }
-    } else if (widget.userProfile.rank.level < badgeSpecific.value.rank.level) {
-      return Container();
     }
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),

@@ -4,16 +4,15 @@ class Rank {
   final String id;
   final String title;
   final String imageUrl;
-  final int level;
 
-  const Rank({required this.id, required this.title, required this.imageUrl, required this.level});
+  const Rank({required this.id, required this.title, required this.imageUrl});
 
   Rank.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
-            id: json.id,
-            title: json.get('title'),
-            imageUrl: json.get('imageUrl'),
-            level: json.get('level'));
+          id: json.id,
+          title: json.get('title'),
+          imageUrl: json.get('imageUrl'),
+        );
 
-  static const empty = Rank(id: '', title: '', imageUrl: '', level: 0);
+  static const empty = Rank(id: '', title: '', imageUrl: '');
 }

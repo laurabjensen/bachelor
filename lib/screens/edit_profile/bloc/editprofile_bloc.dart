@@ -87,6 +87,7 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
   Future<Group> updateGroupMembersLists(UserProfile old, UserProfile updated) async {
     Group group = updated.group;
     if (old.group.id != updated.group.id) {
+      await groupRepository.removeUserFromPatrol(old.group, old.patrolId, old);
       group = await groupRepository.removeMemberFromGroup(old.group, old.id);
       group = await groupRepository.addMemberToGroup(updated.group, updated.id);
     }
@@ -100,9 +101,13 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
       path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
       debugPrint(path);
     }
+
     var updatedUserprofile =
         userprofile.copyWith(group: state.group, rank: state.rank, imageUrl: path);
     await updateLeaderLists(userprofile, updatedUserprofile);
+    if (userprofile.group.id != updatedUserprofile.group.id) {
+      updatedUserprofile = updatedUserprofile.copyWith(patrolId: '');
+    }
     await updateGroupMembersLists(userprofile, updatedUserprofile);
     updatedUserprofile = updatedUserprofile.copyWith(
         group: groupRepository.getGroupFromConstant(updatedUserprofile.group.id));
