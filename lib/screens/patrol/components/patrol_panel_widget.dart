@@ -20,6 +20,14 @@ class PatrolPanelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    Widget memberNumberWidget() {
+      return Text(
+        members.length == 1 ? '${members.length} medlem' : '${members.length} medlemmer',
+        style: theme.textTheme.bodyText1,
+      );
+    }
+
     return Padding(
         padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
         child: SizedBox(
@@ -47,14 +55,19 @@ class PatrolPanelWidget extends StatelessWidget {
                                   style: theme.primaryTextTheme.headline3!.copyWith(fontSize: 20)),
                             ),
                             controller.expanded && isLeader
-                                ? IconButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: onEditPressed,
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.grey,
-                                    ))
-                                : Container()
+                                ? Row(
+                                    children: [
+                                      memberNumberWidget(),
+                                      IconButton(
+                                          padding: EdgeInsets.zero,
+                                          onPressed: onEditPressed,
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.grey,
+                                          )),
+                                    ],
+                                  )
+                                : memberNumberWidget()
                           ])),
                     );
                   },
