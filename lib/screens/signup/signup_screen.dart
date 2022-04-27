@@ -137,6 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         rank: state.rank,
                                         onChanged: (rank) =>
                                             signupBloc.add(RankChanged(rank))),
+                                    //Terms and conditions
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           8.0, 20, 8, 8),
@@ -145,6 +146,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                           children: [
                                             Material(
                                               child: Checkbox(
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith((states) =>
+                                                        states.contains(
+                                                                MaterialState
+                                                                    .selected)
+                                                            ? Color(0xff037B55)
+                                                            : Colors.grey),
+                                                shape: CircleBorder(),
                                                 value: agree,
                                                 onChanged: (value) {
                                                   setState(() {
