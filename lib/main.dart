@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:spejder_app/app.dart';
@@ -19,6 +20,8 @@ Future<void> main() async {
       EquatableConfig.stringify = true;
 
       WidgetsFlutterBinding.ensureInitialized();
+      SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
       await Firebase.initializeApp();
 
