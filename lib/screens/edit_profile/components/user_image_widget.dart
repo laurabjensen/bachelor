@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class UserImageWidget extends StatelessWidget {
   final File? imageFile;
@@ -45,19 +46,33 @@ class UserImageWidget extends StatelessWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )
-                  : Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffFED105),
-                          borderRadius: BorderRadius.circular(size)),
-                      width: 170,
-                      height: 170,
-                      child: const Icon(Icons.camera_alt, color: Color(0xff292a3e))),
+                  : Stack(
+                      children: [
+                        Container(
+                            height: size,
+                            width: size,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(size),
+                              color: Color(0xffFED105),
+                            )),
+                        Positioned(
+                            left: 3.5,
+                            top: 5,
+                            child: SvgPicture.asset(
+                              'assets/tørklæde_rød.svg',
+                              height: size - 10,
+                              width: size - 10,
+                              fit: BoxFit.scaleDown,
+                            )),
+                      ],
+                    ),
         ),
         TextButton(
             onPressed: onPressed,
             child: Text(
               'Tilføj profilbillede',
-              style: theme.primaryTextTheme.headline4!.copyWith(color: Color(0xff007a54)),
+              style: theme.primaryTextTheme.headline4!
+                  .copyWith(color: Color(0xff007a54)),
             ))
       ]),
     );

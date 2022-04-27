@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
+import 'package:spejder_app/screens/signup/terms_screen.dart';
 import 'package:spejder_app/validators.dart';
 
 import 'bloc/signup_bloc.dart';
@@ -18,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   late ThemeData theme;
   late SignupBloc signupBloc;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool agree = false;
 
   @override
   void initState() {
@@ -30,6 +33,34 @@ class _SignupScreenState extends State<SignupScreen> {
     if (currentFormState!.validate()) {
       signupBloc.add(SignupPressed());
     }
+  }
+
+  // This function is triggered when the button is clicked
+  void _doSomething() {
+    final currentFormState = formKey.currentState;
+    if (currentFormState!.validate()) {
+      signupBloc.add(SignupPressed());
+    }
+  }
+
+  Future _openAgreeDialog(context) async {
+    String? result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) {
+          return TermsAndConditionsScreen();
+        },
+        //true to display with a dismiss button rather than a return navigation arrow
+        fullscreenDialog: true));
+    if (result != null) {
+      signupBloc.add(ToggleAcceptedTerms(true));
+      //agreed(result, context);
+    } else {
+      signupBloc.add(ToggleAcceptedTerms(false));
+      print('you could do another action here if they cancel');
+    }
+  }
+
+  agreed(String result, context) {
+    print(result); //prints 'User Agreed'
   }
 
   @override
@@ -55,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   return Center(
                       child: Container(
                           margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          height: 700,
+                          height: 750,
                           decoration: BoxDecoration(
                               color: Color(0xffEEF2F3),
                               borderRadius: BorderRadius.circular(15)),
@@ -83,7 +114,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                           ? ''
                                           : state.age.toString(),
                                       obscureText: false,
-                                      validator: Validators.validateNotNull,
+                                      validator: Validators
+                                          .validateIsOnlyIntAndNotNull,
                                       onChanged: (age) => signupBloc
                                           .add(AgeChanged(int.parse(age!))),
                                       keyboardType: TextInputType.number,
@@ -128,20 +160,79 @@ class _SignupScreenState extends State<SignupScreen> {
                                         rank: state.rank,
                                         onChanged: (rank) =>
                                             signupBloc.add(RankChanged(rank))),
+                                    //Terms and conditions
                                     Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 15),
-                                        child: SizedBox(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8.0, 20, 8, 8),
+                                      child: Column(children: [
+                                        Row(
+                                          children: [
+                                            Material(
+                                              child: Checkbox(
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith((states) =>
+                                                        states.contains(
+                                                                MaterialState
+                                                                    .selected)
+                                                            ? Color(0xff037B55)
+                                                            : Colors.black),
+                                                shape: CircleBorder(),
+                                                value: state.acceptedTerms,
+                                                onChanged: (value) => signupBloc
+                                                    .add(ToggleAcceptedTerms(
+                                                        value!)),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Text.rich(
+                                                TextSpan(
+                                                    text:
+                                                        'Jeg har læst og accepterer ',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text:
+                                                              'Regler og Vilkår',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.black,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                          ),
+                                                          recognizer:
+                                                              TapGestureRecognizer()
+                                                                ..onTap = () {
+                                                                  // code to open / launch terms of conditions link here
+                                                                  _openAgreeDialog(
+                                                                      context);
+                                                                }),
+                                                    ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 10, 0, 0),
+                                          child: SizedBox(
                                             width: 169,
                                             height: 51,
                                             child: ElevatedButton(
-                                              onPressed: () => onButtonPress(),
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Color(0xff377E62)),
-                                              child: Text('Opret bruger',
-                                                  style: theme.primaryTextTheme
-                                                      .headline1),
-                                            ))),
+                                                onPressed: state.acceptedTerms
+                                                    ? _doSomething
+                                                    : null,
+                                                child: Text('Opret Bruger',
+                                                    style: theme
+                                                        .primaryTextTheme
+                                                        .headline1)),
+                                          ),
+                                        )
+                                      ]),
+                                    ),
+
                                     TextButton(
                                         onPressed: () => Navigator.pop(context),
                                         child: Text(
@@ -149,7 +240,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           style: theme
                                               .primaryTextTheme.headline1!
                                               .copyWith(color: Colors.black),
-                                        ))
+                                        )),
                                   ],
                                 ),
                               ))));

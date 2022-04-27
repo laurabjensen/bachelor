@@ -14,6 +14,7 @@ class SignupState extends Equatable {
   final Rank rank;
   final List<Group> groups;
   final List<Rank> ranks;
+  final bool acceptedTerms;
   final String failureMessage;
 
   const SignupState(
@@ -27,6 +28,7 @@ class SignupState extends Equatable {
       this.rank = Rank.empty,
       this.groups = const <Group>[],
       this.ranks = const <Rank>[],
+      this.acceptedTerms = false,
       this.failureMessage = ''});
 
   SignupState copyWith(
@@ -40,6 +42,7 @@ class SignupState extends Equatable {
       Rank? rank,
       List<Group>? groups,
       List<Rank>? ranks,
+      bool? acceptedTerms,
       String? failureMessage}) {
     return SignupState(
         signupStatus: signupStatus ?? this.signupStatus,
@@ -52,6 +55,7 @@ class SignupState extends Equatable {
         rank: rank ?? this.rank,
         groups: groups ?? this.groups,
         ranks: ranks ?? this.ranks,
+        acceptedTerms: acceptedTerms ?? this.acceptedTerms,
         failureMessage: failureMessage ?? this.failureMessage);
   }
 
@@ -66,6 +70,7 @@ class SignupState extends Equatable {
         groups,
         ranks,
         password,
+        acceptedTerms,
         passwordConfirm
       ];
 }
