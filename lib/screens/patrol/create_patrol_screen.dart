@@ -54,6 +54,14 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
     }
   }
 
+  String spejderOrspejdere() {
+    if (createPatrolBloc.state.selectedUserProfiles.length == 1) {
+      return 'spejder';
+    } else {
+      return 'spejdere';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -149,8 +157,8 @@ class _CreatePatrolScreenState extends State<CreatePatrolScreen> {
                                                 primary: Color(0xff377E62)),
                                             child: Text(
                                               isEditing
-                                                  ? 'Opdater patrulje med ${state.selectedUserProfiles.length} spejdere'
-                                                  : 'Opret patrulje med ${state.selectedUserProfiles.length} spejdere', // ${selectedList.length}
+                                                  ? 'Opdater patrulje med ${state.selectedUserProfiles.length} ${spejderOrspejdere()}'
+                                                  : 'Opret patrulje med ${state.selectedUserProfiles.length} ${spejderOrspejdere()}', // ${selectedList.length}
                                               style: theme.primaryTextTheme.headline1,
                                               textAlign: TextAlign.center,
                                             ),

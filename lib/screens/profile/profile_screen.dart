@@ -23,7 +23,8 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   late UserProfile currentUser;
   late ProfileBloc profileBloc;
   late TabController controller;
@@ -32,21 +33,23 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    currentUser = BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
+    currentUser =
+        BlocProvider.of<AuthenticationBloc>(context).state.userProfile!;
     profileBloc = ProfileBloc(userProfile: widget.userProfile);
     controller = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   void logout() async {
-    if (await customDialog(context, 'Er du sikker på, at du ønsker at logge ud?')) {
+    if (await customDialog(
+        context, 'Er du sikker på, at du ønsker at logge ud?')) {
       Navigator.pop(context);
       BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
     }
   }
 
   void deleteFriend(ProfileBloc bloc) async {
-    if (await customDialog(
-        context, 'Er du sikker på at du vil fjerne ${bloc.state.userProfile.name} som veninde?')) {
+    if (await customDialog(context,
+        'Er du sikker på at du vil fjerne ${bloc.state.userProfile.name} som veninde?')) {
       bloc.add(DeleteFriendPressed(currentUser));
     }
   }
@@ -65,7 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     screen: EditProfileScreen(
                         userprofile: state.userProfile,
                         editprofileBloc: EditprofileBloc(state.userProfile,
-                            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+                            authenticationBloc:
+                                BlocProvider.of<AuthenticationBloc>(context),
                             profileBloc: profileBloc)),
                     withNavBar: false),
                 onLogoutPressed: () => logout(),
@@ -92,17 +96,20 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                 : FriendButton(
                                     userProfile: state.userProfile,
                                     currentUser: currentUser,
-                                    onSendFriendRequest: () =>
-                                        profileBloc.add(SendFriendRequestPressed(currentUser)),
-                                    onCancelFriendRequest: () =>
-                                        profileBloc.add(CancelFriendRequest(currentUser)),
-                                    onAcceptsFriendRequest: () =>
-                                        profileBloc.add(AcceptFriendRequestPressed(currentUser)),
-                                    onRejectFriendRequest: () => profileBloc.add(
+                                    onSendFriendRequest: () => profileBloc.add(
+                                        SendFriendRequestPressed(currentUser)),
+                                    onCancelFriendRequest: () => profileBloc
+                                        .add(CancelFriendRequest(currentUser)),
+                                    onAcceptsFriendRequest: () => profileBloc
+                                        .add(AcceptFriendRequestPressed(
+                                            currentUser)),
+                                    onRejectFriendRequest: () =>
+                                        profileBloc.add(
                                       RejectFriendRequestPressed(currentUser),
                                     ),
-                                    onDeleteFriend: () => deleteFriend(profileBloc),
-                                  )
+                                    onDeleteFriend: () =>
+                                        deleteFriend(profileBloc),
+                                  ),
                           ],
                         ),
                       )
@@ -118,7 +125,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       controller: controller,
                       indicatorColor: Colors.white,
                       labelColor: Colors.white,
-                      labelStyle: theme.primaryTextTheme.headline1!.copyWith(color: Colors.white),
+                      labelStyle: theme.primaryTextTheme.headline1!
+                          .copyWith(color: Colors.white),
                       tabs: const [
                         Tab(
                           text: 'Aktivitet',
@@ -140,12 +148,14 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           userProfile: state.userProfile,
                           posts: state.posts,
                           currentUser: currentUser,
-                          onTap: (isLiked, post) =>
-                              profileBloc.add(LikePostPressed(currentUser, post, isLiked)),
+                          onTap: (isLiked, post) => profileBloc
+                              .add(LikePostPressed(currentUser, post, isLiked)),
                         ),
                         ProfileTab(
                           userProfile: state.userProfile,
-                          approvedBadges: state.posts.map((e) => e.badgeRegistration).toList(),
+                          approvedBadges: state.posts
+                              .map((e) => e.badgeRegistration)
+                              .toList(),
                           friends: null,
                         ),
                         ProfileTab(

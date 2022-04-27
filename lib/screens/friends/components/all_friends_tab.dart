@@ -6,20 +6,23 @@ class FriendsTab extends StatelessWidget {
   final List<UserProfile> friends;
   final UserProfile userProfile;
 
-  const FriendsTab({Key? key, required this.friends, required this.userProfile}) : super(key: key);
+  const FriendsTab({Key? key, required this.friends, required this.userProfile})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget getChallengeBadges() {
       if (friends.isNotEmpty) {
         return ListView(
-          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics:
+              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: GridView.count(
-                    physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                    physics:
+                        NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                     shrinkWrap: true,
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 15,
@@ -33,7 +36,19 @@ class FriendsTab extends StatelessWidget {
           ],
         );
       }
-      return Container();
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          heightFactor: 2,
+          child: Text(
+            'Intet at vise',
+            style: Theme.of(context)
+                .primaryTextTheme
+                .headline2!
+                .copyWith(fontSize: 16),
+          ),
+        ),
+      );
     }
 
     return Padding(

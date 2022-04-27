@@ -25,7 +25,8 @@ class BadgesTab extends StatelessWidget {
     Widget getChallengeBadges() {
       if (challengeBadges.isNotEmpty) {
         return ListView(
-          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics:
+              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
@@ -36,31 +37,48 @@ class BadgesTab extends StatelessWidget {
               ),
             ),
             GridView.count(
-                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                physics:
+                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(challengeBadges.length, (index) {
                   return ProfileBadgeWidget(
-                    badge: challengeBadges is List<Badge> ? challengeBadges[index] as Badge : null,
-                    badgeRegistration: challengeBadges is List<BadgeRegistration>
-                        ? challengeBadges[index] as BadgeRegistration
+                    badge: challengeBadges is List<Badge>
+                        ? challengeBadges[index] as Badge
                         : null,
+                    badgeRegistration:
+                        challengeBadges is List<BadgeRegistration>
+                            ? challengeBadges[index] as BadgeRegistration
+                            : null,
                     userProfile: userProfile,
                   );
-                }))
+                })),
           ],
         );
       }
 
-      return Container();
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          heightFactor: 2,
+          child: Text(
+            'Intet at vise',
+            style: Theme.of(context)
+                .primaryTextTheme
+                .headline2!
+                .copyWith(fontSize: 16),
+          ),
+        ),
+      );
     }
 
     Widget getEngagementBadges() {
       if (engagementBadges.isNotEmpty) {
         return ListView(
-          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics:
+              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
@@ -71,18 +89,21 @@ class BadgesTab extends StatelessWidget {
               ),
             ),
             GridView.count(
-                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                physics:
+                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 shrinkWrap: true,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 crossAxisCount: 2,
                 children: List.generate(engagementBadges.length, (index) {
                   return ProfileBadgeWidget(
-                    badge:
-                        engagementBadges is List<Badge> ? engagementBadges[index] as Badge : null,
-                    badgeRegistration: engagementBadges is List<BadgeRegistration>
-                        ? engagementBadges[index] as BadgeRegistration
+                    badge: engagementBadges is List<Badge>
+                        ? engagementBadges[index] as Badge
                         : null,
+                    badgeRegistration:
+                        engagementBadges is List<BadgeRegistration>
+                            ? engagementBadges[index] as BadgeRegistration
+                            : null,
                     userProfile: userProfile,
                   );
                 }))
@@ -100,7 +121,15 @@ class BadgesTab extends StatelessWidget {
                 engagementBadges.isEmpty
             ? Center(child: CircularProgressIndicator())
             : ListView(
-                children: [getChallengeBadges(), getEngagementBadges()],
+                children: [
+                  getChallengeBadges(),
+                  getEngagementBadges(),
+                  //Sizedbox makes sure there is a bit of space in the bottom of the screen,
+                  // so badges dont hide behind the navbar
+                  SizedBox(
+                    height: 25,
+                  ),
+                ],
               ));
   }
 }
