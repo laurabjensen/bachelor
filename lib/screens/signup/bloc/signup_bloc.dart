@@ -33,6 +33,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<SignupPressed>((event, emit) => _signupPressed(emit));
     on<SignupFailure>(
         (event, emit) => _signupFailure(event.failureMessage, emit));
+    on<ToggleAcceptedTerms>(
+        (event, emit) => _toggleAcceptedTerms(event.acceptedTerms, emit));
 
     add(LoadFromFirebase());
   }
@@ -102,5 +104,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         failureMessage: failureMessage));
     emit(state.copyWith(
         signupStatus: SignupStateStatus.initial, failureMessage: ''));
+  }
+
+  Future<void> _toggleAcceptedTerms(
+      bool acceptedTerms, Emitter<SignupState> emit) async {
+    emit(state.copyWith(acceptedTerms: acceptedTerms));
   }
 }

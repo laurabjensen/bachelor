@@ -64,3 +64,8 @@ class SignupFailure extends SignupEvent {
 
   const SignupFailure(this.failureMessage);
 }
+
+class ToggleAcceptedTerms extends SignupEvent {
+  final bool acceptedTerms;
+  const ToggleAcceptedTerms(this.acceptedTerms);
+}

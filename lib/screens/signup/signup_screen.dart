@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/signup/components/group_dropdown.dart';
+import 'package:spejder_app/screens/signup/terms_screen.dart';
 import 'package:spejder_app/validators.dart';
 
 import 'bloc/signup_bloc.dart';
@@ -39,6 +41,26 @@ class _SignupScreenState extends State<SignupScreen> {
     if (currentFormState!.validate()) {
       signupBloc.add(SignupPressed());
     }
+  }
+
+  Future _openAgreeDialog(context) async {
+    String? result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) {
+          return TermsAndConditionsScreen();
+        },
+        //true to display with a dismiss button rather than a return navigation arrow
+        fullscreenDialog: true));
+    if (result != null) {
+      signupBloc.add(ToggleAcceptedTerms(true));
+      //agreed(result, context);
+    } else {
+      signupBloc.add(ToggleAcceptedTerms(false));
+      print('you could do another action here if they cancel');
+    }
+  }
+
+  agreed(String result, context) {
+    print(result); //prints 'User Agreed'
   }
 
   @override
@@ -152,20 +174,43 @@ class _SignupScreenState extends State<SignupScreen> {
                                                                 MaterialState
                                                                     .selected)
                                                             ? Color(0xff037B55)
-                                                            : Colors.grey),
+                                                            : Colors.black),
                                                 shape: CircleBorder(),
-                                                value: agree,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    agree = value ?? false;
-                                                  });
-                                                },
+                                                value: state.acceptedTerms,
+                                                onChanged: (value) => signupBloc
+                                                    .add(ToggleAcceptedTerms(
+                                                        value!)),
                                               ),
                                             ),
-                                            const Text(
-                                              'Jeg har læst og accepterer regler og vilkår',
-                                              overflow: TextOverflow.ellipsis,
-                                            )
+                                            Center(
+                                              child: Text.rich(
+                                                TextSpan(
+                                                    text:
+                                                        'Jeg har læst og accepterer ',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text:
+                                                              'Regler og Vilkår',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.black,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                          ),
+                                                          recognizer:
+                                                              TapGestureRecognizer()
+                                                                ..onTap = () {
+                                                                  // code to open / launch terms of conditions link here
+                                                                  _openAgreeDialog(
+                                                                      context);
+                                                                }),
+                                                    ]),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -175,8 +220,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                             width: 169,
                                             height: 51,
                                             child: ElevatedButton(
-                                                onPressed:
-                                                    agree ? _doSomething : null,
+                                                onPressed: state.acceptedTerms
+                                                    ? _doSomething
+                                                    : null,
                                                 child: Text('Opret Bruger',
                                                     style: theme
                                                         .primaryTextTheme
