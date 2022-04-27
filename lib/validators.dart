@@ -20,6 +20,7 @@ class Validators {
     return null;
   }
 
+  //Use for number fields
   static String? validateIsOnlyIntAndNotNull(String? field, param1) {
     if (field != null &&
         field.isNotEmpty &&
@@ -29,11 +30,23 @@ class Validators {
     if (field == null || field.isEmpty) {
       return 'Udfyld venligst';
     }
+    return null;
+  }
 
-    /* if (int.tryParse(value) == null) {
-  return 'Only Number are allowed';
-}*/
-
+  //Use for årstjerner
+  static String? validateIsOnlyIntAndNotNullAndOnlyMax2Chars(
+      String? field, param1) {
+    if (field != null &&
+        field.isNotEmpty &&
+        !field.contains(new RegExp(r'^[0-9]*$'))) {
+      return 'Udfyld venligst kun tal';
+    }
+    if (field == null || field.isEmpty) {
+      return 'Udfyld venligst';
+    }
+    if (field.length > 2) {
+      return 'Udfyld venligst kun 2 tal';
+    }
     return null;
   }
 

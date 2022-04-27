@@ -138,8 +138,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     labelText: 'Antal årsstjerner',
                                     value: null,
                                     obscureText: false,
-                                    validator:
-                                        Validators.validateIsOnlyIntAndNotNull,
+                                    validator: Validators
+                                        .validateIsOnlyIntAndNotNullAndOnlyMax2Chars,
                                     onChanged: (senority) => null,
                                     /*onChanged: (age) => widget.userprofile
                                               .copyWith(age: int.parse(age!)),*/
