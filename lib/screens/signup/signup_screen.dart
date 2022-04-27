@@ -86,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   return Center(
                       child: Container(
                           margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          height: 700,
+                          height: 750,
                           decoration: BoxDecoration(
                               color: Color(0xffEEF2F3),
                               borderRadius: BorderRadius.circular(15)),
