@@ -18,6 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   late ThemeData theme;
   late SignupBloc signupBloc;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool agree = false;
 
   @override
   void initState() {
@@ -26,6 +27,14 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void onButtonPress() {
+    final currentFormState = formKey.currentState;
+    if (currentFormState!.validate()) {
+      signupBloc.add(SignupPressed());
+    }
+  }
+
+  // This function is triggered when the button is clicked
+  void _doSomething() {
     final currentFormState = formKey.currentState;
     if (currentFormState!.validate()) {
       signupBloc.add(SignupPressed());
@@ -129,19 +138,45 @@ class _SignupScreenState extends State<SignupScreen> {
                                         onChanged: (rank) =>
                                             signupBloc.add(RankChanged(rank))),
                                     Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 15),
-                                        child: SizedBox(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8.0, 20, 8, 8),
+                                      child: Column(children: [
+                                        Row(
+                                          children: [
+                                            Material(
+                                              child: Checkbox(
+                                                value: agree,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    agree = value ?? false;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            const Text(
+                                              'Jeg har læst og accepterer regler og vilkår',
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 10, 0, 0),
+                                          child: SizedBox(
                                             width: 169,
                                             height: 51,
                                             child: ElevatedButton(
-                                              onPressed: () => onButtonPress(),
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Color(0xff377E62)),
-                                              child: Text('Opret bruger',
-                                                  style: theme.primaryTextTheme
-                                                      .headline1),
-                                            ))),
+                                                onPressed:
+                                                    agree ? _doSomething : null,
+                                                child: Text('Opret Bruger',
+                                                    style: theme
+                                                        .primaryTextTheme
+                                                        .headline1)),
+                                          ),
+                                        )
+                                      ]),
+                                    ),
+
                                     TextButton(
                                         onPressed: () => Navigator.pop(context),
                                         child: Text(
@@ -149,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           style: theme
                                               .primaryTextTheme.headline1!
                                               .copyWith(color: Colors.black),
-                                        ))
+                                        )),
                                   ],
                                 ),
                               ))));
