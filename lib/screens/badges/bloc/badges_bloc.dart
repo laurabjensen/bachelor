@@ -56,6 +56,9 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   }
 
   Future<void> _loadAllUserBadges(Emitter<BadgesState> emit) async {
+    userProfile =
+        await GetIt.instance.get<UserProfileRepository>().getUserprofileFromId(userProfile.id);
+    final allBadges = GetIt.instance.get<List<Badge>>();
     final posts = await postRepository.getPostsFromUserProfile(userProfile);
     final allRegistrations =
         await badgeRegistrationRepository.getBadgeRegistrationsForUser(userProfile.id);
@@ -63,11 +66,15 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
     emit(state.copyWith(
         badgesStatus: BadgesStateStatus.loaded,
         approvedBadges: approvedBadges,
+        allJubileeBadges: await badgeRepository.getAllJubileeBadges(allBadges, userProfile),
         userChallengeBadges: approvedBadges
             .where((element) => element.badgeSpecific.badge.type == 'Udfordring')
             .toList(),
         userEngagementBadges: approvedBadges
             .where((element) => element.badgeSpecific.badge.type == 'Engagement')
+            .toList(),
+        userJubileeBadges: approvedBadges
+            .where((element) => element.badgeSpecific.badge.type == 'Jubilæum')
             .toList(),
         registrations: allRegistrations));
   }

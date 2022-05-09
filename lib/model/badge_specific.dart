@@ -53,13 +53,14 @@ class BadgeSpecific {
       : this(
           badge: badge,
           rank: ranks.firstWhere((element) => element.id == json.id),
-          purpose: json['purpose'] ?? '',
-          prerequisite: json['prerequisite'] ?? '',
-          prerequisiteLeader: json['prerequisiteLeader'] ?? '',
-          steps: List<String>.from(json['steps']),
-          challenge: json['challenge'] ?? '',
-          link: json['link'] ?? '',
-          imageUrl: json['imageUrl'] ?? '',
+          purpose: json.data()!.containsKey('purpose') ? json.get('purpose') : '',
+          prerequisite: json.data()!.containsKey('prerequisite') ? json['prerequisite'] : '',
+          prerequisiteLeader:
+              json.data()!.containsKey('prerequisiteLeader') ? json.get('prerequisiteLeader') : '',
+          steps: json.data()!.containsKey('steps') ? List<String>.from(json['steps']) : [],
+          challenge: json.data()!.containsKey('challenge') ? json.get('challenge') : '',
+          link: json.data()!.containsKey('link') ? json.get('link') : '',
+          imageUrl: json.data()!.containsKey('imageUrl') ? json.get('imageUrl') : '',
         );
 
   static const empty = BadgeSpecific(

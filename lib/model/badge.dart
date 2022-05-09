@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 
 class Badge {
-  //! TODO: overvej hvordan vi gemmer brugerens beskrivelse til hvert mærke
   final String id;
   final String name;
   final String type;

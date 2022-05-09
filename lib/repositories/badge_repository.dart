@@ -4,15 +4,14 @@ import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:collection/collection.dart';
 import 'package:spejder_app/model/rank.dart';
+import 'package:spejder_app/model/user_profile.dart';
 
 class BadgeRepository {
   Future<List<Badge>> getAllBadges() async {
     final snapshots = await FirebaseFirestore.instance.collection('badges').get();
     var badges = <Badge>[];
     for (var snapshot in snapshots.docs) {
-      if (snapshot.get('type') == 'Udfordring' || snapshot.get('type') == 'Engagement') {
-        badges.add(await getBadge(snapshot));
-      }
+      badges.add(await getBadge(snapshot));
     }
     return badges;
   }
@@ -58,30 +57,21 @@ class BadgeRepository {
     return badges;
   }
 
-  Future<List<Badge>> getAllEngagementBadges(List<Badge> allBadges) async {
+  Future<List<Badge>> getAllJubileeBadges(List<Badge> allBadges, UserProfile userProfile) async {
     //final allBadges = await getAllBadges();
     var badges = <Badge>[];
     for (var badge in allBadges) {
-      if (badge.type == 'Engagement') {
-        badges.add(badge);
+      if (badge.type == 'Jubilæum') {
+        if (!(userProfile.rank.title != 'Leder' && badge.name == 'Ledermærket')) {
+          badges.add(badge);
+        }
       }
     }
     return badges;
   }
 
-  Future<List<Badge>> getUserChallengeBadges(String userId) async {
-    final allBadges = await getBadgesForUser(userId);
-    var badges = <Badge>[];
-    for (var badge in allBadges) {
-      if (badge.type == 'Udfordring') {
-        badges.add(badge);
-      }
-    }
-    return badges;
-  }
-
-  Future<List<Badge>> getUserEngagementBadges(String userId) async {
-    final allBadges = await getBadgesForUser(userId);
+  Future<List<Badge>> getAllEngagementBadges(List<Badge> allBadges) async {
+    //final allBadges = await getAllBadges();
     var badges = <Badge>[];
     for (var badge in allBadges) {
       if (badge.type == 'Engagement') {

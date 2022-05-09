@@ -25,14 +25,18 @@ class BadgePanelList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
-        BadgePanelWidget(title: 'Formål', text: badgeSpecific.purpose),
-        BadgePanelWidget(title: 'Forudsætninger', text: badgeSpecific.prerequisite),
-        isLeader
-            ? BadgePanelWidget(
-                title: 'Forudsætninger - leder', text: badgeSpecific.prerequisiteLeader)
-            : Container(),
-        BadgePanelWidget.showList(title: 'Trin', list: badgeSpecific.steps),
-        BadgePanelWidget(title: 'Udfordring', text: badgeSpecific.challenge),
+        badgeSpecific.badge.type == 'Jubilæum'
+            ? Container()
+            : Column(children: [
+                BadgePanelWidget(title: 'Formål', text: badgeSpecific.purpose),
+                BadgePanelWidget(title: 'Forudsætninger', text: badgeSpecific.prerequisite),
+                isLeader
+                    ? BadgePanelWidget(
+                        title: 'Forudsætninger - leder', text: badgeSpecific.prerequisiteLeader)
+                    : Container(),
+                BadgePanelWidget.showList(title: 'Trin', list: badgeSpecific.steps),
+                BadgePanelWidget(title: 'Udfordring', text: badgeSpecific.challenge),
+              ]),
         (registration != null && registration!.getStatus() == BadgeRegistrationStatus.accepted)
             ? DescriptionBadgePanelWidget(
                 //TODO! Gør det muligt at opdatere
