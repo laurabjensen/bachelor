@@ -36,8 +36,11 @@ class FriendsTab extends StatelessWidget {
           ],
         );
       } else if (loading) {
-        return Center(
-          child: CircularProgressIndicator(),
+        return Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       }
       return Padding(

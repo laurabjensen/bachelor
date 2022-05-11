@@ -41,7 +41,7 @@ class UserProfileRepository {
   }
 
   Future<List<UserProfile>> getAllUsers() async {
-    var snapshot = await FirebaseFirestore.instance.collection('users').get();
+    var snapshot = await FirebaseFirestore.instance.collection('users').orderBy('name').get();
     var users = <UserProfile>[];
     for (var snap in snapshot.docs) {
       users.add(await getUserprofileFromDocSnapshot(snap));
