@@ -32,7 +32,6 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final list = GetIt.instance.get<List<UserProfile>>();
 
     Widget noImageWidget() {
       return Stack(

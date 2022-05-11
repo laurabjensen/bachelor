@@ -22,26 +22,30 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   UserProfile userProfile;
 
   BadgesBloc({required this.userProfile}) : super(BadgesState()) {
-    on<StreamStarted>((event, emit) async {
+    on<UserStreamStarted>((event, emit) async {
       await emit
           .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
               onData: (updatedUser) {
         userProfile = updatedUser;
         add(LoadUserBadges());
       });
+    }, transformer: restartable());
+    on<RegistrationStreamStarted>((event, emit) async {
       await emit.onEach<List<BadgeRegistration>>(
           badgeRegistrationRepository.streamBadgeRegistrationForUser(userProfile.id),
           onData: (updatedList) {
         add(LoadUserBadges());
       });
     }, transformer: restartable());
+
     on<LoadAllBadges>((event, emit) => _loadAllBadges(emit));
     on<LoadUserBadges>((event, emit) => _loadAllUserBadges(emit));
     on<DescriptionUpdated>(
         (event, emit) => _descriptionUpdated(event.badgeRegistration, event.description, emit));
     on<EditingToggled>((event, emit) => _editingToggled(emit));
 
-    add(StreamStarted());
+    add(UserStreamStarted());
+    add(RegistrationStreamStarted());
     add(LoadAllBadges());
   }
 

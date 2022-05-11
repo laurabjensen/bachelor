@@ -3,10 +3,12 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/profile/components/profile_friend_widget.dart';
 
 class FriendsTab extends StatelessWidget {
+  final bool loading;
   final List<UserProfile> friends;
   final UserProfile userProfile;
 
-  const FriendsTab({Key? key, required this.friends, required this.userProfile})
+  const FriendsTab(
+      {Key? key, required this.friends, required this.userProfile, required this.loading})
       : super(key: key);
 
   @override
@@ -14,15 +16,13 @@ class FriendsTab extends StatelessWidget {
     Widget getChallengeBadges() {
       if (friends.isNotEmpty) {
         return ListView(
-          physics:
-              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+          physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
           shrinkWrap: true,
           children: [
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: GridView.count(
-                    physics:
-                        NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                    physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                     shrinkWrap: true,
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 15,
@@ -35,6 +35,10 @@ class FriendsTab extends StatelessWidget {
                     }))),
           ],
         );
+      } else if (loading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       }
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -42,10 +46,7 @@ class FriendsTab extends StatelessWidget {
           heightFactor: 2,
           child: Text(
             'Intet at vise',
-            style: Theme.of(context)
-                .primaryTextTheme
-                .headline2!
-                .copyWith(fontSize: 16),
+            style: Theme.of(context).primaryTextTheme.headline2!.copyWith(fontSize: 16),
           ),
         ),
       );

@@ -96,11 +96,14 @@ class _FriendsScreenState extends State<FriendsScreen> with TickerProviderStateM
           body: TabBarView(
             controller: controller,
             children: [
-              FriendsTab(friends: state.allUsers, userProfile: currentUser),
               FriendsTab(
-                friends: state.allUserFriends,
-                userProfile: widget.userProfile,
-              )
+                  friends: state.allUsers,
+                  userProfile: currentUser,
+                  loading: state.friendsStatus == FriendsStateStatus.loading),
+              FriendsTab(
+                  friends: state.allUserFriends,
+                  userProfile: widget.userProfile,
+                  loading: state.friendsStatus == FriendsStateStatus.loading)
             ],
           ),
         );

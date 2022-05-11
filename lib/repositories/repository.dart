@@ -34,17 +34,20 @@ class Repository {
       GetIt.instance.registerSingleton<List<Group>>(event);
     });
 
-    GetIt.instance.registerSingleton<List<UserProfile>>(
+    /*GetIt.instance.registerSingleton<List<UserProfile>>(
         await GetIt.instance.get<UserProfileRepository>().getAllUsers());
     final userStream = GetIt.instance.get<UserProfileRepository>().getAllUsersStream();
     StreamController<List<UserProfile>> userController = StreamController();
     userController.addStream(userStream);
+    StreamController<List<UserProfile>> publicUserController = StreamController();
+    GetIt.instance.registerSingleton<StreamController<List<UserProfile>>>(publicUserController);
     userController.stream.listen((event) async {
       var users = <UserProfile>[];
       for (var e in event) {
         users.add(await GetIt.instance.get<UserProfileRepository>().getUserprofile(e));
       }
+      publicUserController.add(users);
       GetIt.instance.registerSingleton<List<UserProfile>>(users);
-    });
+    });*/
   }
 }

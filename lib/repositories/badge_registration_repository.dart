@@ -112,9 +112,7 @@ class BadgeRegistrationRepository {
       if (snap.get('waitingOnLeader')) {
         var registration = await getBadgeRegistrationFromId(snap.id);
         registration = registration.copyWith(
-            userProfile: GetIt.instance
-                    .get<List<UserProfile>>()
-                    .firstWhereOrNull((element) => element.id == registration.userProfileId) ??
+            userProfile:
                 await userProfileRepository.getUserprofileFromId(registration.userProfileId));
         list.add(registration);
       }

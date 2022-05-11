@@ -19,11 +19,6 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
 
   FriendsBloc({required this.userProfile}) : super(FriendsState(userProfile: userProfile)) {
     on<StreamStarted>((event, emit) async {
-      await emit.onEach<UserProfile>(userProfileRepository.getUser(userProfile.id),
-          onData: (updatedUser) {
-        userProfile = updatedUser;
-        add(Reload());
-      });
       await emit.onEach<List<UserProfile>>(userProfileRepository.getAllUsersStream(),
           onData: (updatedList) {
         add(Reload());
@@ -38,9 +33,10 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   Future<void> _reload(Emitter<FriendsState> emit) async {
     userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
 
-    final allUsers = GetIt.instance.get<List<UserProfile>>().toList();
+    var allUsers = await userProfileRepository.getAllUsers();
     allUsers.removeWhere((element) => element.id == userProfile.id);
 
+    allUsers.sortedBy((element) => element.name);
     final allUserFriends = (await friendsRepository.getUserprofilesFromList(userProfile.friends))
         .sortedBy((element) => element.name);
 

@@ -44,9 +44,7 @@ class PostsRepository {
     var badgeRegistration =
         await badgeRegistrationRepository.getBadgeRegistrationFromId(snap.get('badgeRegistration'));
     badgeRegistration = badgeRegistration.copyWith(
-        userProfile: GetIt.instance
-                .get<List<UserProfile>>()
-                .firstWhereOrNull((element) => element.id == badgeRegistration.userProfileId) ??
+        userProfile:
             await userProfileRepository.getUserprofileFromId(badgeRegistration.userProfileId));
     return post.copyWith(badgeRegistration: badgeRegistration);
   }
@@ -74,10 +72,8 @@ class PostsRepository {
     for (var snap in snapshot.docs) {
       var post = await getPostFromId(snap.id);
       var registration = post.badgeRegistration.copyWith(
-          userProfile: GetIt.instance.get<List<UserProfile>>().firstWhereOrNull(
-                  (element) => element.id == post.badgeRegistration.userProfileId) ??
-              await userProfileRepository
-                  .getUserprofileFromId(post.badgeRegistration.userProfileId));
+          userProfile: await userProfileRepository
+              .getUserprofileFromId(post.badgeRegistration.userProfileId));
       list.add(post.copyWith(badgeRegistration: registration));
     }
     //friends.remove(userProfile.id);

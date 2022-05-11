@@ -24,16 +24,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileBloc({required this.userProfile}) : super(ProfileState(userProfile: userProfile)) {
     on<StreamStarted>((event, emit) async {
-      await emit
-          .onEach<UserProfile>(GetIt.instance.get<UserProfileRepository>().getUser(userProfile.id),
-              onData: (updatedUser) {
-        userProfile = updatedUser;
+      await emit.onEach<List<UserProfile>>(
+          GetIt.instance.get<UserProfileRepository>().getAllUsersStream(), onData: (updatedUser) {
         add(Reload());
       });
-      await emit.onEach<List<UserProfile>>(
-        GetIt.instance.get<UserProfileRepository>().getUsersFromListStream(userProfile.friends),
-        onData: (updatedList) => add(Reload()),
-      );
     }, transformer: restartable());
 
     on<SendFriendRequestPressed>(
