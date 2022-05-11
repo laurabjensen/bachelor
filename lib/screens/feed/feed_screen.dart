@@ -93,13 +93,36 @@ class _FeedScreenState extends State<FeedScreen> {
                   itemBuilder: (context, _) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        heightFactor: 2,
-                        child: Text(
-                          'Ingen aktivitet at vise på nuværende tidspunkt',
-                          style:
-                              Theme.of(context).primaryTextTheme.headline2!.copyWith(fontSize: 16),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          Text(
+                            'Velkommen til din nye mærkeapp',
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2!
+                                .copyWith(fontSize: 20),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            ' Fremover vil du her kunne se dine veninders nye mærker. Dine mærker vil ligeledes vises her. ',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2!
+                                .copyWith(fontSize: 16),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            'Kom i gang ved at registrere dit yndlingsmærke eller sende en venindeanmodning',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2!
+                                .copyWith(fontSize: 16),
+                          ),
+                        ],
                       ),
                     );
                   },
