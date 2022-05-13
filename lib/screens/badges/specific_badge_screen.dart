@@ -95,54 +95,70 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
           child: BlocBuilder(
               bloc: widget.badgesBloc,
               builder: (context, BadgesState state) {
-                return ValueListenableBuilder(
-                    valueListenable: badgeSpecific,
-                    builder: (context, BadgeSpecific value, child) {
-                      var registration = state.registrations.firstWhereOrNull(
-                          (element) => element.badgeSpecific == badgeSpecific.value);
-                      return CustomScaffold(
-                        appBar: CustomAppBar.basicAppBarWithBackButton(
-                            title: badge.name,
-                            onBack: () {
-                              Navigator.pop(context);
-                              widget.badgesBloc.state.isEditing
-                                  ? widget.badgesBloc.add(EditingToggled())
-                                  : null;
-                            }),
-                        body: SingleChildScrollView(
-                          padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              BadgeInfoWidget(
-                                badgeSpecific: value,
-                                registration: registration,
-                              ),
-                              BadgeRow(
-                                badge: badge,
-                                onChange: (newBadgeSpecific) {
-                                  badgeSpecific.value = newBadgeSpecific;
-                                },
-                                registrationList: state.registrations,
-                                selectedBadge: badgeSpecific.value,
-                              ),
-                              BadgePanelList(
-                                badgeSpecific: badgeSpecific.value,
-                                isLeader: widget.userProfile.rank.title == 'Leder',
-                                registration: registration,
-                                onDescriptionSaved: (text) =>
-                                    widget.badgesBloc.add(DescriptionUpdated(registration!, text)),
-                              ),
-                              getButton(registration, value, theme),
-                              // Læs mere button med icon
-                              ReadMoreButton(
-                                badgeSpecific: badgeSpecific.value,
-                              )
-                            ],
+                if (state.badgesStatus == BadgesStateStatus.loaded) {
+                  return ValueListenableBuilder(
+                      valueListenable: badgeSpecific,
+                      builder: (context, BadgeSpecific value, child) {
+                        var registration = state.registrations.firstWhereOrNull(
+                            (element) => element.badgeSpecific == badgeSpecific.value);
+                        return CustomScaffold(
+                          appBar: CustomAppBar.basicAppBarWithBackButton(
+                              title: badge.name,
+                              onBack: () {
+                                Navigator.pop(context);
+                                widget.badgesBloc.state.isEditing
+                                    ? widget.badgesBloc.add(EditingToggled())
+                                    : null;
+                              }),
+                          body: SingleChildScrollView(
+                            padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                BadgeInfoWidget(
+                                  badgeSpecific: value,
+                                  registration: registration,
+                                ),
+                                BadgeRow(
+                                  badge: badge,
+                                  onChange: (newBadgeSpecific) {
+                                    badgeSpecific.value = newBadgeSpecific;
+                                  },
+                                  registrationList: state.registrations,
+                                  selectedBadge: badgeSpecific.value,
+                                ),
+                                BadgePanelList(
+                                  badgeSpecific: badgeSpecific.value,
+                                  isLeader: widget.userProfile.rank.title == 'Leder',
+                                  registration: registration,
+                                  onDescriptionSaved: (text) => widget.badgesBloc
+                                      .add(DescriptionUpdated(registration!, text)),
+                                ),
+                                getButton(registration, value, theme),
+                                // Læs mere button med icon
+                                ReadMoreButton(
+                                  badgeSpecific: badgeSpecific.value,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    });
+                        );
+                      });
+                } else {
+                  return CustomScaffold(
+                    appBar: CustomAppBar.basicAppBarWithBackButton(
+                        title: badge.name,
+                        onBack: () {
+                          Navigator.pop(context);
+                          widget.badgesBloc.state.isEditing
+                              ? widget.badgesBloc.add(EditingToggled())
+                              : null;
+                        }),
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
               }),
         ));
   }

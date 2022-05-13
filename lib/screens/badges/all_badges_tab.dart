@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
@@ -118,6 +119,7 @@ class BadgesTab extends StatelessWidget {
                     badge: list is List<Badge> ? list[index] : null,
                     badgeRegistration: list is List<BadgeRegistration> ? list[index] : null,
                     userProfile: userProfile,
+                    badgesBloc: BlocProvider.of<BadgesBloc>(context),
                   );
                 }))
           ],

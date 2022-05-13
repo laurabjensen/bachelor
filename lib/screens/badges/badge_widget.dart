@@ -10,6 +10,7 @@ import 'package:spejder_app/screens/badges/specific_badge_screen.dart';
 class ProfileBadgeWidget extends StatelessWidget {
   final Badge? badge;
   final BadgeRegistration? badgeRegistration;
+  final BadgesBloc? badgesBloc;
   //! TODO Dette skal ændres. Ligenu viser den farven på mærket baseret på hvad brugerens rang er.
   //Men Hvis personen har taget et mærke ved et lavere rang bliver dette ikke vist
   final UserProfile userProfile;
@@ -18,6 +19,7 @@ class ProfileBadgeWidget extends StatelessWidget {
     Key? key,
     this.badge,
     this.badgeRegistration,
+    this.badgesBloc,
     required this.userProfile,
   }) : super(key: key);
   @override
@@ -44,7 +46,7 @@ class ProfileBadgeWidget extends StatelessWidget {
               screen: SpecificBadgeScreen(
                 userProfile: userProfile,
                 badge: badge ?? badgeRegistration!.badgeSpecific.badge,
-                badgesBloc: BlocProvider.of<BadgesBloc>(context),
+                badgesBloc: badgesBloc ?? BadgesBloc(userProfile: userProfile),
               ),
               withNavBar: false,
               // OPTIONAL VALUE. True by default.
