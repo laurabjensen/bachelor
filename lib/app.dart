@@ -7,6 +7,7 @@ import 'package:spejder_app/screens/components/navigation.dart';
 import 'package:spejder_app/screens/login/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:spejder_app/screens/splash_screen.dart';
 
 /* 
   Root for app. 
@@ -33,8 +34,9 @@ class App extends StatelessWidget {
               case AuthenticationStateStatus.authenticated:
                 return LoggedInNavigationController();
               case AuthenticationStateStatus.unauthenticated:
-              default:
                 return LoginScreen();
+              default:
+                return SplashScreen();
             }
           },
         ),
