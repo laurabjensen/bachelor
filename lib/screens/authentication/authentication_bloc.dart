@@ -66,7 +66,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _userUpdated(UserProfile userProfile, Emitter<AuthenticationState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
-    emit(state.copyWith(userProfile: userProfile));
+    final user = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      emit(state.copyWith(userProfile: user));
+    }
   }
 }

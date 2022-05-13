@@ -64,15 +64,14 @@ class UserProfile {
         posts: posts ?? this.posts,
         friends: friends ?? this.friends,
         friendRequestsSend: friendRequestsSend ?? this.friendRequestsSend,
-        friendRequestsReceived:
-            friendRequestsReceived ?? this.friendRequestsReceived,
+        friendRequestsReceived: friendRequestsReceived ?? this.friendRequestsReceived,
         patrolId: patrolId ?? this.patrolId);
   }
 
   UserProfile.fromJson(DocumentSnapshot<Map<String, Object?>> json)
       : this(
             id: json.id,
-            age: json.get('age'),
+            age: json.get('age') as int,
             email: json['email'].toString(),
             name: json['name'].toString(),
             group: Group.empty,
@@ -83,11 +82,8 @@ class UserProfile {
             posts: List<String>.from(json['badges']),
             friends: List<String>.from(json['friends']),
             friendRequestsSend: List<String>.from(json['friendRequestsSend']),
-            friendRequestsReceived:
-                List<String>.from(json['friendRequestsReceived']),
-            patrolId: json.data()?.containsKey('patrol') ?? false
-                ? json['patrol'].toString()
-                : '');
+            friendRequestsReceived: List<String>.from(json['friendRequestsReceived']),
+            patrolId: json.data()?.containsKey('patrol') ?? false ? json['patrol'].toString() : '');
 
   Map<String, Object?> toJson() {
     return {

@@ -31,7 +31,10 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   }
 
   Future<void> _reload(Emitter<FriendsState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    var user = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      userProfile = user;
+    }
 
     var allUsers = await userProfileRepository.getAllUsers();
     allUsers.removeWhere((element) => element.id == userProfile.id);

@@ -8,6 +8,7 @@ import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
+import 'package:spejder_app/screens/badges/badge_users_screen.dart';
 import 'package:spejder_app/screens/badges/bloc/badges_bloc.dart';
 import 'package:spejder_app/screens/badges/components/badge_info_widget.dart';
 import 'package:spejder_app/screens/badges/components/badge_panel_list.dart';
@@ -109,7 +110,17 @@ class _SpecificBadgeScreenState extends State<SpecificBadgeScreen> {
                                 widget.badgesBloc.state.isEditing
                                     ? widget.badgesBloc.add(EditingToggled())
                                     : null;
-                              }),
+                              },
+                              actions: [
+                                IconButton(
+                                    icon: Icon(Icons.person),
+                                    onPressed: () {
+                                      widget.badgesBloc.add(LoadPeopleForBadgeSpecific(value));
+                                      pushNewScreen(context,
+                                          screen: BadgeUsersScreen(
+                                              badgesBloc: widget.badgesBloc, badgeSpecific: value));
+                                    })
+                              ]),
                           body: SingleChildScrollView(
                             padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
                             child: Column(

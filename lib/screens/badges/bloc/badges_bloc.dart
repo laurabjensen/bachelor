@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_registration.dart';
+import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
@@ -43,6 +44,10 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
     on<DescriptionUpdated>(
         (event, emit) => _descriptionUpdated(event.badgeRegistration, event.description, emit));
     on<EditingToggled>((event, emit) => _editingToggled(emit));
+    on<LoadPeopleForBadgeSpecific>(
+        (event, emit) => _loadPeopleForBadgeSpecific(event.badgeSpecific, emit));
+    on<ClearPeopleForBadgeSpecific>(
+        (event, emit) => emit(state.copyWith(peopleForBadgeSpecific: [])));
 
     add(UserStreamStarted());
     add(RegistrationStreamStarted());
@@ -60,8 +65,12 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
   }
 
   Future<void> _loadAllUserBadges(Emitter<BadgesState> emit) async {
-    userProfile =
+    var user =
         await GetIt.instance.get<UserProfileRepository>().getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      userProfile = user;
+    }
+
     final allBadges = GetIt.instance.get<List<Badge>>();
     final posts = await postRepository.getPostsFromUserProfile(userProfile);
     final allRegistrations =
@@ -107,5 +116,14 @@ class BadgesBloc extends Bloc<BadgesEvent, BadgesState> {
 
   Future<void> _editingToggled(Emitter<BadgesState> emit) async {
     emit(state.copyWith(isEditing: !state.isEditing));
+  }
+
+  Future<void> _loadPeopleForBadgeSpecific(
+      BadgeSpecific badgeSpecific, Emitter<BadgesState> emit) async {
+    final usersId = await badgeRegistrationRepository.getUserIdForBadgeSpecific(
+        badgeSpecific.badge.id, badgeSpecific.rank);
+    final users =
+        await GetIt.instance.get<UserProfileRepository>().getUserprofilesFromList(usersId);
+    emit(state.copyWith(peopleForBadgeSpecific: users));
   }
 }

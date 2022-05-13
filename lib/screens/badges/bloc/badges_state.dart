@@ -13,6 +13,7 @@ class BadgesState extends Equatable {
   final List<BadgeRegistration> approvedBadges;
   final List<BadgeRegistration> registrations;
   final bool isEditing;
+  final List<UserProfile> peopleForBadgeSpecific;
 
   const BadgesState(
       {this.allChallengeBadges = const [],
@@ -24,7 +25,8 @@ class BadgesState extends Equatable {
       this.userJubileeBadges = const [],
       this.approvedBadges = const [],
       this.registrations = const [],
-      this.isEditing = false});
+      this.isEditing = false,
+      this.peopleForBadgeSpecific = const []});
 
   @override
   List<Object> get props => [
@@ -33,7 +35,8 @@ class BadgesState extends Equatable {
         userChallengeBadges.length + userEngagementBadges.length + userJubileeBadges.length,
         approvedBadges.length,
         registrations.length,
-        isEditing
+        isEditing,
+        peopleForBadgeSpecific
       ];
 
   BadgesState copyWith(
@@ -46,7 +49,8 @@ class BadgesState extends Equatable {
       List<BadgeRegistration>? userJubileeBadges,
       List<BadgeRegistration>? approvedBadges,
       List<BadgeRegistration>? registrations,
-      bool? isEditing}) {
+      bool? isEditing,
+      List<UserProfile>? peopleForBadgeSpecific}) {
     return BadgesState(
         badgesStatus: badgesStatus ?? this.badgesStatus,
         allChallengeBadges: allChallengeBadges ?? this.allChallengeBadges,
@@ -57,6 +61,7 @@ class BadgesState extends Equatable {
         userJubileeBadges: userJubileeBadges ?? this.userJubileeBadges,
         approvedBadges: approvedBadges ?? this.approvedBadges,
         registrations: registrations ?? this.registrations,
-        isEditing: isEditing ?? this.isEditing);
+        isEditing: isEditing ?? this.isEditing,
+        peopleForBadgeSpecific: peopleForBadgeSpecific ?? this.peopleForBadgeSpecific);
   }
 }

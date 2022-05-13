@@ -44,7 +44,10 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
   //Henter userprofile for brugeren der er logget ind
 
   Future<void> _loadUserProfiles(Emitter<CreatePatrolState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    var user = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      userProfile = user;
+    }
     final userProfiles = await userProfileRepository.getMembersNotInPatrol(userProfile.group);
     if (patrol != null) {
       return emit(state.copyWith(

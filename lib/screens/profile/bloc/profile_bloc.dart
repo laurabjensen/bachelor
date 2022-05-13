@@ -70,7 +70,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _reload(Emitter<ProfileState> emit) async {
-    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    var user = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      userProfile = user;
+    }
     final friends = (await userProfileRepository.getUserprofilesFromList(userProfile.friends))
         .sortedBy((element) => element.name);
 

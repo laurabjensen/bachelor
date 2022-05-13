@@ -61,7 +61,11 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     if (state.loadStatus == GroupLoadStatus.loading) {
       emit(state.copyWith(loadStatus: GroupLoadStatus.loading));
     }
-    userProfile = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    var user = await userProfileRepository.getUserprofileFromId(userProfile.id);
+    if (user != null) {
+      userProfile = user;
+    }
+
     var groupMembers = await loadList();
     var patrols = await GetIt.instance
         .get<GroupRepository>()

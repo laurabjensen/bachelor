@@ -33,3 +33,13 @@ class DescriptionUpdated extends BadgesEvent {
 class EditingToggled extends BadgesEvent {
   const EditingToggled();
 }
+
+class LoadPeopleForBadgeSpecific extends BadgesEvent {
+  final BadgeSpecific badgeSpecific;
+
+  const LoadPeopleForBadgeSpecific(this.badgeSpecific);
+}
+
+class ClearPeopleForBadgeSpecific extends BadgesEvent {
+  const ClearPeopleForBadgeSpecific();
+}

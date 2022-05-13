@@ -203,7 +203,9 @@ class GroupRepository {
       var members = <UserProfile>[];
       for (var id in memberIds) {
         final member = await GetIt.instance.get<UserProfileRepository>().getUserprofileFromId(id);
-        members.add(member);
+        if (member != null) {
+          members.add(member);
+        }
       }
       patrol = patrol.copyWith(members: members);
       patrols.add(patrol);

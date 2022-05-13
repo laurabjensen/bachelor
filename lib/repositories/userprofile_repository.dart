@@ -49,10 +49,13 @@ class UserProfileRepository {
     return users;
   }
 
-  Future<UserProfile> getUserprofileFromId(String userId) async {
-    var userprofile = UserProfile.fromJson(
-        await FirebaseFirestore.instance.collection('users').doc(userId).get());
-    return getUserprofile(userprofile);
+  Future<UserProfile?> getUserprofileFromId(String userId) async {
+    final snapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    if (snapshot.exists) {
+      var userprofile = UserProfile.fromJson(snapshot);
+      return getUserprofile(userprofile);
+    }
+    return null;
   }
 
   Future<UserProfile> getUserprofileFromDocSnapshot(
@@ -78,7 +81,10 @@ class UserProfileRepository {
   Future<List<UserProfile>> getUserprofilesFromList(List<String> idList) async {
     var userProfiles = <UserProfile>[];
     for (var id in idList) {
-      userProfiles.add(await getUserprofileFromId(id));
+      final user = await getUserprofileFromId(id);
+      if (user != null) {
+        userProfiles.add(user);
+      }
     }
     return userProfiles;
   }
@@ -96,7 +102,10 @@ class UserProfileRepository {
     var groupMembers =
         (await FirebaseFirestore.instance.collection('groups').doc(group.id).get()).get('members');
     for (var member in groupMembers) {
-      members.add(await getUserprofileFromId(member));
+      final user = await getUserprofileFromId(member);
+      if (user != null) {
+        members.add(user);
+      }
     }
 
     return members;
@@ -105,8 +114,10 @@ class UserProfileRepository {
   Future<void> updateUserWithPost(String? userId, String postId) async {
     if (userId != null) {
       final userProfile = await getUserprofileFromId(userId);
-      final posts = userProfile.posts + [postId];
-      await FirebaseFirestore.instance.collection('users').doc(userId).update({'badges': posts});
+      if (userProfile != null) {
+        final posts = userProfile.posts + [postId];
+        await FirebaseFirestore.instance.collection('users').doc(userId).update({'badges': posts});
+      }
     }
   }
 
@@ -209,7 +220,10 @@ class UserProfileRepository {
               .get('patrol') as String)
           .isEmpty;
       if (hasNoPatrol) {
-        members.add(await getUserprofileFromId(member as String));
+        final user = await getUserprofileFromId(member);
+        if (user != null) {
+          members.add(user);
+        }
       }
     }
 

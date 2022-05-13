@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/badge_registration.dart';
+import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
@@ -44,33 +46,6 @@ class BadgeRegistrationRepository {
         .map((event) => event.docs.map((e) => BadgeRegistration.fromJson(e)).toList());
   }
 
-  /*Future<BadgeRegistration> getBadgeRegistrationFromIdWithUser(
-      String badgeRegistrationId, UserProfile userProfile) async {
-    var snap = await FirebaseFirestore.instance
-        .collection('badgeRegistrations')
-        .doc(badgeRegistrationId)
-        .get();
-    var badgeRegistration = BadgeRegistration.fromJson(snap);
-    //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
-    final badgeSpecific =
-        await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
-    return badgeRegistration.copyWith(badgeSpecific: badgeSpecific);
-  }*/
-
-  /*Future<List<BadgeRegistration>> getBadgeRegistrationsFromUserProfile(
-      UserProfile userProfile) async {
-    var badges = <BadgeRegistration>[];
-    for (var badge in userProfile.posts) {
-      var snap = await FirebaseFirestore.instance.collection('badgeRegistrations').doc(badge).get();
-      var badgeRegistration = BadgeRegistration.fromJson(snap);
-      //final leader = await userProfileRepository.getUserprofileFromId(snap.get('leader'));
-      final badgeSpecific =
-          await badgeRepository.getBadgeSpecific(snap.get('badge'), snap.get('rank'));
-      badges.add(badgeRegistration.copyWith(badgeSpecific: badgeSpecific));
-    }
-    return badges;
-  }*/
-
   Future<List<BadgeRegistration>> getBadgeRegistrationsForUser(String userId) async {
     var badges = <BadgeRegistration>[];
     var snapshot = await FirebaseFirestore.instance
@@ -86,21 +61,6 @@ class BadgeRegistrationRepository {
     }
     return badges;
   }
-
-  //TODO!: Hvorfor vil den ikke lave et index i firestore???
-  /*Future<List<BadgeRegistration>> getBadgeRegistrationFromBadgeAndUser(
-      Badge badge, UserProfile userProfile) async {
-    var list = <BadgeRegistration>[];
-    var snapshot = await FirebaseFirestore.instance
-        .collection('badgeRegistrations')
-        .where('user', isEqualTo: userProfile.id)
-        .where('badge', isEqualTo: badge.id)
-        .get();
-    for (var snap in snapshot.docs) {
-      list.add(await getBadgeRegistrationFromIdWithUser(snap.id, userProfile));
-    }
-    return list;
-  }*/
 
   Future<List<BadgeRegistration>> getBadgeRegistrationForLeader(UserProfile userProfile) async {
     var list = <BadgeRegistration>[];
@@ -152,28 +112,16 @@ class BadgeRegistrationRepository {
     return badgeRegistration;
   }
 
-  // Use for feed
-  /*Future<List<BadgeRegistration>> getRegistrationsForUserFriends(UserProfile userProfile) async {
-    var friendList = userProfile.friends.toList();
-    friendList.add(userProfile.id);
-    var list = <BadgeRegistration>[];
-
-    var snapshot = await FirebaseFirestore.instance
-        .collection('badgeRegistrations')
-        .orderBy('approvedAt')
-        .where('waitingOnLeader', isEqualTo: false)
-        .where('denied', isEqualTo: false)
-        .where('user', whereIn: friendList)
-        .get();
-    for (var snap in snapshot.docs) {
-      var registration = await getBadgeRegistrationFromId(snap.id);
-      list.add(registration.copyWith(
-          userProfile: GetIt.instance
-                  .get<List<UserProfile>>()
-                  .firstWhereOrNull((element) => element.id == registration.userProfileId) ??
-              await userProfileRepository.getUserprofileFromId(registration.userProfileId)));
-    }
-    //friends.remove(userProfile.id);
-    return list;
-  }*/
+  Future<List<String>> getUserIdForBadgeSpecific(String badgeId, Rank rank) async {
+    return (await FirebaseFirestore.instance
+            .collection('badgeRegistrations')
+            .where('badge', isEqualTo: badgeId)
+            .where('rank', isEqualTo: rank.id)
+            .where('waitingOnLeader', isEqualTo: false)
+            .where('denied', isEqualTo: false)
+            .get())
+        .docs
+        .map((e) => e.get('user') as String)
+        .toList();
+  }
 }
