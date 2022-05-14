@@ -97,7 +97,12 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
   Future<void> _updatePressed(UserProfile userprofile, Emitter<EditprofileState> emit) async {
     emit(state.copyWith(editprofileStatus: EditprofileStateStatus.loading));
     String? path;
-    if (state.imageFile != null) {
+    if (deleteOldImage) {
+      await imageRepository.deleteFileInStorage(userprofile.imageUrl);
+      path = '';
+      deleteOldImage = false;
+    }
+    if (state.imageFile != null && state.imageFile!.path.isNotEmpty) {
       path = await imageRepository.addFileToStorage(state.imageFile!, userprofile.id);
       debugPrint(path);
     }
@@ -117,13 +122,11 @@ class EditprofileBloc extends Bloc<EditprofileEvent, EditprofileState> {
   }
 
   Future<void> _newImageFile(File? image, Emitter<EditprofileState> emit) async {
-    if (image != null && image.path.isNotEmpty) {
-      return emit(state.copyWith(imageFile: image));
-    } /*else if (image == null && state.imageFile != null) {
-      return emit(state.copyWith(imageFile: null));
-    } else if (image == null && state.imageFile == null) {
+    if (image != null && state.userprofile.imageUrl.isNotEmpty) {
       deleteOldImage = true;
-      return emit(state.copyWith(imageFile: null));
-    }*/
+      return emit(state.copyWith(imageFile: image));
+    } else if (image != null) {
+      return emit(state.copyWith(imageFile: image));
+    }
   }
 }

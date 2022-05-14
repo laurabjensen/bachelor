@@ -25,8 +25,7 @@ File getFile() {
   return File('');
 }
 
-Future<File?> imagePickerModal<File>(
-    {required BuildContext context, required bool imageSelected}) {
+Future<File?> imagePickerModal<File>({required BuildContext context, required bool imageSelected}) {
   return showModalBottomSheet<File>(
       context: context,
       builder: (context) {
@@ -34,8 +33,7 @@ Future<File?> imagePickerModal<File>(
             child: Wrap(
           children: [
             ListTile(
-              onTap: () => imageFromGallery()
-                  .then((value) => Navigator.pop(context, value)),
+              onTap: () => imageFromGallery().then((value) => Navigator.pop(context, value)),
               leading: const Icon(Icons.photo_library),
               title: const Text('Foto album'),
             ),
@@ -43,8 +41,7 @@ Future<File?> imagePickerModal<File>(
               thickness: 1,
             ),
             ListTile(
-              onTap: () => imageFromCamera()
-                  .then((value) => Navigator.pop(context, value)),
+              onTap: () => imageFromCamera().then((value) => Navigator.pop(context, value)),
               leading: const Icon(Icons.photo_camera),
               title: const Text('Kamera'),
             ),
@@ -55,7 +52,7 @@ Future<File?> imagePickerModal<File>(
                         thickness: 1,
                       ),
                       ListTile(
-                        onTap: () => Navigator.pop(context, null),
+                        onTap: () => Navigator.pop(context, getFile()),
                         leading: const Icon(Icons.remove),
                         title: const Text('Fjern billede'),
                       )

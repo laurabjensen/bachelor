@@ -39,11 +39,22 @@ class EditprofileState extends Equatable {
         userprofile: userprofile ?? this.userprofile);
   }
 
+  EditprofileState clearImageFile() {
+    return EditprofileState(
+        editprofileStatus: editprofileStatus,
+        group: group,
+        rank: rank,
+        groups: groups,
+        ranks: ranks,
+        imageFile: null,
+        userprofile: userprofile);
+  }
+
   @override
   List<Object> get props => [
         editprofileStatus,
         rank?.title ?? '',
         group?.name ?? '',
-        imageFile?.path ?? '',
+        imageFile.toString(),
       ];
 }

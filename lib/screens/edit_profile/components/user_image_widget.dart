@@ -20,59 +20,63 @@ class UserImageWidget extends StatelessWidget {
     const double size = 150;
     final theme = Theme.of(context);
 
+    Widget noPictureWidget() {
+      return Stack(
+        children: [
+          Container(
+              height: size,
+              width: size,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(size),
+                color: Color(0xffFED105),
+              )),
+          Positioned(
+              left: 3.5,
+              top: 5,
+              child: SvgPicture.asset(
+                'assets/tørklæde_rød.svg',
+                height: size - 10,
+                width: size - 10,
+                fit: BoxFit.scaleDown,
+              )),
+        ],
+      );
+    }
+
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
         CircleAvatar(
-          radius: size / 2,
-          backgroundColor: Colors.grey,
-          child: imageFile != null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.file(
-                    imageFile!,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )
-              : imageUrl.isNotEmpty
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        imageUrl,
-                        width: size,
-                        height: size,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )
-                  : Stack(
-                      children: [
-                        Container(
-                            height: size,
-                            width: size,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(size),
-                              color: Color(0xffFED105),
-                            )),
-                        Positioned(
-                            left: 3.5,
-                            top: 5,
-                            child: SvgPicture.asset(
-                              'assets/tørklæde_rød.svg',
-                              height: size - 10,
-                              width: size - 10,
-                              fit: BoxFit.scaleDown,
-                            )),
-                      ],
-                    ),
-        ),
+            radius: size / 2,
+            backgroundColor: Colors.grey,
+            child: imageFile != null
+                ? imageFile!.path.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(
+                          imageFile!,
+                          width: size,
+                          height: size,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )
+                    : noPictureWidget()
+                : imageUrl.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          imageUrl,
+                          width: size,
+                          height: size,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )
+                    : noPictureWidget()),
         TextButton(
             onPressed: onPressed,
             child: Text(
               'Tilføj profilbillede',
-              style: theme.primaryTextTheme.headline4!
-                  .copyWith(color: Color(0xff007a54)),
+              style: theme.primaryTextTheme.headline4!.copyWith(color: Color(0xff007a54)),
             ))
       ]),
     );
