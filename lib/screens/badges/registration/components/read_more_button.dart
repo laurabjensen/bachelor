@@ -15,7 +15,7 @@ class ReadMoreButton extends StatelessWidget {
         scheme: 'https',
         path: badgeSpecific.link.replaceFirst('https://', ''),
       );
-      launch(emailLaunchUri.toString());
+      launchUrl(emailLaunchUri);
     }
 
     return Padding(

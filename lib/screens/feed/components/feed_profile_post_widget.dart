@@ -7,13 +7,10 @@ import 'package:spejder_app/screens/profile/profile_screen.dart';
 class FeedProfileWidget extends StatelessWidget {
   final UserProfile userProfile;
 
-  const FeedProfileWidget({Key? key, required this.userProfile})
-      : super(key: key);
+  const FeedProfileWidget({Key? key, required this.userProfile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     Widget noImageWidget() {
       return Stack(
         children: [
@@ -62,8 +59,7 @@ class FeedProfileWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(60),
                   color: Colors.white,
-                  image: DecorationImage(
-                      image: Image.network(userProfile.rank.imageUrl).image)),
+                  image: DecorationImage(image: Image.network(userProfile.rank.imageUrl).image)),
             ),
           ),
         ],

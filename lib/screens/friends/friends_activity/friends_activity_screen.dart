@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
-import 'package:spejder_app/screens/components/navbar.dart';
 import 'package:spejder_app/screens/friends/components/approve_friend_widget.dart';
 import 'package:spejder_app/screens/friends/friends_activity/bloc/friends_activity_bloc.dart';
 
@@ -31,8 +29,6 @@ class _FriendsActivityScreenState extends State<FriendsActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     Widget noImageWidget() {
       return Stack(
         children: [

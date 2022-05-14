@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get_it/get_it.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/patrol.dart';
-import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_dialog.dart';

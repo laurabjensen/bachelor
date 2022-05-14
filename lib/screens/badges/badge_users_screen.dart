@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/custom_scaffold.dart';
-import 'package:spejder_app/model/badge.dart';
 import 'package:spejder_app/model/badge_specific.dart';
 import 'package:spejder_app/screens/badges/bloc/badges_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';

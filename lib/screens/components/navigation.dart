@@ -1,14 +1,9 @@
-import 'dart:async';
-
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/repositories/rank_repository.dart';
-import 'package:spejder_app/repositories/userprofile_repository.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/badges/badges_screen.dart';
 import 'package:spejder_app/screens/components/custom_nav_bar.dart';

@@ -24,8 +24,6 @@ class _CustomSelectableGridState extends State<CustomSelectableGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

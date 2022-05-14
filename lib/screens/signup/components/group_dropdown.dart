@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:spejder_app/model/group.dart';
-import 'package:spejder_app/validators.dart';
 
 class GroupDropDown extends StatelessWidget {
   final List<Group> groups;

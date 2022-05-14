@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loadmore/loadmore.dart';
 import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
@@ -31,7 +30,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final ScrollController _scrollController = ScrollController();
 
     return BlocBuilder(

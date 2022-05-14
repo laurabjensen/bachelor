@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/feed/components/chat_detail_page.dart';
 import 'package:spejder_app/screens/feed/components/feed_profile_post_widget.dart';
 
 class FeedWidgetTopbar extends StatelessWidget {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/feed/components/chat_detail_page.dart';
 import 'package:spejder_app/screens/feed/components/feed_widget_topbar.dart';
 import 'package:spejder_app/screens/feed/components/like_button_widget.dart';
 import 'package:spejder_app/screens/feed/post/bloc/post_bloc.dart';

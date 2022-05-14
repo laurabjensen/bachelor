@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/leader/components/button_row.dart';
 import 'package:spejder_app/screens/profile/profile_screen.dart';

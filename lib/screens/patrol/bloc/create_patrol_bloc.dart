@@ -3,12 +3,9 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:spejder_app/model/group.dart';
 import 'package:spejder_app/model/patrol.dart';
-import 'package:spejder_app/model/rank.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/group_repository.dart';
-import 'package:spejder_app/repositories/rank_repository.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
 part 'create_patrol_event.dart';
@@ -72,8 +69,7 @@ class CreatePatrolBloc extends Bloc<CreatePatrolEvent, CreatePatrolState> {
   Future<void> _createPatrol(
       String name, List<UserProfile> selectedUserProfiles, Emitter<CreatePatrolState> emit) async {
     emit(state.copyWith(createPatrolStatus: CreatePatrolStateStatus.loading));
-    final patrol =
-        await groupRepository.createPatrol(userProfile.group, name, selectedUserProfiles);
+    await groupRepository.createPatrol(userProfile.group, name, selectedUserProfiles);
     emit(state.copyWith(
         createPatrolStatus: CreatePatrolStateStatus.success,
         createPatrolStatusMessage: 'Patrulje oprettet'));

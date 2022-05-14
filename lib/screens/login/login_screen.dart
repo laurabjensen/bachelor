@@ -6,7 +6,6 @@ import 'package:spejder_app/custom_scaffold.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/login_form_field.dart';
 import 'package:spejder_app/screens/login/bloc/login_bloc.dart';
-import 'package:spejder_app/screens/reset/reset_screen.dart';
 import 'package:spejder_app/screens/signup/signup_screen.dart';
 import 'package:spejder_app/validators.dart';
 
@@ -93,12 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'Log ind',
                                     style: theme.primaryTextTheme.headline1,
                                   )))),
-                      TextButton(
-                          onPressed: () =>
-                              pushNewScreen(context, screen: ResetScreen(), withNavBar: false),
-                          child: Text('Glemt kodeord?',
-                              style: theme.primaryTextTheme.headline3!
-                                  .copyWith(fontStyle: FontStyle.italic))),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                         child: SizedBox(

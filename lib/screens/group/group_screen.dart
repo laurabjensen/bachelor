@@ -6,7 +6,6 @@ import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/screens/authentication/authentication_bloc.dart';
 import 'package:spejder_app/screens/components/custom_app_bar.dart';
 import 'package:spejder_app/screens/components/custom_tab_card.dart';
-import 'package:spejder_app/screens/group/group_members_screen.dart';
 import 'package:spejder_app/screens/group/members_screen.dart';
 import 'package:spejder_app/screens/leader/leader_screen.dart';
 import 'package:spejder_app/screens/patrol/all_patrols_screen.dart';

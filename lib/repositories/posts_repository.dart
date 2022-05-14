@@ -4,7 +4,6 @@ import 'package:spejder_app/model/badge_registration.dart';
 import 'package:spejder_app/model/post.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/badge_registration_repository.dart';
-import 'package:collection/collection.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
 
 class PostsRepository {

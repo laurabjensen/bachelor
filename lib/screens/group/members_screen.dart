@@ -28,8 +28,6 @@ class _MembersScreenState extends State<MembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return CustomScaffold(
         appBar: CustomAppBar.basicAppBarWithBackButton(
           title: 'Medlemmer',

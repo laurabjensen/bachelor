@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spejder_app/model/user_profile.dart';
 import 'package:spejder_app/repositories/userprofile_repository.dart';
-import 'package:spejder_app/screens/profile/bloc/profile_bloc.dart';
 
 part 'friends_activity_event.dart';
 part 'friends_activity_state.dart';

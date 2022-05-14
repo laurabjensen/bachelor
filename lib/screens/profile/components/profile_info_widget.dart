@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:spejder_app/model/user_profile.dart';
-import 'package:spejder_app/screens/profile/components/friend_button.dart';
 import 'package:spejder_app/screens/profile/components/profile_description_widget.dart';
 import 'package:spejder_app/screens/profile/components/profile_img_widget.dart';
 
