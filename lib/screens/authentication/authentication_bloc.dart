@@ -46,10 +46,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
             status: AuthenticationStateStatus.authenticated, user: user, userProfile: userProfile));
         add(StreamStarted());
       } else {
-        emit(AuthenticationState());
+        emit(AuthenticationState().copyWith(status: AuthenticationStateStatus.unauthenticated));
       }
     } catch (_) {
-      emit(AuthenticationState());
+      emit(AuthenticationState().copyWith(status: AuthenticationStateStatus.unauthenticated));
     }
   }
 
@@ -61,7 +61,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _loggedOut(Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationState());
+    emit(AuthenticationState().copyWith(status: AuthenticationStateStatus.unauthenticated));
     authenticationRepository.signOut();
   }
 
