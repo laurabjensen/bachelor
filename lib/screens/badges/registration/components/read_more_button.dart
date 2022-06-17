@@ -5,7 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ReadMoreButton extends StatelessWidget {
   final BadgeSpecific badgeSpecific;
 
-  const ReadMoreButton({Key? key, required this.badgeSpecific}) : super(key: key);
+  const ReadMoreButton({Key? key, required this.badgeSpecific})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
